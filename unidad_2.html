@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unidad 2 · Funciones de Varias Variables — Cálculo para Arquitectura</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+<style>
+/* ============================================================
+   VARIABLES Y PALETA CROMÁTICA INSTITUCIONAL
+============================================================ */
+:root{
+  --paper:#F5F9FD;
+  --card:#FFFFFF;
+  --ink:#0B0D10;
+  --pine:#1670C8;
+  --pine-soft:#2E9BF0;
+  --terra:#0B4E8F;
+  --terra-soft:#E4F0FB;
+  --gold:#2E9BF0;
+  --line:rgba(11,13,16,.12);
+  --line-strong:rgba(11,13,16,.26);
+  --muted:rgba(11,13,16,.62);
+  --ok-bg:#E4F1FC;
+  --err:#C24E36;
+  --err-bg:#F9E9E4;
+  --radius:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+[id]{scroll-margin-top:140px}
+[hidden]{display:none!important}
+body{
+  font-family:'Instrument Sans',sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  background-image:radial-gradient(rgba(22,112,200,.08) 1px, transparent 1px);
+  background-size:26px 26px;
+}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+h1,h2,h3,.display{font-family:'Fraunces',serif;font-weight:600;line-height:1.14;letter-spacing:-.01em}
+.overline{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--terra)}
+.mono{font-variant-numeric:tabular-nums}
+button{font-family:inherit;cursor:pointer}
+a{color:var(--pine)}
+svg.lucide{width:16px;height:16px;stroke-width:2}
+
+/* HEADER & TOPBAR */
+header.topbar{
+  position:sticky;top:0;z-index:60;
+  background:rgba(245,249,253,.94);
+  backdrop-filter:blur(10px);
+  border-bottom:1.5px solid var(--ink);
+}
+.topbar-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:700;font-size:1.15rem}
+.brand .brand-ico{width:38px;height:38px;border-radius:9px;display:grid;place-items:center;background:var(--terra-soft);color:var(--pine);border:1px solid rgba(22,112,200,.3)}
+.brand small{display:block;font-family:'Instrument Sans';font-weight:600;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.topbar-side{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:right}
+nav.tabs{display:flex;gap:6px;border-top:1px solid var(--line);padding:10px 0;overflow-x:auto;scrollbar-width:none}
+nav.tabs::-webkit-scrollbar{display:none}
+.nav-btn{
+  display:inline-flex;align-items:center;gap:7px;white-space:nowrap;
+  border:1px solid transparent;background:transparent;color:var(--pine);
+  font-weight:600;font-size:13.5px;padding:8px 14px;border-radius:999px;
+  transition:all .18s ease;
+}
+.nav-btn:hover{border-color:var(--line-strong)}
+.nav-btn.active{background:var(--ink);color:var(--paper)}
+
+/* VISTAS */
+.view{padding:0 0 80px}
+.view-head{border-bottom:2px solid var(--ink);padding:46px 0 24px;margin-bottom:34px}
+.view-head h2{font-size:clamp(1.8rem,3.4vw,2.6rem);margin:8px 0 10px}
+.view-head p.sub{max-width:760px;color:var(--muted)}
+
+/* BOTONES & FORMULARIOS */
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--ink);color:var(--paper);
+  border:1px solid var(--ink);border-radius:10px;
+  padding:11px 18px;font-weight:600;font-size:14px;
+  transition:all .18s ease;
+}
+.btn:hover{background:var(--pine);border-color:var(--pine);transform:translateY(-1px)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{background:rgba(11,13,16,.06);transform:translateY(-1px)}
+.btn.sm{padding:7px 12px;font-size:12.5px;border-radius:8px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.field input,.field select{
+  font:inherit;font-size:14px;color:var(--ink);
+  background:var(--card);border:1px solid var(--line-strong);
+  border-radius:8px;padding:9px 12px;width:100%;
+  transition:border-color .15s, box-shadow .15s;
+}
+.field input:focus,.field select:focus{outline:none;border-color:var(--pine);box-shadow:0 0 0 3px rgba(22,112,200,.16)}
+
+/* HERO */
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding:56px 0 46px}
+.hero h1{font-size:clamp(2.2rem,4.2vw,3.5rem);margin:12px 0 16px}
+.hero h1 em{font-style:italic;color:var(--pine)}
+.hero .lead{font-size:1.02rem;color:var(--muted);max-width:540px}
+.hero-actions{display:flex;gap:12px;margin:24px 0 28px;flex-wrap:wrap}
+.meta-grid{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid var(--line-strong);max-width:520px}
+.meta-grid>div{padding:10px 12px 10px 0;border-bottom:1px solid var(--line)}
+.meta-grid dt{font-size:10px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+.meta-grid dd{font-weight:600;font-size:14px}
+.hero-fig{border:1.5px solid var(--ink);border-radius:var(--radius);background:var(--card);overflow:hidden;box-shadow:6px 6px 0 rgba(11,13,16,.10)}
+.hero-fig canvas{display:block;width:100%;height:320px}
+.hero-fig figcaption{padding:12px 16px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+.home-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:44px;border-top:1.5px solid var(--ink);padding-top:36px}
+.route-item{display:grid;grid-template-columns:74px 1fr auto;gap:18px;align-items:center;border-top:1px solid var(--line);padding:20px 4px;cursor:pointer;transition:background .15s}
+.route-item:first-child{border-top:none}
+.route-item:hover{background:rgba(22,112,200,.05)}
+.route-no{font-family:'Fraunces',serif;font-size:2.4rem;font-weight:400;color:rgba(22,112,200,.28)}
+.route-item h3{font-size:1.18rem;margin-bottom:3px}
+.route-item p{font-size:13.5px;color:var(--muted)}
+.route-go{width:36px;height:36px;border:1.5px solid var(--ink);border-radius:50%;display:grid;place-items:center;background:transparent;color:var(--ink);transition:all .18s}
+.route-item:hover .route-go{background:var(--ink);color:var(--paper)}
+.side-stats{display:flex;flex-direction:column;gap:12px}
+.stat{border:1px solid var(--line-strong);border-radius:10px;background:var(--card);padding:14px 18px}
+.stat .num{font-family:'Fraunces',serif;font-size:1.7rem;font-weight:600;line-height:1;color:var(--pine)}
+.stat .lbl{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+
+/* TEORÍA */
+.theory{display:grid;grid-template-columns:250px 1fr;gap:50px;align-items:start}
+.toc{position:sticky;top:130px;border-left:1.5px solid var(--ink);display:flex;flex-direction:column}
+.toc-title{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:0 0 10px 16px}
+.toc a{display:flex;gap:10px;align-items:baseline;text-decoration:none;color:var(--ink);padding:9px 16px;font-size:13.5px;font-weight:500;border-left:3px solid transparent;margin-left:-1.5px;transition:all .15s}
+.toc a span{font-family:'Fraunces',serif;color:var(--terra);font-weight:600;min-width:30px}
+.toc a:hover{border-left-color:var(--pine);background:rgba(11,13,16,.05)}
+.sec{border-top:1px solid var(--line);padding:42px 0}
+.sec:first-child{border-top:none;padding-top:0}
+.sec-no{font-family:'Fraunces',serif;font-size:3rem;font-weight:400;color:rgba(22,112,200,.22);line-height:1}
+.sec h3{font-size:1.55rem;margin:6px 0 16px}
+.prose p{margin:0 0 14px;max-width:72ch}
+.prose ul,.prose ol{margin:0 0 14px 22px;max-width:72ch}
+.prose li{margin-bottom:6px}
+.def{background:#E9F2FC;border:1px solid rgba(22,112,200,.30);border-radius:0 10px 10px 0;border-left:4px solid var(--pine);padding:18px 22px;margin:20px 0}
+.def .def-tag{font-size:10.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--pine)}
+.def p{margin:6px 0 0}
+.ex{background:var(--card);border:1px solid var(--line-strong);border-left:4px solid var(--gold);border-radius:0 10px 10px 0;padding:18px 22px;margin:20px 0}
+.ex .ex-tag{font-size:10.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#0B4E8F}
+
+/* CASOS REALES ARQUITECTÓNICOS */
+.real-cases-grid{display:grid;gap:18px;margin:24px 0}
+.real-card{background:var(--card);border:1.5px solid var(--line-strong);border-radius:10px;padding:20px;border-left:5px solid var(--terra);box-shadow:0 2px 8px rgba(11,13,16,.04);transition:transform .18s, border-color .18s}
+.real-card:hover{border-color:var(--pine);transform:translateY(-2px)}
+.real-header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+.real-badge{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--terra-soft);color:var(--terra);padding:3px 9px;border-radius:999px;border:1px solid rgba(11,78,143,.3)}
+.real-title{font-family:'Fraunces',serif;font-size:1.22rem;color:var(--ink)}
+.real-body{font-size:14px;color:var(--ink);line-height:1.6}
+.real-body p{margin-bottom:8px}
+.param-box{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:10px 14px;font-size:13px;margin-top:10px;display:flex;gap:18px;flex-wrap:wrap}
+.param-box span{display:inline-flex;align-items:center;gap:6px}
+
+/* PANELES & SIMULADOR */
+.panel{background:var(--card);border:1.5px solid var(--ink);border-radius:var(--radius);overflow:hidden}
+.panel-head{display:flex;align-items:center;gap:9px;padding:14px 18px;border-bottom:1px solid var(--line);font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase}
+.panel-body{padding:20px 18px}
+.sim-tabs{display:flex;gap:8px;margin-bottom:18px;border-bottom:1px solid var(--line);padding-bottom:10px}
+.sim-tab{background:transparent;border:1px solid transparent;padding:8px 16px;border-radius:999px;font-weight:600;font-size:13px;color:var(--muted);transition:all .15s}
+.sim-tab:hover{border-color:var(--line-strong)}
+.sim-tab.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.sim-panel{display:none}
+.sim-panel.active{display:block}
+.lab-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;align-items:start}
+.graph-frame canvas{display:block;width:100%;height:380px}
+.graph-cap{padding:12px 16px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+
+/* ACTIVIDADES, RÚBRICA Y BOLETA */
+.act-block{margin-bottom:48px}
+.act-block>h3{font-size:1.45rem;margin:8px 0 6px}
+.act-block>.act-desc{color:var(--muted);max-width:72ch;margin-bottom:18px}
+.rub-row{display:grid;grid-template-columns:300px 1fr 60px;gap:16px;align-items:center;border-top:1px solid var(--line);padding:12px 4px}
+.rub-row:last-child{border-bottom:1px solid var(--line)}
+.rub-row .rub-name{font-weight:600;font-size:14px}
+.rub-bar{height:10px;border:1px solid var(--line-strong);border-radius:999px;overflow:hidden;background:var(--paper)}
+.rub-bar>div{height:100%;background:var(--pine)}
+.rub-pct{text-align:right;font-family:'Fraunces',serif;font-weight:600}
+details.sol{border:1px solid var(--line-strong);border-radius:10px;background:var(--card);margin-bottom:14px;overflow:hidden}
+details.sol summary{list-style:none;display:flex;align-items:flex-start;gap:12px;padding:16px 18px;cursor:pointer;font-weight:600;transition:background .15s}
+details.sol summary::-webkit-details-marker{display:none}
+details.sol summary:hover{background:rgba(11,13,16,.04)}
+.sol-marker{flex:none;width:24px;height:24px;border:1.5px solid var(--ink);border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:15px;transition:transform .2s;margin-top:1px}
+details[open].sol .sol-marker{transform:rotate(45deg);background:var(--ink);color:var(--paper)}
+.sol-body{border-top:1px dashed var(--line-strong);padding:16px 20px;font-size:14.5px}
+.sol-body p{margin-bottom:10px;max-width:75ch}
+.prob-tag{font-size:10.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--terra);display:block;margin-bottom:4px}
+.chk{display:flex;align-items:center;gap:11px;border:1px solid var(--line-strong);border-radius:9px;background:var(--card);padding:10px 14px;margin-bottom:9px;cursor:pointer;transition:all .15s;font-size:14px}
+.chk:hover{border-color:var(--pine)}
+.chk input{width:16px;height:16px;accent-color:var(--pine)}
+.chk.done{background:var(--ok-bg);border-color:var(--pine)}
+
+/* QUIZ */
+.quiz-q{border-top:1px solid var(--line);padding:22px 4px}
+.quiz-q header{display:flex;gap:14px;margin-bottom:12px}
+.qnum{flex:none;font-family:'Fraunces',serif;font-weight:700;color:var(--terra);border:1.5px solid var(--terra);border-radius:8px;padding:2px 9px;height:fit-content}
+.quiz-q .q-text{font-weight:600;font-size:15px;padding-top:3px}
+.opts{display:grid;gap:8px;margin-left:52px}
+.opt{display:flex;align-items:center;gap:12px;border:1px solid var(--line-strong);border-radius:10px;padding:10px 14px;cursor:pointer;background:var(--card);transition:all .15s;font-size:14px}
+.opt:hover{border-color:var(--pine)}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt-key{flex:none;width:24px;height:24px;border:1.5px solid var(--line-strong);border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:11px;transition:all .15s}
+.opt.is-correct{border-color:var(--pine);background:var(--ok-bg)}
+.opt.is-correct .opt-key{background:var(--pine);border-color:var(--pine);color:var(--paper)}
+.opt.is-wrong{border-color:var(--err);background:var(--err-bg)}
+.opt.is-wrong .opt-key{background:var(--err);border-color:var(--err);color:#fff}
+.opt.locked{cursor:default}
+.explain{margin:12px 0 0 52px;font-size:13.5px;color:var(--muted);border-left:3px solid var(--gold);padding:8px 14px;background:var(--card)}
+.quiz-foot{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:20px;border-top:1.5px solid var(--ink);padding-top:18px}
+.quiz-result strong{font-family:'Fraunces',serif;font-size:1.5rem;color:var(--pine);margin-right:8px}
+
+/* EDITOR */
+.ed-box{border:1.5px solid var(--ink);border-radius:10px;margin-top:18px;overflow:hidden;background:var(--card)}
+.ed-toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 14px;border-bottom:1px solid var(--line);background:#E9F2FC}
+.ed-title{font-size:10.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--pine);display:flex;align-items:center;gap:6px}
+.ed-main{padding:14px;display:flex;flex-direction:column;gap:10px}
+.ed-ta{width:100%;min-height:160px;resize:vertical;font:inherit;font-size:14px;line-height:1.55;padding:10px 12px;border:1px solid var(--line-strong);border-radius:8px;background:var(--paper);color:var(--ink)}
+.ed-preview-wrap{border:1px dashed var(--line-strong);border-radius:8px;background:var(--paper);overflow:hidden}
+.ed-preview-head{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:6px 12px;background:rgba(11,13,16,.04);border-bottom:1px dashed var(--line)}
+.ed-preview{padding:12px 14px;font-size:14px;min-height:48px}
+
+/* BOLETA */
+.boleta-card{position:relative;max-width:720px;background:var(--card);border:2px solid var(--ink);border-radius:var(--radius);box-shadow:8px 8px 0 rgba(11,13,16,.10);overflow:hidden}
+.b-head{display:flex;align-items:center;gap:16px;padding:20px 24px;border-bottom:1.5px solid var(--ink)}
+.avatar{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:17px;flex:none;border:1.5px solid var(--ink);background:var(--terra-soft);color:var(--terra)}
+.b-title{font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--terra)}
+.b-name{font-family:'Fraunces',serif;font-size:1.35rem;font-weight:700}
+.b-meta{font-size:12px;color:var(--muted);margin-top:2px}
+.b-seal{flex:none;width:76px;height:76px;border:2px solid var(--terra);border-radius:50%;display:grid;place-items:center;text-align:center;color:var(--terra);transform:rotate(-8deg);opacity:.85;line-height:1.2}
+.b-seal span{font-size:7.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.b-seal strong{font-family:'Fraunces',serif;font-size:1rem}
+.b-body{padding:10px 24px 18px}
+.b-row{display:grid;grid-template-columns:1fr 150px 92px;gap:14px;align-items:center;border-top:1px solid var(--line);padding:11px 0}
+.b-row:first-child{border-top:none}
+.b-rubname{font-weight:600;font-size:14px}
+.b-rubdet{font-size:11.5px;color:var(--muted)}
+.b-pts{text-align:right;font-family:'Fraunces',serif;font-weight:600;font-size:1.05rem}
+.b-total{display:flex;justify-content:space-between;align-items:center;gap:16px;border-top:2px solid var(--ink);background:#E9F2FC;padding:16px 24px}
+.b-score{display:flex;align-items:baseline;gap:6px}
+.b-score .big{font-family:'Fraunces',serif;font-size:2.8rem;font-weight:700;color:var(--pine);line-height:1}
+.b-foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;border-top:1px dashed var(--line-strong);padding:10px 24px;font-size:11.5px;color:var(--muted)}
+
+/* TOASTS & FOOTER */
+#toasts{position:fixed;bottom:22px;right:22px;z-index:100;display:flex;flex-direction:column;gap:10px;max-width:340px}
+.toast{display:flex;align-items:center;gap:10px;background:var(--ink);color:var(--paper);border-radius:10px;padding:12px 16px;font-size:13.5px;font-weight:500;box-shadow:0 8px 24px rgba(11,13,16,.28);animation:toastIn .28s cubic-bezier(.2,.9,.3,1.2)}
+.toast svg{flex:none;width:17px;height:17px}
+.toast.ok svg{color:#7CC4F8}
+.toast.err svg{color:#F0A284}
+.toast.out{animation:toastOut .3s ease forwards}
+@keyframes toastIn{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes toastOut{to{opacity:0;transform:translateX(20px)}}
+footer{border-top:2px solid var(--ink);padding:30px 0 40px;margin-top:20px}
+.foot-row{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.foot-row strong{color:var(--ink)}
+
+/* RESPONSIVE */
+@media (max-width:960px){
+  .hero{grid-template-columns:1fr;gap:32px}
+  .home-grid{grid-template-columns:1fr}
+  .theory{grid-template-columns:1fr}
+  .toc{position:static;flex-direction:row;overflow-x:auto;border-left:none;border-bottom:1.5px solid var(--ink);gap:2px}
+  .toc-title{display:none}
+  .toc a{white-space:nowrap;border-left:none;border-bottom:3px solid transparent}
+  .lab-grid{grid-template-columns:1fr}
+  .rub-row{grid-template-columns:1fr;gap:6px}
+  .rub-pct{text-align:left}
+}
+@media (max-width:640px){
+  .b-row{grid-template-columns:1fr 86px}
+  .b-seal{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== HEADER ==================== -->
+<header class="topbar">
+  <div class="wrap topbar-row">
+    <div class="brand">
+      <span class="brand-ico"><i data-lucide="layers"></i></span>
+      <span>Cálculo · Arquitectura<small>Unidad 2 — Dr. Adrián Cerda</small></span>
+    </div>
+    <div class="topbar-side">Clave LAI0105<br>Primer Cuatrimestre</div>
+  </div>
+  <div class="wrap">
+    <nav class="tabs" id="mainNav">
+      <button class="nav-btn active" data-view="inicio"><i data-lucide="home"></i>Inicio</button>
+      <button class="nav-btn" data-view="teoria"><i data-lucide="book-open"></i>Teoría</button>
+      <button class="nav-btn" data-view="simulador"><i data-lucide="box"></i>Simulador 3D</button>
+      <button class="nav-btn" data-view="actividades"><i data-lucide="clipboard-list"></i>Actividades</button>
+      <button class="nav-btn" data-view="boleta"><i data-lucide="award"></i>Mi registro y nota</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ==================== INICIO ==================== -->
+<section class="view" id="v-inicio">
+  <div class="wrap hero">
+    <div>
+      <p class="overline">Geometría Diferencial de Superficies · LAI0105</p>
+      <h1>Funciones reales de <em>varias variables</em></h1>
+      <p class="lead">El espacio arquitectónico no es unidimensional: es un campo escalar y vectorial continuo. Desde la topografía de un terreno y el plano tangente a una cubierta alabeada, hasta la optimización de volúmenes constructivos mediante multiplicadores de Lagrange, esta unidad domina el cálculo multivariable.</p>
+      <div class="hero-actions">
+        <button class="btn" data-view="teoria"><i data-lucide="book-open"></i>Ver desarrollo teórico</button>
+        <button class="btn ghost" data-view="simulador"><i data-lucide="box"></i>Explorar simulador 3D</button>
+      </div>
+      <dl class="meta-grid">
+        <div><dt>Unidad</dt><dd>2 · Funciones de Varias Variables</dd></div>
+        <div><dt>Subtemas</dt><dd>2.1 Derivadas y Plano Tangente / 2.2 Optimización</dd></div>
+        <div><dt>Enfoque</dt><dd>Superficies alabeadas, topografía y Lagrange</dd></div>
+        <div><dt>Modelado</dt><dd>Geometría 3D, hessiano y campos escalares</dd></div>
+      </dl>
+    </div>
+    <figure class="hero-fig">
+      <canvas id="heroCanvas"></canvas>
+      <figcaption><strong>Superficie 3D (Paraboloide) y Plano Tangente.</strong> La aproximación lineal local define la inclinación de paneles estructurales en cubiertas complejas.</figcaption>
+    </figure>
+  </div>
+
+  <div class="wrap home-grid">
+    <div>
+      <p class="overline" style="margin-bottom:14px">Ruta temática de la unidad 2</p>
+      <div class="route-item" data-view="teoria">
+        <span class="route-no">01</span>
+        <div><h3>Derivadas parciales y plano tangente</h3><p>Subtema 2.1: Razones de cambio ortogonales, gradiente \(\nabla f\), derivada direccional y tangencia 3D.</p></div>
+        <span class="route-go"><i data-lucide="arrow-right"></i></span>
+      </div>
+      <div class="route-item" data-view="teoria">
+        <span class="route-no">02</span>
+        <div><h3>Optimización espacial y multiplicadores de Lagrange</h3><p>Subtema 2.2: Puntos críticos, matriz hessiana (máximos, mínimos y puntos de silla) y extremos condicionados.</p></div>
+        <span class="route-go"><i data-lucide="arrow-right"></i></span>
+      </div>
+      <div class="route-item" data-view="simulador">
+        <span class="route-no">03</span>
+        <div><h3>Laboratorio 3D y curvas de nivel</h3><p>Proyección tridimensional interactiva con rotación azimutal, plano tangente en tiempo real y optimizador visual.</p></div>
+        <span class="route-go"><i data-lucide="arrow-right"></i></span>
+      </div>
+      <div class="route-item" data-view="boleta">
+        <span class="route-no">04</span>
+        <div><h3>Registro, evaluación y boleta colegiada</h3><p>Ponderación oficial (talleres 30%, reportes 40%, examen 30%) con descarga de boleta de evidencias en PNG.</p></div>
+        <span class="route-go"><i data-lucide="arrow-right"></i></span>
+      </div>
+    </div>
+    <aside>
+      <p class="overline" style="margin-bottom:14px">Métricas de la unidad 2</p>
+      <div class="side-stats">
+        <div class="stat"><div class="num" id="statNota">—</div><div class="lbl">Tu nota calculada (sobre 10)</div></div>
+        <div class="stat"><div class="num">2</div><div class="lbl">Subtemas curriculares</div></div>
+        <div class="stat"><div class="num">5</div><div class="lbl">Casos reales en arquitectura</div></div>
+        <div class="stat"><div class="num">6</div><div class="lbl">Reactivos del examen diagnóstico</div></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ==================== TEORÍA ==================== -->
+<section class="view" id="v-teoria" hidden>
+  <div class="wrap">
+    <div class="view-head">
+      <p class="overline">Fundamentos curriculares · Unidad 2</p>
+      <h2>Cálculo diferencial multivariable en la arquitectura</h2>
+      <p class="sub">Desarrollo formal de los subtemas 2.1 y 2.2: cómo las funciones de dos o más variables modelan superficies de doble curvatura, terrenos accidentados y problemas de optimización constructiva.</p>
+    </div>
+
+    <div class="theory">
+      <aside class="toc">
+        <p class="toc-title">Contenido</p>
+        <a href="#t21"><span>2.1</span>Derivadas parciales y plano tangente</a>
+        <a href="#t22"><span>2.2</span>Optimización y Lagrange</a>
+        <a href="#t23"><span>2.3</span>Casos reales en arquitectura</a>
+      </aside>
+
+      <div class="prose">
+
+        <!-- 2.1 -->
+        <article class="sec" id="t21">
+          <div class="sec-no">2.1</div>
+          <h3>Derivadas parciales, direccionales y plano tangente</h3>
+          <div class="def">
+            <span class="def-tag">Definición matemática</span>
+            <p>Una función \(z = f(x,y)\) asigna a cada par de coordenadas \((x,y)\) en un dominio \(D \subset \mathbb{R}^2\) una cota de elevación o magnitud física \(z\). Sus <strong>derivadas parciales</strong> representan las razones de cambio respecto a los ejes ortogonales del edificio:</p>
+            <p style="text-align:center;padding:6px 0">\( \displaystyle \frac{\partial f}{\partial x} = \lim_{h \to 0} \frac{f(x+h, y) - f(x,y)}{h}, \qquad \frac{\partial f}{\partial y} = \lim_{k \to 0} \frac{f(x, y+k) - f(x,y)}{k} \)</p>
+          </div>
+          <p>En el diseño arquitectónico, el vector <strong>gradiente</strong> \(\nabla f(x,y) = \left(\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}\right)\) posee dos propiedades fundamentales:</p>
+          <ol>
+            <li>Apunta exactamente en la <strong>dirección de máxima pendiente</strong> de la superficie (dirección del flujo de agua pluvial o escorrentía superficial en topografía).</li>
+            <li>Es <strong>perpendicular a las curvas de nivel</strong> (isolíneas de cota) de la superficie en cada punto.</li>
+          </ol>
+          <div class="def">
+            <span class="def-tag">Plano tangente a una cubierta alabeada</span>
+            <p>Si la superficie es diferenciable en \((x_0, y_0)\), el <strong>plano tangente</strong> representa la mejor aproximación plana local a la cáscara curva:</p>
+            <p style="text-align:center;padding:6px 0">\( \displaystyle z - z_0 = f_x(x_0, y_0)(x - x_0) + f_y(x_0, y_0)(y - y_0) \)</p>
+            <p>Donde el vector normal perpendicular a la cubierta es \(\mathbf{n} = \left(f_x(x_0,y_0),\, f_y(x_0,y_0),\, -1\right)\).</p>
+          </div>
+        </article>
+
+        <!-- 2.2 -->
+        <article class="sec" id="t22">
+          <div class="sec-no">2.2</div>
+          <h3>Optimización: puntos críticos y multiplicadores de Lagrange</h3>
+          <p>La optimización permite encontrar las dimensiones que maximizan el volumen habitable, minimizan la superficie de fachada expuesta a pérdidas térmicas o reducen el costo de acero estructural.</p>
+          <div class="def">
+            <span class="def-tag">Criterio de la matriz Hessiana (Segundas derivadas)</span>
+            <p>Un punto \((x_0, y_0)\) es un <strong>punto crítico</strong> si \(\nabla f(x_0, y_0) = (0,0)\). Para clasificarlo se evalúa el discriminante hessiano:</p>
+            <p style="text-align:center;padding:6px 0">\( \displaystyle D = f_{xx}(x_0, y_0) \cdot f_{yy}(x_0, y_0) - [f_{xy}(x_0, y_0)]^2 \)</p>
+            <ul>
+              <li>Si \(D > 0\) y \(f_{xx} < 0\): <strong>Máximo local</strong> (cumbrera de cúpula o domo).</li>
+              <li>Si \(D > 0\) y \(f_{xx} > 0\): <strong>Mínimo local</strong> (punto más bajo de sumidero o cárcava).</li>
+              <li>Si \(D < 0\): <strong>Punto de silla</strong> (silla de montar o paraboloide hiperbólico, anticlástica donde las curvaturas tienen signos opuestos).</li>
+            </ul>
+          </div>
+          <div class="ex">
+            <span class="ex-tag">Multiplicadores de Lagrange (Extremos condicionados)</span>
+            <p>Cuando se desea optimizar una función objetivo \(f(x,y)\) (ej. maximizar área de planta) sujeta a una restricción constructiva o normativa \(g(x,y) = k\) (ej. perímetro máximo o presupuesto de cerramiento), el extremo ocurre donde sus vectores gradientes son paralelos:</p>
+            <p style="text-align:center;padding:6px 0">\( \displaystyle \nabla f(x,y) = \lambda \nabla g(x,y), \qquad g(x,y) = k \)</p>
+            <p>El escalar \(\lambda\) se denomina <strong>multiplicador de Lagrange</strong> y representa el costo marginal o incremento de beneficio por unidad de holgura en la restricción.</p>
+          </div>
+        </article>
+
+        <!-- 2.3 (CASOS REALES) -->
+        <article class="sec" id="t23">
+          <div class="sec-no">2.3</div>
+          <h3>Casos reales y concretos en la práctica arquitectónica universitaria</h3>
+          <p>A nivel profesional, las funciones de varias variables rigen la interacción tridimensional entre el terreno natural, la física de envolventes complejas y la normatividad urbana:</p>
+
+          <div class="real-cases-grid">
+            
+            <!-- CASO 1 -->
+            <div class="real-card">
+              <div class="real-header">
+                <span class="real-badge">Topografía y drenaje · Movimiento de tierras</span>
+                <span class="real-title">1. Curvas de nivel y escorrentía superficial en terrenos accidentados</span>
+              </div>
+              <div class="real-body">
+                <p>Al emplazar un proyecto en un terreno irregular modelado por la cota \(z = f(x,y)\), el plano topográfico representa las curvas de nivel \(f(x,y) = c\). El cálculo del gradiente \(\nabla f\) arroja el vector en planta de máxima pendiente en cada metro cuadrado.</p>
+                <p>El agua de lluvia escurre siempre en la dirección del <strong>antigradiente</strong> \(-\nabla f\). El arquitecto proyectista utiliza este principio para trazar cunetas perimetrales, ubicar pozos de absorción pluvial y diseñar vialidades vehiculares que no superen la pendiente reglamentaria máxima (\(12\%\) a \(15\%\) según el reglamento local), evitando deslaves y socavaciones en cimentaciones.</p>
+                <div class="param-box">
+                  <span><strong>Vector de escorrentía:</strong> \(-\nabla f = -\left(\frac{\partial z}{\partial x}, \frac{\partial z}{\partial y}\right)\)</span>
+                  <span><strong>Norma vial:</strong> Pendiente máxima \(\|\nabla f\| \le 0.12\)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CASO 2 -->
+            <div class="real-card">
+              <div class="real-header">
+                <span class="real-badge">Fachadas paramétricas · Zaha Hadid &amp; Gehry</span>
+                <span class="real-title">2. Plano tangente y panelización plana de envolventes de doble curvatura</span>
+              </div>
+              <div class="real-body">
+                <p>Construir paneles de vidrio con doble curvatura (alabeados) multiplica los costos de fabricación hasta por 10 frente a paneles planos. En proyectos como el <em>Centro Heydar Aliyev</em> o la <em>Filarmónica de París</em>, los arquitectos emplean el <strong>plano tangente</strong> para discretizar la superficie continua libre en mallas de facetas planas coplanares.</p>
+                <p>Al evaluar el plano tangente \(z - z_0 = f_x(x-x_0) + f_y(y-y_0)\) en el centroide de cada panel, se calcula el error de separación sagital (\(\Delta z\)). Si el error es menor a la tolerancia admisible de silicona estructural (\(\le 3\text{ mm}\)), el panel plano es viable, logrando envolventes orgánicas a una fracción del costo.</p>
+                <div class="param-box">
+                  <span><strong>Normal de contacto:</strong> \(\mathbf{n} = (f_x, f_y, -1)\)</span>
+                  <span><strong>Tolerancia de desvío:</strong> \(\Delta z = |f(x,y) - z_{\text{plano}}| \le 3\text{ mm}\)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CASO 3 -->
+            <div class="real-card">
+              <div class="real-header">
+                <span class="real-badge">Estructuras tensadas · Frei Otto &amp; Candela</span>
+                <span class="real-title">3. El punto de silla (D &lt; 0) en cubiertas textiles y paraboloides hiperbólicos</span>
+              </div>
+              <div class="real-body">
+                <p>Las membranas textiles tensadas (como las del <em>Estadio Olímpico de Múnich</em> o tensoestructuras en patios universitarios) jamás deben ser planas: bajo la acción del viento comenzarían a flamear catastróficamente, y con lluvia acumularían agua en bolsas.</p>
+                <p>Para lograr estabilidad geométrica, cada punto de la membrana debe ser una <strong>superficie anticlástica</strong> caracterizada por un punto de silla con discriminante hessiano negativo (\(D = f_{xx}f_{yy} - f_{xy}^2 < 0\)). Esto garantiza que en una dirección principal la curvatura sea cóncava (cables portantes que resisten la gravedad) y en la perpendicular sea convexa (cables estabilizadores que resisten la succión del viento), manteniendo la tensión previa permanente.</p>
+                <div class="param-box">
+                  <span><strong>Condición estructural:</strong> Hessiano \(D < 0\) en todo el dominio textil</span>
+                  <span><strong>Comportamiento:</strong> Curvaturas principales con signos opuestos (\(\kappa_1 \cdot \kappa_2 < 0\))</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CASO 4 -->
+            <div class="real-card">
+              <div class="real-header">
+                <span class="real-badge">Optimización bioclimática · Eficiencia LEED</span>
+                <span class="real-title">4. Optimización de volumen habitable con restricción de envolvente térmica (Lagrange)</span>
+              </div>
+              <div class="real-body">
+                <p>Un edificio en clima frío debe maximizar su volumen útil interior \(V(x,y,z) = x y z\) para albergar la mayor cantidad de metros cúbicos habitables, pero minimizando el área de fachada expuesta \(A(x,y,z) = 2xy + 2xz + 2yz\) para reducir pérdidas por conducción térmica hacia el exterior.</p>
+                <p>Planteando el sistema de multiplicadores de Lagrange con restricción de área superficial \(A = A_0\):</p>
+                <p style="text-align:center;padding:4px 0">\( \displaystyle \nabla V = \lambda \nabla A \implies (yz, xz, xy) = \lambda (2y+2z, 2x+2z, 2x+2y) \)</p>
+                <p>La solución matemática demuestra con rigor que la forma óptima es un <strong>cubo perfecto</strong> (\(x = y = z\)), con un factor de forma compacto que minimiza el consumo energético en climatización.</p>
+                <div class="param-box">
+                  <span><strong>Relación óptima:</strong> Geometría compacta con relación \(V/A\) máxima</span>
+                  <span><strong>Resultado de diseño:</strong> Minimización de pérdidas térmicas por conducción</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CASO 5 -->
+            <div class="real-card">
+              <div class="real-header">
+                <span class="real-badge">Acondicionamiento ambiental · Simulación CFD</span>
+                <span class="real-title">5. Gradientes térmicos y mapas de confort interior en plantas libres</span>
+              </div>
+              <div class="real-body">
+                <p>En grandes naves industriales, atrios universitarios o terminales aeroportuarias, la temperatura del aire no es homogénea: varía según la posición en planta como una función escalar \(T(x,y)\).</p>
+                <p>La Ley de Fourier establece que el calor por conducción y convección fluye en la dirección del gradiente térmico negativo: \(\mathbf{q} = -k \nabla T\). Al calcular las derivadas parciales \(\frac{\partial T}{\partial x}\) y \(\frac{\partial T}{\partial y}\), el proyectista identifica las zonas de estancamiento de aire caliente y diseña la ventilación cruzada y aperturas en cubierta (efecto chimenea) para mantener el confort sin recurrir a equipos mecánicos masivos.</p>
+                <div class="param-box">
+                  <span><strong>Flujo convectivo:</strong> \(\mathbf{q} = -k \nabla T(x,y)\)</span>
+                  <span><strong>Confort térmico:</strong> Gradiente máximo admisible \(\|\nabla T\| \le 1.5^\circ\text{C/m}\)</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SIMULADOR ==================== -->
+<section class="view" id="v-simulador" hidden>
+  <div class="wrap">
+    <div class="view-head">
+      <p class="overline">Laboratorio tridimensional de superficies</p>
+      <h2>Simulador 3D de superficies y plano tangente</h2>
+      <p class="sub">Experimenta en tiempo real con mallas espaciales tridimensionales: gira la superficie con el azimut, desplaza el punto de contacto estructural y visualiza el plano tangente y las curvas de nivel.</p>
+    </div>
+
+    <div class="sim-tabs">
+      <button class="sim-tab active" data-stab="surface3d" type="button"><i data-lucide="box"></i>1 · Malla 3D y Plano Tangente</button>
+      <button class="sim-tab" data-stab="lagrange" type="button"><i data-lucide="target"></i>2 · Curvas de Nivel y Lagrange</button>
+    </div>
+
+    <!-- PESTAÑA 1: SUPERFICIE 3D Y PLANO TANGENTE -->
+    <div class="sim-panel active" id="st-surface3d">
+      <div class="lab-grid">
+        <div class="panel">
+          <div class="panel-head"><i data-lucide="sliders-horizontal"></i>Parámetros espaciales y de contacto</div>
+          <div class="panel-body">
+            
+            <div class="field" style="margin-bottom:14px">
+              <label for="selSurface">Selecciona la cubierta / superficie arquitectónica</label>
+              <select id="selSurface">
+                <option value="hypar">Paraboloide hiperbólico (Hypar / Candela) — z = x² - y²</option>
+                <option value="domo">Cúpula elíptica / Domo — z = 6 - 0.25x² - 0.25y²</option>
+                <option value="terreno">Topografía de terreno alabeado — z = 2.5·cos(0.5x)·cos(0.5y)</option>
+                <option value="silla">Cubierta en silla de mono — z = 0.1(x³ - 3xy²)</option>
+              </select>
+            </div>
+
+            <div class="field" style="margin-bottom:14px">
+              <label for="sliderX0">Punto de contacto X₀: <span id="lblX0" class="mono" style="color:var(--pine);font-weight:700">1.0 m</span></label>
+              <input id="sliderX0" type="range" min="-3" max="3" step="0.2" value="1.0">
+            </div>
+
+            <div class="field" style="margin-bottom:14px">
+              <label for="sliderY0">Punto de contacto Y₀: <span id="lblY0" class="mono" style="color:var(--pine);font-weight:700">1.0 m</span></label>
+              <input id="sliderY0" type="range" min="-3" max="3" step="0.2" value="1.0">
+            </div>
+
+            <div class="field" style="margin-bottom:18px">
+              <label for="sliderAzimut">Rotación de cámara 3D (Azimut): <span id="lblAzimut" class="mono" style="color:var(--pine);font-weight:700">45°</span></label>
+              <input id="sliderAzimut" type="range" min="0" max="360" step="5" value="45">
+            </div>
+
+            <!-- Tarjeta de Memoria Diferencial -->
+            <div class="vec-result" id="diffCard">
+              <!-- Datos calculados dinámicamente -->
+            </div>
+
+          </div>
+        </div>
+
+        <div class="panel graph-frame">
+          <div class="panel-head"><i data-lucide="eye"></i>Proyección Tridimensional en Perspectiva Métrica</div>
+          <canvas id="surfaceCanvas"></canvas>
+          <div class="graph-cap" id="capSurface">
+            Malla azul: <strong>Superficie estructural z = f(x,y)</strong>. Parche translúcido rojo: <strong>Plano tangente local</strong>. Punto rojo: contacto \((x_0, y_0, z_0)\).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PESTAÑA 2: CURVAS DE NIVEL Y MULTIPLICADORES DE LAGRANGE -->
+    <div class="sim-panel" id="st-lagrange">
+      <div class="lab-grid">
+        <div class="panel">
+          <div class="panel-head"><i data-lucide="target"></i>Optimización con restricción presupuestal</div>
+          <div class="panel-body">
+            
+            <p class="hint" style="margin-bottom:14px">
+              Se desea maximizar el área útil de una planta libre \(f(x,y) = x \cdot y\) sujeta a un presupuesto de muro perimetral \(g(x,y) = 2x + 2y = P\) (restricción lineal). El punto óptimo ocurre donde la curva de nivel es tangente a la recta de restricción (\(\nabla f = \lambda \nabla g\)).
+            </p>
+
+            <div class="field" style="margin-bottom:14px">
+              <label for="sliderPerimetro">Perímetro disponible de muro P: <span id="lblPerim" class="mono" style="color:var(--pine);font-weight:700">24 m</span></label>
+              <input id="sliderPerimetro" type="range" min="12" max="40" step="2" value="24">
+            </div>
+
+            <div class="field" style="margin-bottom:18px">
+              <label for="sliderCoordX">Proporción ensayada en X: <span id="lblCoordX" class="mono" style="color:var(--pine);font-weight:700">6.0 m</span></label>
+              <input id="sliderCoordX" type="range" min="1" max="15" step="0.5" value="6.0">
+            </div>
+
+            <div class="vec-result">
+              <div class="b-row"><span class="b-rubname">Dimensiones del espacio</span><strong class="mono" id="dimText">6.00 m × 6.00 m</strong></div>
+              <div class="b-row"><span class="b-rubname">Área obtenida f(x,y)</span><strong class="mono" id="areaText">36.00 m²</strong></div>
+              <div class="b-row"><span class="b-rubname">Área máxima posible (Lagrange)</span><strong class="mono" id="maxAreaText" style="color:var(--pine)">36.00 m² (en x=y)</strong></div>
+              <div class="b-row"><span class="b-rubname">Multiplicador λ (Beneficio marginal)</span><strong class="mono" id="lambdaText">λ = 3.00 m²/m</strong></div>
+              <div class="b-row"><span class="b-rubname">Diagnóstico constructivo</span><strong id="optDiag" style="color:var(--pine)">Solución óptima cuadrada</strong></div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="panel graph-frame">
+          <div class="panel-head"><i data-lucide="map"></i>Mapa de Isolíneas y Recta de Restricción</div>
+          <canvas id="contourCanvas"></canvas>
+          <div class="graph-cap">
+            Curvas azules: isolíneas de área \(f(x,y)=c\). Línea recta roja: restricción de muro perimetral \(g(x,y)=P\). Punto dorado: solución de Lagrange.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== ACTIVIDADES ==================== -->
+<section class="view" id="v-actividades" hidden>
+  <div class="wrap">
+    <div class="view-head">
+      <p class="overline">Zona de evaluación y consolidación</p>
+      <h2>Actividades prácticas y formativas · Unidad 2</h2>
+      <p class="sub">Ejercicios guiados con aplicaciones de cálculo multivariable en arquitectura, redactor de memoria de cálculo con KaTeX y examen diagnóstico calificado.</p>
+    </div>
+
+    <!-- Rúbrica oficial -->
+    <div class="act-block">
+      <h3>Ponderación oficial de la unidad 2</h3>
+      <p class="act-desc">Criterios colegiados de evaluación según el plan de estudios institucional (LAI0105).</p>
+      <div class="rub-row"><span class="rub-name">Participación activa en talleres, foros y simulador 3D</span><div class="rub-bar"><div style="width:30%"></div></div><span class="rub-pct">30%</span></div>
+      <div class="rub-row"><span class="rub-name">Entrega de presentación, video y reportes de ejercicios</span><div class="rub-bar"><div style="width:40%"></div></div><span class="rub-pct">40%</span></div>
+      <div class="rub-row"><span class="rub-name">Examen / Quiz diagnóstico de conceptos multivariables</span><div class="rub-bar"><div style="width:30%"></div></div><span class="rub-pct">30%</span></div>
+    </div>
+
+    <!-- Ejercicios guiados -->
+    <div class="act-block" id="ejBlock">
+      <h3>Ejercicios guiados de cálculo multivariable en arquitectura</h3>
+      <p class="act-desc">Resuelve por escrito y despliega la solución para comprobar tu procedimiento.</p>
+
+      <details class="sol">
+        <summary><span class="sol-marker">+</span><span><span class="prob-tag">Ejercicio 1 · Ecuación del plano tangente a un domo</span>La cubierta de un planetario se modela con la semiesfera \(z = \sqrt{100 - x^2 - y^2}\) (metros). Encuentra la ecuación del plano tangente en el punto estructural \(P_0(6, 6, z_0)\).</span></summary>
+        <div class="sol-body">
+          <p><strong>Solución paso a paso:</strong></p>
+          <p>1. Calculamos la cota \(z_0\): \(z_0 = \sqrt{100 - 6^2 - 6^2} = \sqrt{100 - 72} = \sqrt{28} \approx 5.29\text{ m}\).</p>
+          <p>2. Calculamos las derivadas parciales con la regla de la cadena:</p>
+          <p style="text-align:center">\( \displaystyle f_x(x,y) = \frac{-x}{\sqrt{100 - x^2 - y^2}}, \qquad f_y(x,y) = \frac{-y}{\sqrt{100 - x^2 - y^2}} \)</p>
+          <p>3. Evaluamos en \((6,6)\): \(f_x(6,6) = \frac{-6}{\sqrt{28}} \approx -1.134\), y por simetría \(f_y(6,6) \approx -1.134\).</p>
+          <p>4. Aplicamos la fórmula del plano tangente:</p>
+          <p style="text-align:center">\( \displaystyle z - \sqrt{28} = -\frac{6}{\sqrt{28}}(x - 6) - \frac{6}{\sqrt{28}}(y - 6) \implies 6x + 6y + \sqrt{28}z = 100 \)</p>
+          <p><strong>Interpretación arquitectónica:</strong> Este plano define la orientación precisa de la subestructura metálica de soporte para fijar los módulos de fachada de cristal plano en ese punto.</p>
+          <label class="chk chk-ej" style="margin-top:10px"><input type="checkbox" data-ej="e1"><span>He resuelto y validado este ejercicio</span></label>
+        </div>
+      </details>
+
+      <details class="sol">
+        <summary><span class="sol-marker">+</span><span><span class="prob-tag">Ejercicio 2 · Dirección de escorrentía en cubierta alabeada</span>Una losa de azotea tiene una ecuación de cotas dada por \(z = 0.03 x^2 - 0.02 y^2 + 0.05 xy + 10\) (en metros). Determina el vector de máxima pendiente de escorrentía pluvial en el punto \((2, 3)\).</span></summary>
+        <div class="sol-body">
+          <p><strong>Solución paso a paso:</strong></p>
+          <p>1. Obtenemos el vector gradiente \(\nabla z = \left(\frac{\partial z}{\partial x}, \frac{\partial z}{\partial y}\right)\):</p>
+          <p style="text-align:center">\( \displaystyle \frac{\partial z}{\partial x} = 0.06 x + 0.05 y, \qquad \frac{\partial z}{\partial y} = -0.04 y + 0.05 x \)</p>
+          <p>2. Evaluamos en el punto \((2,3)\):</p>
+          <p style="text-align:center">\( \displaystyle \frac{\partial z}{\partial x}(2,3) = 0.06(2) + 0.05(3) = 0.12 + 0.15 = 0.27 \)</p>
+          <p style="text-align:center">\( \displaystyle \frac{\partial z}{\partial y}(2,3) = -0.04(3) + 0.05(2) = -0.12 + 0.10 = -0.02 \)</p>
+          <p>3. El gradiente es \(\nabla z(2,3) = (0.27, -0.02)\). Por gravedad física, el agua escurre en la dirección del <strong>antigradiente</strong>:</p>
+          <p style="text-align:center">\( \displaystyle \mathbf{v}_{\text{drenaje}} = -\nabla z(2,3) = (-0.27, 0.02) \)</p>
+          <p><strong>Cálculo de pendiente:</strong> La magnitud de la pendiente es \(\|\nabla z\| = \sqrt{0.27^2 + (-0.02)^2} \approx 0.2707\) (\(27.07\%\)), superando ampliamente el \(2\%\) mínimo normativo.</p>
+          <label class="chk chk-ej" style="margin-top:10px"><input type="checkbox" data-ej="e2"><span>He resuelto y validado este ejercicio</span></label>
+        </div>
+      </details>
+
+      <details class="sol">
+        <summary><span class="sol-marker">+</span><span><span class="prob-tag">Ejercicio 3 · Optimización con multiplicadores de Lagrange</span>Un cliente dispone de \(180\text{ m}^2\) de panel térmico para construir una habitación prismática cerrada de base rectangular (\(x, y\)) y altura \(z = 3\text{ m}\) fijos. Maximiza el volumen interior sujeto al área fija disponible: \(A = xy + 2xz + 2yz = 180\).</span></summary>
+        <div class="sol-body">
+          <p><strong>Solución paso a paso:</strong></p>
+          <p>1. Con \(z = 3\), la función volumen es \(V(x,y) = 3xy\), y la restricción de área es \(g(x,y) = xy + 6x + 6y = 180\).</p>
+          <p>2. Planteamos el sistema de Lagrange \(\nabla V = \lambda \nabla g\):</p>
+          <p style="text-align:center">\( \displaystyle (3y, 3x) = \lambda (y + 6, x + 6) \implies 3y = \lambda(y+6), \quad 3x = \lambda(x+6) \)</p>
+          <p>3. Despejando \(\lambda\): \(\lambda = \frac{3y}{y+6} = \frac{3x}{x+6} \implies 3y(x+6) = 3x(y+6) \implies 18y = 18x \implies x = y\).</p>
+          <p>4. Sustituimos \(x=y\) en la restricción: \(x^2 + 12x = 180 \implies x^2 + 12x - 180 = 0\).</p>
+          <p>5. Factorizando: \((x + 30)(x - 6) = 0 \implies x = 6\text{ m}\) (descartando la raíz negativa).</p>
+          <p><strong>Dimensiones óptimas:</strong> La habitación debe medir \(6\text{ m} \times 6\text{ m} \times 3\text{ m}\), logrando un volumen máximo de \(V = 6 \times 6 \times 3 = 108\text{ m}^3\).</p>
+          <label class="chk chk-ej" style="margin-top:10px"><input type="checkbox" data-ej="e3"><span>He resuelto y validado este ejercicio</span></label>
+        </div>
+      </details>
+    </div>
+
+    <!-- Memoria de cálculo interactiva -->
+    <div class="act-block">
+      <h3>Memoria de cálculo multivariable y redacción técnica</h3>
+      <p class="act-desc">Desarrolla la memoria de cálculo para un plano tangente o un problema de optimización. El editor procesa comandos en LaTeX instantáneamente.</p>
+      <div class="ed-box">
+        <div class="ed-toolbar">
+          <span class="ed-title"><i data-lucide="pencil"></i>Tu memoria técnica de geometría multivariable</span>
+          <span id="edStatus" style="font-size:11px;color:var(--muted)">Autoguardado activado</span>
+        </div>
+        <div class="ed-main">
+          <textarea id="edText" class="ed-ta" spellcheck="false" placeholder="Escribe tu desarrollo aquí. Usa fórmulas entre \( ... \). Ejemplo: Para la cubierta parabólica \(z = f(x,y)\), evaluamos el gradiente \(\nabla f = (f_x, f_y)\) en el apoyo perimetral..."></textarea>
+          <div class="ed-preview-wrap">
+            <div class="ed-preview-head">Vista previa matemática en vivo</div>
+            <div class="ed-preview" id="edPreview"><em style="color:var(--muted)">La compilación de tus fórmulas aparecerá aquí.</em></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quiz -->
+    <div class="act-block">
+      <h3>Examen diagnóstico de la Unidad 2</h3>
+      <p class="act-desc">Seis reactivos de evaluación continua sobre derivadas parciales, planos tangentes y optimización espacial.</p>
+      <div id="quizList"></div>
+      <div class="quiz-foot">
+        <button class="btn" id="btnQuizGrade"><i data-lucide="check-check"></i>Calificar examen de unidad</button>
+        <button class="btn ghost" id="btnQuizReset"><i data-lucide="rotate-ccw"></i>Reintentar</button>
+        <div class="quiz-result" id="quizResult"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== BOLETA ==================== -->
+<section class="view" id="v-boleta" hidden>
+  <div class="wrap">
+    <div class="view-head">
+      <p class="overline">Control escolar y acreditación</p>
+      <h2>Mi registro y boleta de la Unidad 2</h2>
+      <p class="sub">Registra tus credenciales institucionales para almacenar tu avance, calcular tu nota final sobre 10 y descargar tu comprobante de evidencias.</p>
+    </div>
+
+    <div class="panel" id="regFormWrap" style="max-width:560px">
+      <div class="panel-head"><i data-lucide="user-plus"></i>Ficha de identificación del estudiante</div>
+      <div class="panel-body">
+        <form id="formEstudiante" style="display:grid;gap:14px" novalidate>
+          <div class="field">
+            <label for="estNombre">Nombre completo del alumno(a)</label>
+            <input id="estNombre" type="text" placeholder="Ej. Ana Sofía Delgado Ruiz" autocomplete="off">
+          </div>
+          <div class="field">
+            <label for="estMatricula">Matrícula institucional</label>
+            <input id="estMatricula" type="text" placeholder="Ej. ARQ-2026-0819" autocomplete="off">
+          </div>
+          <div class="field">
+            <label for="estCorreo">Correo institucional</label>
+            <input id="estCorreo" type="email" placeholder="alumno@universidad.edu.mx" autocomplete="off">
+          </div>
+          <button class="btn" type="submit" id="btnGuardarPerfil"><i data-lucide="save"></i>Guardar y ver boleta</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="boletaCardWrap" hidden>
+      <div class="boleta-card" id="boletaCard">
+        <div class="b-head">
+          <span class="avatar" id="bAvatar">AR</span>
+          <div>
+            <div class="b-title">Boleta de acreditación · Cálculo (LAI0105) — Arquitectura</div>
+            <div class="b-name" id="bNombre">—</div>
+            <div class="b-meta" id="bMeta">—</div>
+          </div>
+          <div class="b-seal"><span>UNITI / ARQ</span><strong>U-2</strong></div>
+        </div>
+        <div class="b-body" id="bRows">
+          <!-- Renglones de la rúbrica -->
+        </div>
+        <div class="b-total">
+          <div>
+            <div class="b-total-lbl">Calificación final de la Unidad 2</div>
+            <div class="b-total-det">Talleres/Simulador 3D (30%) + Reportes/Ejercicios (40%) + Examen (30%)</div>
+          </div>
+          <div class="b-score"><span class="big" id="bNotaTotal">0.0</span><span class="den">/ 10</span></div>
+        </div>
+        <div class="b-foot">
+          <span>Fecha de emisión: <strong id="bFecha">—</strong></span>
+          <span>Profesor titular: <strong>Dr. Adrián Cerda</strong></span>
+          <span>Validez curricular LAI0105</span>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap">
+        <button class="btn" id="btnDescargarPng"><i data-lucide="download"></i>Descargar boleta de evidencias (PNG)</button>
+        <button class="btn ghost" id="btnEditarPerfil"><i data-lucide="pencil"></i>Editar mis datos</button>
+        <button class="btn ghost" id="btnLimpiarProgreso" style="color:var(--err)"><i data-lucide="trash-2"></i>Reiniciar avance</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-row">
+    <div><strong>Asignatura:</strong> Cálculo (LAI0105) · Licenciatura en Arquitectura, Primer Cuatrimestre.</div>
+    <div>Universidad Internacional de Innovación (UNITI) · Unidad 2: Funciones Reales de Varias Variables Reales.</div>
+  </div>
+</footer>
+
+<div id="toasts"></div>
+
+<!-- LIBRERÍAS EXTERNAS -->
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+<script>
+/* ============================================================
+   UTILIDADES & ESTADO GLOBAL
+============================================================ */
+const $  = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+
+function esc(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function refreshIcons(){ if(window.lucide) lucide.createIcons(); }
+
+function toast(msg, type='ok'){
+  const box = $('#toasts'), t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.innerHTML = `<i data-lucide="${type==='ok'?'check-circle-2':'alert-circle'}"></i><span>${msg}</span>`;
+  box.appendChild(t); refreshIcons();
+  setTimeout(()=>{ t.classList.add('out'); setTimeout(()=>t.remove(), 320); }, 3200);
+}
+
+/* PERSISTENCIA LOCAL PARA LA UNIDAD 2 */
+const LS_PERFIL_U2 = 'arq_u2_perfil';
+const LS_AVANCE_U2 = 'arq_u2_avance';
+
+function loadPerfil(){ try{ return JSON.parse(localStorage.getItem(LS_PERFIL_U2)); }catch(e){ return null; } }
+function savePerfil(p){ localStorage.setItem(LS_PERFIL_U2, JSON.stringify(p)); }
+
+function loadAvance(){
+  try{
+    return JSON.parse(localStorage.getItem(LS_AVANCE_U2)) || { ej:{}, quiz:null, simCount:0, edText:'' };
+  }catch(e){ return { ej:{}, quiz:null, simCount:0, edText:'' }; }
+}
+function saveAvance(a){ localStorage.setItem(LS_AVANCE_U2, JSON.stringify(a)); }
+
+/* NAVEGACIÓN ENTRE VISTAS */
+function showView(v){
+  $$('.view').forEach(s => s.hidden = true);
+  $('#v-'+v).hidden = false;
+  $$('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.view === v));
+  window.scrollTo({top:0, behavior:'smooth'});
+  if(v==='inicio') requestAnimationFrame(drawHero);
+  if(v==='simulador') requestAnimationFrame(()=>{ draw3DSurface(); drawContourMap(); });
+  if(v==='boleta') renderBoleta();
+}
+
+$$('[data-view]').forEach(el => el.addEventListener('click', e => {
+  if(el.tagName==='A') e.preventDefault();
+  const v = el.dataset.view;
+  if($('#v-'+v)) showView(v);
+}));
+
+/* ============================================================
+   CANVAS: DIBUJO RETINA Y PROYECCIÓN 3D
+============================================================ */
+function setupCanvas(cv){
+  const dpr = window.devicePixelRatio || 1;
+  const rect = cv.getBoundingClientRect();
+  const w = Math.max(100, rect.width), h = Math.max(100, rect.height);
+  if(cv.width !== Math.round(w*dpr)) cv.width = Math.round(w*dpr);
+  if(cv.height !== Math.round(h*dpr)) cv.height = Math.round(h*dpr);
+  const ctx = cv.getContext('2d');
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return { ctx, w, h };
+}
+
+/* PROYECCIÓN ISOMÉTRICA/PERSPECTIVA 3D A 2D */
+function project3D(x, y, z, w, h, azimDeg, elevDeg = 30, scale = 26){
+  const azim = azimDeg * Math.PI / 180;
+  const elev = elevDeg * Math.PI / 180;
+  
+  // Rotación azimutal (en plano XY)
+  const xr = x * Math.cos(azim) - y * Math.sin(azim);
+  const yr = x * Math.sin(azim) + y * Math.cos(azim);
+  
+  // Elevación
+  const px = w/2 + xr * scale;
+  const py = h/2 - (z * Math.cos(elev) - yr * Math.sin(elev)) * scale;
+  return { px, py };
+}
+
+/* HERO CANVAS: SUPERFICIE ALABEADA EN EL ENCABEZADO */
+function drawHero(){
+  const cv = $('#heroCanvas'); if(!cv || cv.offsetParent===null) return;
+  const { ctx, w, h } = setupCanvas(cv);
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0,0,w,h);
+
+  const f = (x,y) => 0.15 * (x*x - y*y); // Paraboloide hiperbólico
+  const azim = 40;
+  const range = 3.5, step = 0.5;
+
+  // Dibujar malla 3D alámbrica
+  ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(22,112,200,.25)';
+  for(let x = -range; x <= range; x += step){
+    ctx.beginPath();
+    for(let y = -range; y <= range; y += 0.2){
+      const { px, py } = project3D(x, y, f(x,y), w, h, azim, 28, 30);
+      if(y === -range) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+  }
+  for(let y = -range; y <= range; y += step){
+    ctx.beginPath();
+    for(let x = -range; x <= range; x += 0.2){
+      const { px, py } = project3D(x, y, f(x,y), w, h, azim, 28, 30);
+      if(x === -range) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+  }
+
+  // Plano tangente en (1.5, 1.0)
+  const x0 = 1.5, y0 = 1.0, z0 = f(x0, y0);
+  const fx = 0.3 * x0, fy = -0.3 * y0;
+  const tSize = 1.6;
+  const corners = [
+    {x: x0 - tSize, y: y0 - tSize},
+    {x: x0 + tSize, y: y0 - tSize},
+    {x: x0 + tSize, y: y0 + tSize},
+    {x: x0 - tSize, y: y0 + tSize}
+  ];
+
+  ctx.beginPath();
+  corners.forEach((c, i) => {
+    const cz = z0 + fx*(c.x - x0) + fy*(c.y - y0);
+    const { px, py } = project3D(c.x, c.y, cz, w, h, azim, 28, 30);
+    if(i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+  });
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(194,78,54,.25)'; ctx.fill();
+  ctx.lineWidth = 2; ctx.strokeStyle = '#C24E36'; ctx.stroke();
+
+  // Punto central de contacto
+  const p0 = project3D(x0, y0, z0, w, h, azim, 28, 30);
+  ctx.fillStyle = '#C24E36';
+  ctx.beginPath(); ctx.arc(p0.px, p0.py, 5, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#0B0D10'; ctx.font = '600 12px "Instrument Sans", sans-serif';
+  ctx.fillText('Punto P₀ (x₀, y₀, z₀)', p0.px + 8, p0.py - 6);
+}
+
+/* ============================================================
+   SIMULADOR 1: PROYECCIÓN 3D DE SUPERFICIES Y PLANO TANGENTE
+============================================================ */
+const SURFACES = {
+  hypar: {
+    name: 'Paraboloide hiperbólico (Hypar / Candela)',
+    f: (x,y) => 0.2 * (x*x - y*y),
+    fx: (x,y) => 0.4 * x,
+    fy: (x,y) => -0.4 * y,
+    fxx: 0.4, fyy: -0.4, fxy: 0,
+    hessText: 'D = -0.16 < 0 (Punto de silla en 0,0)'
+  },
+  domo: {
+    name: 'Cúpula elíptica / Domo de compresión',
+    f: (x,y) => 4.5 - 0.25*x*x - 0.25*y*y,
+    fx: (x,y) => -0.5 * x,
+    fy: (x,y) => -0.5 * y,
+    fxx: -0.5, fyy: -0.5, fxy: 0,
+    hessText: 'D = 0.25 > 0, f_xx < 0 (Máximo local en 0,0)'
+  },
+  terreno: {
+    name: 'Topografía de lomas y vaguadas',
+    f: (x,y) => 2.2 * Math.cos(0.6*x) * Math.cos(0.6*y),
+    fx: (x,y) => -1.32 * Math.sin(0.6*x) * Math.cos(0.6*y),
+    fy: (x,y) => -1.32 * Math.cos(0.6*x) * Math.sin(0.6*y),
+    fxx: -0.792, fyy: -0.792, fxy: 0,
+    hessText: 'Superficie de múltiples crestas y valles de drenaje'
+  },
+  silla: {
+    name: 'Cubierta alabeada de triple arista',
+    f: (x,y) => 0.08 * (x*x*x - 3*x*y*y),
+    fx: (x,y) => 0.08 * (3*x*x - 3*y*y),
+    fy: (x,y) => -0.48 * x * y,
+    fxx: 0.48, fyy: -0.48, fxy: 0,
+    hessText: 'Silla de mono / Alabeo helicoidal de alta esbeltez'
+  }
+};
+
+let currentSurfaceKey = 'hypar';
+
+function updateDiffCard(x0, y0, z0, fx, fy, surf){
+  const normal = `(${fx.toFixed(2)}, ${fy.toFixed(2)}, -1.00)`;
+  const magGrad = Math.hypot(fx, fy).toFixed(2);
+  const slopePct = (magGrad * 100).toFixed(1);
+  const eqPlano = `z - (${z0.toFixed(2)}) = ${fx.toFixed(2)}(x - ${x0.toFixed(1)}) + ${fy.toFixed(2)}(y - ${y0.toFixed(1)})`;
+
+  $('#diffCard').innerHTML = `
+    <div class="b-row"><span class="b-rubname">Superficie activa</span><strong>${surf.name}</strong></div>
+    <div class="b-row"><span class="b-rubname">Punto P₀ evaluado</span><strong class="mono">(${x0.toFixed(2)}, ${y0.toFixed(2)}, ${z0.toFixed(2)}) m</strong></div>
+    <div class="b-row"><span class="b-rubname">Derivadas parciales (Pendientes)</span><strong class="mono">f_x = ${fx.toFixed(2)}, &nbsp; f_y = ${fy.toFixed(2)}</strong></div>
+    <div class="b-row"><span class="b-rubname">Gradiente / Máxima pendiente</span><strong class="mono">‖∇f‖ = ${magGrad} (${slopePct}%)</strong></div>
+    <div class="b-row"><span class="b-rubname">Ecuación del plano tangente</span><span style="font-size:12.5px" class="mono">${eqPlano}</span></div>
+    <p class="hint" style="margin-top:8px"><strong>Clasificación estructural:</strong> ${surf.hessText}</p>
+  `;
+}
+
+function draw3DSurface(){
+  const cv = $('#surfaceCanvas'); if(!cv || cv.offsetParent===null) return;
+  const { ctx, w, h } = setupCanvas(cv);
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0,0,w,h);
+
+  const surf = SURFACES[currentSurfaceKey];
+  const x0 = parseFloat($('#sliderX0').value);
+  const y0 = parseFloat($('#sliderY0').value);
+  const azim = parseFloat($('#sliderAzimut').value);
+
+  $('#lblX0').textContent = x0.toFixed(1) + ' m';
+  $('#lblY0').textContent = y0.toFixed(1) + ' m';
+  $('#lblAzimut').textContent = azim + '°';
+
+  const z0 = surf.f(x0, y0);
+  const fx = surf.fx(x0, y0);
+  const fy = surf.fy(x0, y0);
+
+  updateDiffCard(x0, y0, z0, fx, fy, surf);
+
+  // Parámetros de malla 3D
+  const range = 3.2, step = 0.4;
+  const scale = 28;
+
+  // 1. DIBUJAR MALLA ALÁMBRICA 3D DE LA CUBIERTA
+  ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(22,112,200,.35)';
+  for(let x = -range; x <= range; x += step){
+    ctx.beginPath();
+    for(let y = -range; y <= range; y += 0.15){
+      const { px, py } = project3D(x, y, surf.f(x,y), w, h, azim, 32, scale);
+      if(y === -range) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+  }
+  for(let y = -range; y <= range; y += step){
+    ctx.beginPath();
+    for(let x = -range; x <= range; x += 0.15){
+      const { px, py } = project3D(x, y, surf.f(x,y), w, h, azim, 32, scale);
+      if(x === -range) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+  }
+
+  // 2. DIBUJAR EL PLANO TANGENTE LOCAL (PARCHE DE DISCRETIZACIÓN)
+  const tRad = 1.3;
+  const pts = [
+    {x: x0 - tRad, y: y0 - tRad},
+    {x: x0 + tRad, y: y0 - tRad},
+    {x: x0 + tRad, y: y0 + tRad},
+    {x: x0 - tRad, y: y0 + tRad}
+  ];
+
+  ctx.beginPath();
+  pts.forEach((p, i) => {
+    const pz = z0 + fx*(p.x - x0) + fy*(p.y - y0);
+    const { px, py } = project3D(p.x, p.y, pz, w, h, azim, 32, scale);
+    if(i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+  });
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(194,78,54,.28)'; ctx.fill();
+  ctx.lineWidth = 2.5; ctx.strokeStyle = '#C24E36'; ctx.stroke();
+
+  // 3. PUNTO DE CONTACTO P0
+  const centerProj = project3D(x0, y0, z0, w, h, azim, 32, scale);
+  ctx.fillStyle = '#0B0D10';
+  ctx.beginPath(); ctx.arc(centerProj.px, centerProj.py, 6, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#C24E36';
+  ctx.beginPath(); ctx.arc(centerProj.px, centerProj.py, 4, 0, Math.PI*2); ctx.fill();
+
+  // Registrar uso de simulador
+  const av = loadAvance();
+  av.simCount = (av.simCount || 0) + 1;
+  saveAvance(av);
+  renderBoleta();
+}
+
+/* ============================================================
+   SIMULADOR 2: CURVAS DE NIVEL Y LAGRANGE
+============================================================ */
+function drawContourMap(){
+  const cv = $('#contourCanvas'); if(!cv || cv.offsetParent===null) return;
+  const { ctx, w, h } = setupCanvas(cv);
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0,0,w,h);
+
+  const P = parseFloat($('#sliderPerimetro').value); // 2x + 2y = P
+  const x = parseFloat($('#sliderCoordX').value);
+  const y = Math.max(0.1, (P - 2*x) / 2);
+
+  $('#lblPerim').textContent = P + ' m';
+  $('#lblCoordX').textContent = x.toFixed(1) + ' m';
+  
+  const currentArea = x * y;
+  const optX = P / 4;
+  const optY = P / 4;
+  const maxArea = optX * optY;
+  const lambda = optX / 2; // gradiente: (y,x) = lambda*(2,2) -> lambda = x/2
+
+  $('#dimText').textContent = `${x.toFixed(2)} m × ${y.toFixed(2)} m`;
+  $('#areaText').textContent = `${currentArea.toFixed(2)} m²`;
+  $('#maxAreaText').textContent = `${maxArea.toFixed(2)} m² (en x = y = ${optX.toFixed(1)}m)`;
+  $('#lambdaText').textContent = `λ = ${lambda.toFixed(2)} m²/m lineal`;
+
+  const isOpt = Math.abs(x - optX) < 0.2;
+  $('#optDiag').textContent = isOpt ? '¡Solución óptima cuadrada de Lagrange alcanzada!' : 'Subóptimo: relación rectangular desbalanceada';
+  $('#optDiag').style.color = isOpt ? 'var(--pine)' : 'var(--err)';
+
+  // Escala gráfica
+  const ox = 50, oy = h - 45;
+  const sx = (w - 80) / 16, sy = (h - 70) / 16;
+
+  // Ejes X e Y
+  ctx.lineWidth = 1.5; ctx.strokeStyle = '#0B0D10';
+  ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(w - 20, oy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(ox, 20); ctx.lineTo(ox, oy); ctx.stroke();
+
+  ctx.font = '10px "Instrument Sans", sans-serif'; ctx.fillStyle = 'rgba(11,13,16,.5)';
+  for(let i=2; i<=14; i+=2){
+    ctx.fillText(i, ox + i*sx - 4, oy + 14);
+    ctx.fillText(i, ox - 18, oy - i*sy + 4);
+  }
+  ctx.fillText('Ancho X (m)', w - 65, oy - 6);
+  ctx.fillText('Largo Y (m)', ox + 8, 30);
+
+  // 1. DIBUJAR ISOLÍNEAS DE ÁREA: f(x,y) = x * y = C
+  [16, 25, 36, 49, 64].forEach(c => {
+    ctx.beginPath();
+    ctx.lineWidth = (c === Math.round(maxArea)) ? 2 : 1;
+    ctx.strokeStyle = (c === Math.round(maxArea)) ? '#1670C8' : 'rgba(22,112,200,.25)';
+    let first = true;
+    for(let px = 1; px <= 15; px += 0.2){
+      const py = c / px;
+      if(py <= 15){
+        const cx = ox + px*sx, cy = oy - py*sy;
+        if(first){ ctx.moveTo(cx, cy); first = false; } else { ctx.lineTo(cx, cy); }
+      }
+    }
+    ctx.stroke();
+    if(c/12 <= 14) {
+      ctx.fillStyle = '#1670C8'; ctx.font = '9px "Instrument Sans", sans-serif';
+      ctx.fillText(`Área=${c}`, ox + 12*sx, oy - (c/12)*sy - 3);
+    }
+  });
+
+  // 2. RECTA DE RESTRICCIÓN DE MURO: 2x + 2y = P -> y = P/2 - x
+  ctx.beginPath(); ctx.lineWidth = 2.5; ctx.strokeStyle = '#C24E36';
+  const rx1 = 0, ry1 = P/2;
+  const rx2 = P/2, ry2 = 0;
+  ctx.moveTo(ox + rx1*sx, oy - ry1*sy);
+  ctx.lineTo(ox + rx2*sx, oy - ry2*sy);
+  ctx.stroke();
+
+  // 3. PUNTO ÓPTIMO DE LAGRANGE (TANGENCIA)
+  const lpx = ox + optX*sx, lpy = oy - optY*sy;
+  ctx.fillStyle = '#1670C8'; ctx.beginPath(); ctx.arc(lpx, lpy, 6, 0, Math.PI*2); ctx.fill();
+
+  // 4. PUNTO ENSAYADO ACTUAL
+  if(y <= 15 && y >= 0){
+    const curPx = ox + x*sx, curPy = oy - y*sy;
+    ctx.fillStyle = '#C24E36'; ctx.beginPath(); ctx.arc(curPx, curPy, 6, 0, Math.PI*2); ctx.fill();
+    ctx.font = '700 11px "Instrument Sans", sans-serif';
+    ctx.fillText(`Actual (${x.toFixed(1)}, ${y.toFixed(1)})`, curPx + 8, curPy - 8);
+  }
+}
+
+/* ============================================================
+   QUIZ DIAGNÓSTICO · UNIDAD 2 (6 PREGUNTAS CLAVE)
+============================================================ */
+const QUIZ_U2 = [
+  {
+    q: 'En una cubierta modelada como z = f(x,y), ¿qué describe físicamente la derivada parcial \\frac{\\partial z}{\\partial x}?',
+    opts: [
+      'El volumen total encerrado por la losa',
+      'La pendiente geométrica de la cubierta si nos desplazamos exclusivamente en dirección paralela al eje X',
+      'El costo del acero de refuerzo en la dirección Y',
+      'El espesor medio de la membrana'
+    ],
+    ans: 1,
+    why: 'La derivada parcial respecto a x mantiene constante la variable y, midiendo la razón de cambio de la elevación únicamente a lo largo de una sección paralela al eje X.'
+  },
+  {
+    q: '¿Por qué el vector gradiente \\nabla f(x,y) es una herramienta indispensable en el diseño topográfico y drenaje pluvial?',
+    opts: [
+      'Porque apunta en la dirección de máxima pendiente, permitiendo predecir la ruta natural de escorrentía pluvial y trazar curvas de nivel ortogonales',
+      'Porque calcula la resistencia a la compresión del concreto',
+      'Porque anula el peso de la estructura',
+      'Porque determina la escala del plano arquitectónico'
+    ],
+    ans: 0,
+    why: 'El gradiente indica la dirección de máxima pendiente ascendente; por ende, el agua escurre por gravedad siguiendo el sentido del antigradiente -∇f, perpendicular a las isolíneas de cota.'
+  },
+  {
+    q: 'En el diseño de cascarones de concreto y tensoestructuras, ¿qué caracteriza a un punto de silla (donde el discriminante hessiano D < 0)?',
+    opts: [
+      'Es un punto plano sin ninguna pendiente',
+      'Es una superficie de doble curvatura opuesta (anticlástica), donde la curvatura es cóncava en una dirección y convexa en la otra, aportando rigidez por forma',
+      'Es una singularidad que provoca el colapso inmediato de la cimbra',
+      'Es el punto donde el espesor de la losa debe ser cero'
+    ],
+    ans: 1,
+    why: 'Un punto de silla (D < 0) tiene curvaturas principales con signos contrarios. En arquitectura (paraboloides hiperbólicos de Candela o membranas de Frei Otto), esta anticlástica evita el flameo y la flexión.'
+  },
+  {
+    q: 'Para una superficie z = f(x,y), ¿cuál es el significado constructivo del plano tangente en un punto P_0?',
+    opts: [
+      'Representa la cimentación profunda del edificio',
+      'Es la mejor aproximación lineal plana local de la cáscara curva, permitiendo modular paneles de fachada planos sin deformación perceptible',
+      'Es el límite de propiedad del lote urbano',
+      'Es la altura máxima permitida por el plan de desarrollo'
+    ],
+    ans: 1,
+    why: 'El plano tangente sustituye localmente a la superficie curva por un plano euclidiano, técnica base en arquitectura paramétrica para panelizar geometrías complejas con vidrios planos económicos.'
+  },
+  {
+    q: 'Al resolver un problema de optimización con Multiplicadores de Lagrange (\\nabla f = \\lambda \\nabla g), ¿qué ocurre geométricamente en el punto solución?',
+    opts: [
+      'La curva de nivel de la función objetivo es tangente a la curva de la restricción, teniendo gradientes paralelos',
+      'Las dos curvas forman un ángulo recto de 90°',
+      'La función objetivo se hace igual a cero',
+      'La restricción deja de cumplirse'
+    ],
+    ans: 0,
+    why: 'En el punto extremo condicionado, la curva de nivel de f y la curva de restricción g = k comparten la misma recta tangente, lo que implica que sus vectores normales (gradientes) son paralelos (∇f = λ∇g).'
+  },
+  {
+    q: 'En una cubierta esférica dada por z = \\sqrt{R^2 - x^2 - y^2}, ¿qué ocurre con el plano tangente en el punto de apoyo perimetral donde x^2 + y^2 = R^2?',
+    opts: [
+      'El plano tangente se vuelve horizontal',
+      'Las derivadas parciales tienden a infinito y el plano tangente se vuelve perfectamente vertical (muro de desplante)',
+      'El plano tangente desaparece',
+      'El radio R se duplica'
+    ],
+    ans: 1,
+    why: 'En el borde x² + y² = R², el denominador de las derivadas parciales se anula, indicando una pendiente vertical infinita donde la cúpula se une tangencialmente al muro cilíndrico de soporte.'
+  }
+];
+
+function renderQuiz(){
+  $('#quizList').innerHTML = QUIZ_U2.map((q, i) => `
+    <article class="quiz-q" data-q="${i}">
+      <header><span class="qnum">P${i+1}</span><p class="q-text">${q.q}</p></header>
+      <div class="opts">
+        ${q.opts.map((o, j) => `
+          <label class="opt">
+            <input type="radio" name="q_${i}" value="${j}">
+            <span class="opt-key">${'ABCD'[j]}</span>
+            <span>${o}</span>
+          </label>
+        `).join('')}
+      </div>
+      <p class="explain" hidden><strong>Fundamento arquitectónico:</strong> ${q.why}</p>
+    </article>
+  `).join('');
+  $('#quizResult').innerHTML = '';
+  if(typeof renderMathInElement==='function'){
+    renderMathInElement($('#quizList'), {delimiters:[{left:'\\(',right:'\\)',display:false}], throwOnError:false});
+  }
+}
+
+function gradeQuiz(){
+  let score = 0, unanswered = 0;
+  QUIZ_U2.forEach((q, i) => {
+    const card = $(`.quiz-q[data-q="${i}"]`);
+    const sel = card.querySelector(`input[name="q_${i}"]:checked`);
+    if(!sel){ unanswered++; return; }
+    
+    const val = parseInt(sel.value);
+    card.querySelectorAll('.opt').forEach((opt, j) => {
+      const inp = opt.querySelector('input'); inp.disabled = true;
+      opt.classList.add('locked');
+      if(j === q.ans) opt.classList.add('is-correct');
+      else if(j === val) opt.classList.add('is-wrong');
+    });
+    card.querySelector('.explain').hidden = false;
+    if(val === q.ans) score++;
+  });
+
+  if(unanswered > 0){
+    toast(`Faltan ${unanswered} reactivo(s) por contestar.`, 'err');
+    return;
+  }
+
+  const av = loadAvance();
+  av.quiz = { score, total: QUIZ_U2.length, ts: Date.now() };
+  saveAvance(av);
+  
+  $('#quizResult').innerHTML = `
+    <strong>${score} de ${QUIZ_U2.length} aciertos</strong> — Nota: ${(score/QUIZ_U2.length*10).toFixed(1)} / 10.
+    ${score >= 5 ? '¡Excelente dominio del cálculo multivariable en arquitectura!' : 'Repasa la teoría de plano tangente y hessiano.'}
+  `;
+  toast('Examen de unidad evaluado con éxito.');
+  renderBoleta();
+}
+
+/* ============================================================
+   EDITOR DE MEMORIA DE CÁLCULO
+============================================================ */
+function initEditor(){
+  const ta = $('#edText');
+  const pv = $('#edPreview');
+  const av = loadAvance();
+  
+  if(av.edText) ta.value = av.edText;
+
+  let timer;
+  function update(){
+    const text = ta.value;
+    if(!text.trim()){
+      pv.innerHTML = '<em style="color:var(--muted)">La compilación de tus fórmulas aparecerá aquí.</em>';
+      return;
+    }
+    pv.innerHTML = esc(text).replace(/\n/g, '<br>');
+    if(typeof renderMathInElement==='function'){
+      try{ renderMathInElement(pv, {delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true}], throwOnError:false}); }catch(e){}
+    }
+    clearTimeout(timer);
+    timer = setTimeout(()=>{
+      const a = loadAvance(); a.edText = text; saveAvance(a);
+      $('#edStatus').textContent = 'Guardado ' + new Date().toLocaleTimeString('es-MX', {hour:'2-digit',minute:'2-digit'});
+    }, 800);
+  }
+
+  ta.addEventListener('input', update);
+  update();
+}
+
+/* ============================================================
+   BOLETA Y CALIFICACIÓN PONDERADA
+============================================================ */
+function calcularProgreso(){
+  const av = loadAvance();
+  const eCount = ['e1','e2','e3'].filter(k => av.ej[k]).length;
+  
+  const pctTalleres = Math.min(100, (av.simCount >= 4 ? 100 : av.simCount * 25));
+  const pctReportes = (eCount / 3) * 100;
+  const pctQuiz = av.quiz ? (av.quiz.score / av.quiz.total) * 100 : 0;
+  
+  // Ponderación oficial colegiada: 30% Talleres, 40% Reportes/Ejercicios, 30% Examen
+  const nota = (pctTalleres * 0.30 + pctReportes * 0.40 + pctQuiz * 0.30) / 10;
+  
+  return {
+    pctTalleres,
+    pctReportes,
+    pctQuiz,
+    nota: Math.min(10, Math.max(0, nota)),
+    eCount
+  };
+}
+
+function renderBoleta(){
+  const p = loadPerfil();
+  const formWrap = $('#regFormWrap');
+  const cardWrap = $('#boletaCardWrap');
+
+  if(!p){
+    formWrap.hidden = false; cardWrap.hidden = true;
+    $('#statNota').textContent = '—';
+    return;
+  }
+
+  formWrap.hidden = true; cardWrap.hidden = false;
+  const prog = calcularProgreso();
+  
+  $('#bNombre').textContent = p.nombre;
+  $('#bMeta').textContent = `Matrícula: ${p.matricula} · ${p.correo}`;
+  $('#bAvatar').textContent = p.nombre.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+  $('#bFecha').textContent = new Date().toLocaleDateString('es-MX', {day:'2-digit',month:'short',year:'numeric'});
+  $('#bNotaTotal').textContent = prog.nota.toFixed(1);
+  $('#statNota').textContent = prog.nota.toFixed(1);
+
+  const defs = [
+    { name: 'Talleres de simulación 3D y planos tangentes', pct: prog.pctTalleres, w: 3.0, desc: '30% — Modelado interactivo espacial y Lagrange' },
+    { name: 'Reportes de ejercicios y memoria multivariable', pct: prog.pctReportes, w: 4.0, desc: `40% — ${prog.eCount} de 3 problemas analíticos completados` },
+    { name: 'Examen diagnóstico de conceptos de unidad', pct: prog.pctQuiz, w: 3.0, desc: `30% — ${loadAvance().quiz ? loadAvance().quiz.score + '/6 reactivos aprobados' : 'Pendiente de calificar'}` }
+  ];
+
+  $('#bRows').innerHTML = defs.map(d => `
+    <div class="b-row">
+      <div>
+        <div class="b-rubname">${d.name}</div>
+        <div class="b-rubdet">${d.desc}</div>
+      </div>
+      <div class="rub-bar"><div style="width:${d.pct.toFixed(0)}%"></div></div>
+      <div class="b-pts mono">${(d.pct/100 * d.w).toFixed(2)} <small style="font-size:.7em;color:var(--muted)">/ ${d.w.toFixed(1)}</small></div>
+    </div>
+  `).join('');
+}
+
+/* ============================================================
+   EVENTOS Y CONTROLADORES
+============================================================ */
+$('#selSurface').addEventListener('change', e => {
+  currentSurfaceKey = e.target.value;
+  draw3DSurface();
+});
+
+$('#sliderX0').addEventListener('input', draw3DSurface);
+$('#sliderY0').addEventListener('input', draw3DSurface);
+$('#sliderAzimut').addEventListener('input', draw3DSurface);
+
+$('#sliderPerimetro').addEventListener('input', drawContourMap);
+$('#sliderCoordX').addEventListener('input', drawContourMap);
+
+$('#btnQuizGrade').addEventListener('click', gradeQuiz);
+$('#btnQuizReset').addEventListener('click', () => {
+  renderQuiz();
+  const a = loadAvance(); a.quiz = null; saveAvance(a);
+  renderBoleta();
+  toast('Examen reiniciado.');
+});
+
+// Checkboxes de ejercicios guiados
+$('#ejBlock').addEventListener('change', e => {
+  const cb = e.target.closest('input[data-ej]'); if(!cb) return;
+  const a = loadAvance();
+  a.ej[cb.dataset.ej] = cb.checked;
+  saveAvance(a);
+  cb.closest('.chk').classList.toggle('done', cb.checked);
+  renderBoleta();
+});
+
+function syncEjCheckboxes(){
+  const a = loadAvance();
+  $$('#ejBlock input[data-ej]').forEach(cb => {
+    cb.checked = !!a.ej[cb.dataset.ej];
+    cb.closest('.chk').classList.toggle('done', cb.checked);
+  });
+}
+
+// Registro institucional
+$('#formEstudiante').addEventListener('submit', e => {
+  e.preventDefault();
+  const nombre = $('#estNombre').value.trim();
+  const matricula = $('#estMatricula').value.trim();
+  const correo = $('#estCorreo').value.trim();
+  
+  if(nombre.length < 3){ toast('Escribe tu nombre completo.', 'err'); return; }
+  if(matricula.length < 4){ toast('Ingresa una matrícula válida.', 'err'); return; }
+  
+  savePerfil({ nombre, matricula, correo, ts: Date.now() });
+  toast(`¡Registro guardado, ${nombre.split(' ')[0]}!`);
+  renderBoleta();
+});
+
+$('#btnEditarPerfil').addEventListener('click', () => {
+  const p = loadPerfil();
+  if(!p) return;
+  $('#estNombre').value = p.nombre;
+  $('#estMatricula').value = p.matricula;
+  $('#estCorreo').value = p.correo;
+  $('#regFormWrap').hidden = false;
+  $('#boletaCardWrap').hidden = true;
+});
+
+$('#btnLimpiarProgreso').addEventListener('click', () => {
+  if(!confirm('¿Deseas reiniciar todos los registros de la Unidad 2?')) return;
+  localStorage.removeItem(LS_PERFIL_U2);
+  localStorage.removeItem(LS_AVANCE_U2);
+  syncEjCheckboxes();
+  renderQuiz();
+  renderBoleta();
+  toast('Datos reiniciados.');
+});
+
+// Descargar boleta en imagen PNG
+$('#btnDescargarPng').addEventListener('click', () => {
+  const card = $('#boletaCard');
+  if(typeof html2canvas !== 'function'){ toast('Módulo html2canvas no disponible.', 'err'); return; }
+  toast('Generando boleta de evidencias en PNG...');
+  html2canvas(card, { scale: 2, backgroundColor: null }).then(canvas => {
+    const p = loadPerfil();
+    const a = document.createElement('a');
+    a.download = `boleta-u2-calculo-arq-${p ? p.matricula : 'alumno'}.png`;
+    a.href = canvas.toDataURL('image/png');
+    a.click();
+    toast('Boleta descargada exitosamente.');
+  }).catch(() => toast('Error al generar imagen.', 'err'));
+});
+
+// Pestañas del simulador
+$$('.sim-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    $$('.sim-tab').forEach(t => t.classList.toggle('active', t === tab));
+    $$('.sim-panel').forEach(p => p.classList.toggle('active', p.id === 'st-' + tab.dataset.stab));
+    refreshIcons();
+    requestAnimationFrame(()=>{ draw3DSurface(); drawContourMap(); });
+  });
+});
+
+window.addEventListener('resize', () => {
+  requestAnimationFrame(() => {
+    drawHero();
+    draw3DSurface();
+    drawContourMap();
+  });
+});
+
+// Inicialización de la Unidad 2
+(function initApp(){
+  refreshIcons();
+  drawHero();
+  draw3DSurface();
+  drawContourMap();
+  renderQuiz();
+  syncEjCheckboxes();
+  initEditor();
+  renderBoleta();
+  if(typeof renderMathInElement === 'function'){
+    renderMathInElement(document.body, {delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true}], throwOnError:false});
+  }
+})();
+</script>
+</body>
+</html>
