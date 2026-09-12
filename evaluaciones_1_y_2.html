@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal de Evaluaciones · Examen Intermedio y Examen Final — Cálculo para Arquitectura (LAI0105)</title>
+
+<!-- Tipografías institucionales -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+<!-- KaTeX para renderizado matemático de alta precisión -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+<style>
+/* ============================================================
+   VARIABLES Y PALETA OFICIAL AZUL ARQUITECTÓNICO
+============================================================ */
+:root {
+  --paper: #F5F9FD;
+  --card: #FFFFFF;
+  --ink: #0B0D10;
+  --ink-light: #3A4553;
+  --muted: #6B7C93;
+  --line: #D0E1F3;
+  
+  --pine: #1670C8;        /* Azul institucional primario */
+  --pine-soft: #2E9BF0;   /* Azul cielo / acento claro */
+  --pine-deep: #0B4E8F;   /* Azul marino profundo */
+  --terra: #0B4E8F;       /* Azul estructural */
+  --terra-soft: #E4F0FB;  /* Fondo suave contenedor azul */
+  --gold: #2E9BF0;
+  
+  --ok: #1E824C;
+  --ok-bg: #E7F6EC;
+  --ok-border: #A3D8B3;
+  
+  --warn: #D97706;
+  --warn-bg: #FEF3C7;
+  --warn-border: #FCD34D;
+  
+  --err: #C24E36;
+  --err-bg: #F9E9E4;
+  --err-border: #F3C4B8;
+
+  --shadow-sm: 0 2px 6px rgba(11, 78, 143, 0.06);
+  --shadow-md: 0 6px 18px rgba(11, 78, 143, 0.10);
+  --shadow-lg: 0 14px 34px rgba(11, 78, 143, 0.14);
+  --radius: 12px;
+  --radius-lg: 18px;
+  --radius-sm: 8px;
+  --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
+  font-size: 16px;
+  padding-bottom: 80px;
+}
+
+h1, h2, h3, h4, .serif {
+  font-family: 'Fraunces', Georgia, serif;
+  letter-spacing: -0.01em;
+  font-weight: 700;
+  color: var(--pine-deep);
+}
+
+/* HEADER PRINCIPAL */
+.header-portal {
+  background: linear-gradient(135deg, #0B4E8F 0%, #1670C8 60%, #2E9BF0 100%);
+  color: #FFFFFF;
+  padding: 2.5rem 1.5rem 2rem;
+  border-bottom: 3px solid #2E9BF0;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.header-portal::before {
+  content: "";
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 70%);
+  pointer-events: none;
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.portal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.header-title-wrap h1 {
+  color: #FFFFFF;
+  font-size: 2.2rem;
+  line-height: 1.2;
+  margin-bottom: 0.3rem;
+}
+
+.header-title-wrap p {
+  color: #E4F0FB;
+  font-size: 1.05rem;
+  max-width: 800px;
+}
+
+.header-meta-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(11, 78, 143, 0.4);
+  backdrop-filter: blur(10px);
+  padding: 0.8rem 1.2rem;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.student-display {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+}
+
+.student-tag {
+  background: #FFFFFF;
+  color: var(--pine-deep);
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.timer-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #FFFFFF;
+  color: var(--pine-deep);
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 1.15rem;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.timer-box.warning {
+  background: var(--warn-bg);
+  color: #B45309;
+  border: 1px solid var(--warn-border);
+}
+
+.timer-box.danger {
+  background: var(--err-bg);
+  color: var(--err);
+  border: 1px solid var(--err-border);
+  animation: pulseAlarm 1s infinite alternate;
+}
+
+@keyframes pulseAlarm {
+  from { transform: scale(1); }
+  to { transform: scale(1.04); }
+}
+
+/* NAVEGACIÓN TABS */
+.nav-tabs-wrapper {
+  background: #FFFFFF;
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 10px rgba(11, 78, 143, 0.04);
+}
+
+.nav-tabs {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 0 1rem;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+
+.tab-btn {
+  background: none;
+  border: none;
+  padding: 1rem 1.3rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+  border-bottom: 3px solid transparent;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tab-btn:hover {
+  color: var(--pine);
+  background: rgba(22, 112, 200, 0.04);
+}
+
+.tab-btn.active {
+  color: var(--pine-deep);
+  border-bottom-color: var(--pine);
+  background: rgba(22, 112, 200, 0.06);
+}
+
+.tab-badge {
+  background: var(--terra-soft);
+  color: var(--pine);
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* CONTENEDOR Y TARJETAS */
+.main-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1.2rem;
+}
+
+.tab-content {
+  display: none;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  margin-bottom: 1.8rem;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.2rem;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.8rem;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.badge-primary { background: var(--terra-soft); color: var(--pine-deep); border: 1px solid #B8D8F7; }
+.badge-success { background: var(--ok-bg); color: var(--ok); border: 1px solid var(--ok-border); }
+.badge-warning { background: var(--warn-bg); color: #B45309; border: 1px solid var(--warn-border); }
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.2rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--pine) 0%, var(--pine-deep) 100%);
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(22, 112, 200, 0.3);
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--pine-soft) 0%, var(--pine) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(22, 112, 200, 0.4);
+}
+
+.btn-secondary {
+  background: var(--terra-soft);
+  color: var(--pine-deep);
+  border: 1px solid #B8D8F7;
+}
+.btn-secondary:hover {
+  background: #D3E7FA;
+  transform: translateY(-1px);
+}
+
+.btn-lg {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  border-radius: var(--radius);
+}
+
+.callout {
+  padding: 1.2rem 1.4rem;
+  border-radius: var(--radius);
+  margin: 1.2rem 0;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.callout-info {
+  background: var(--terra-soft);
+  border-left: 4px solid var(--pine);
+  color: var(--pine-deep);
+}
+
+.callout-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+/* SELECCIÓN DE EXAMEN */
+.exam-selector-box {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.exam-choice-card {
+  border: 2px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 1.8rem;
+  background: #FFFFFF;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.exam-choice-card:hover {
+  border-color: var(--pine-soft);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.exam-choice-card.selected {
+  border-color: var(--pine);
+  background: #F4F9FE;
+  box-shadow: 0 0 0 3px rgba(22, 112, 200, 0.2);
+}
+
+.exam-choice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+.rules-list {
+  list-style: none;
+  margin: 1rem 0;
+}
+
+.rules-list li {
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px dashed var(--line);
+  font-size: 0.95rem;
+}
+
+.rules-list li:last-child {
+  border-bottom: none;
+}
+
+/* ACORDEONES REPASO */
+.accordion-item {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  margin-bottom: 0.8rem;
+  overflow: hidden;
+  background: #FFFFFF;
+}
+
+.accordion-header {
+  width: 100%;
+  padding: 1.1rem 1.4rem;
+  background: #FFFFFF;
+  border: none;
+  text-align: left;
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--pine-deep);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.accordion-body {
+  padding: 1.4rem;
+  border-top: 1px solid var(--line);
+  background: #FAFCFE;
+  display: none;
+}
+
+.accordion-body.open {
+  display: block;
+}
+
+.formula-card {
+  background: #FFFFFF;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.formula-display {
+  background: #F0F6FC;
+  padding: 0.9rem;
+  border-radius: 6px;
+  margin: 0.6rem 0;
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--pine-deep);
+}
+
+/* SIMULADOR PRÁCTICA */
+.sim-question-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.6rem;
+  margin-bottom: 1.5rem;
+  background: #FFFFFF;
+}
+
+.sim-opt-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.9rem 1.2rem;
+  margin: 0.5rem 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: #FFFFFF;
+  font-family: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.sim-opt-btn:hover {
+  border-color: var(--pine-soft);
+  background: #F4F9FD;
+}
+
+.sim-feedback {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: var(--radius-sm);
+  display: none;
+  font-size: 0.95rem;
+}
+
+/* EXAMEN CRONOMETRADO */
+.exam-layout {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 1.8rem;
+}
+
+@media (max-width: 900px) {
+  .exam-layout { grid-template-columns: 1fr; }
+}
+
+.exam-nav-card {
+  position: sticky;
+  top: 80px;
+  background: #FFFFFF;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.4rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.nav-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin: 1rem 0;
+}
+
+.nav-item-btn {
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  background: #FFFFFF;
+  color: var(--muted);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.nav-item-btn.answered {
+  background: var(--pine-deep);
+  color: #FFFFFF;
+  border-color: var(--pine-deep);
+}
+
+.question-item {
+  background: #FFFFFF;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-sm);
+  scroll-margin-top: 90px;
+}
+
+.q-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.6rem;
+}
+
+.q-number {
+  font-weight: 700;
+  color: var(--pine-deep);
+  font-size: 1.1rem;
+}
+
+.q-competence {
+  font-size: 0.8rem;
+  padding: 3px 9px;
+  background: var(--terra-soft);
+  color: var(--pine);
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.q-text {
+  font-size: 1.05rem;
+  color: var(--ink);
+  margin-bottom: 1.4rem;
+  line-height: 1.65;
+}
+
+.q-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.opt-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 1rem 1.2rem;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+  background: #FFFFFF;
+}
+
+.opt-label:hover {
+  border-color: var(--pine-soft);
+  background: #F8FBFE;
+}
+
+.opt-label input[type="radio"] {
+  margin-top: 4px;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--pine);
+}
+
+.opt-label.selected {
+  border-color: var(--pine);
+  background: #EDF5FC;
+}
+
+.opt-label.is-correct {
+  border-color: var(--ok) !important;
+  background: var(--ok-bg) !important;
+}
+
+.opt-label.is-wrong {
+  border-color: var(--err) !important;
+  background: var(--err-bg) !important;
+}
+
+.rationale-box {
+  margin-top: 1.2rem;
+  padding: 1.1rem 1.3rem;
+  background: #F5FAFD;
+  border-left: 4px solid var(--pine);
+  border-radius: var(--radius-sm);
+  display: none;
+  font-size: 0.95rem;
+}
+
+.rationale-box.visible {
+  display: block;
+}
+
+/* MODAL DE RESPIRACIÓN */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(11, 13, 16, 0.65);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.modal-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  background: #FFFFFF;
+  border-radius: var(--radius-lg);
+  padding: 2.2rem;
+  max-width: 480px;
+  width: 90%;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+}
+
+.breath-circle-container {
+  width: 180px;
+  height: 180px;
+  margin: 1.5rem auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.breath-circle {
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, #2E9BF0 0%, #1670C8 80%);
+  border-radius: 50%;
+  box-shadow: 0 0 25px rgba(46, 155, 240, 0.5);
+  transition: transform 4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.breath-circle.inhale { transform: scale(1.35); }
+.breath-circle.exhale { transform: scale(0.85); }
+
+/* BOLETA Y REPORTE */
+.report-card {
+  background: #FFFFFF;
+  border: 2px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 2rem;
+}
+
+.score-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #0B4E8F 0%, #1670C8 100%);
+  color: #FFFFFF;
+  padding: 1.8rem 2.2rem;
+  border-radius: var(--radius);
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+}
+
+.big-score {
+  font-family: 'Fraunces', serif;
+  font-size: 3.6rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.competence-meter {
+  margin: 1.2rem 0;
+}
+
+.meter-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.meter-track {
+  height: 10px;
+  background: var(--line);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.meter-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #1670C8, #2E9BF0);
+  border-radius: 5px;
+  transition: width 0.8s ease-out;
+}
+
+#certificateCanvas { display: none; }
+.text-center { text-align: center; }
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<header class="header-portal">
+  <div class="header-inner">
+    <div class="header-top">
+      <div class="portal-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        Facultad de Arquitectura &bull; Ciclo Profesional
+      </div>
+      <div class="student-display">
+        <span>Estudiante:</span>
+        <span class="student-tag" id="displayStudentName">Adrian Cerda</span>
+        <span class="student-tag" id="displayStudentID">ARQ-2026-904</span>
+      </div>
+    </div>
+    
+    <div class="header-title-wrap">
+      <h1>Portal Evaluativo de Cálculo para Arquitectura</h1>
+      <p>Materia: <strong>Cálculo (LAI0105)</strong> &bull; Sistema Integrado de Evaluación: Examen Parcial Intermedio (U1-U2) y Examen Ordinario Final (U3-U4 / Global).</p>
+    </div>
+
+    <div class="header-meta-bar">
+      <div>
+        <span style="opacity:0.85; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.5px;">Estado de Evaluación:</span>
+        <strong id="examStatusText" style="margin-left:6px; color:#FFFFFF;">Sin iniciar</strong>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <button id="btnOpenBreath" class="btn btn-secondary" style="padding:4px 12px; font-size:0.85rem; border-radius:20px;">
+          🧘 Pausa Anti-Ansiedad
+        </button>
+        <div class="timer-box" id="globalTimerBox">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span id="timerDisplay">75:00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="nav-tabs-wrapper">
+  <div class="nav-tabs">
+    <button class="tab-btn active" data-target="tab-inicio">1. Inicio &amp; Selección</button>
+    <button class="tab-btn" data-target="tab-repaso">2. Repaso Maestro</button>
+    <button class="tab-btn" data-target="tab-practica">3. Práctica / Simulacro</button>
+    <button class="tab-btn" data-target="tab-examen">4. Examen Oficial <span class="tab-badge" id="badgeQuestionsLeft">10 reactivos</span></button>
+    <button class="tab-btn" data-target="tab-dialogo">5. Círculo de Diálogo</button>
+    <button class="tab-btn" data-target="tab-boleta">6. Boleta &amp; Comprobante</button>
+  </div>
+</nav>
+
+<main class="main-container">
+
+  <!-- PESTAÑA 1 -->
+  <section id="tab-inicio" class="tab-content active">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h2>Bienvenido al Centro de Evaluación Oficial de Cálculo</h2>
+          <p class="mt-1" style="color:var(--muted);">Configura tu identidad académica y selecciona la modalidad del examen que vas a presentar hoy.</p>
+        </div>
+        <span class="badge badge-primary">Modalidad Sincrónica</span>
+      </div>
+
+      <div class="grid-2 mt-2">
+        <div>
+          <h4 style="margin-bottom:0.8rem;">Datos de Registro del Alumno</h4>
+          <div style="margin-bottom:1rem;">
+            <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--pine-deep); margin-bottom:4px;">Nombre Completo:</label>
+            <input type="text" id="inputStudentName" value="Adrian Cerda" style="width:100%; padding:0.75rem; border:1px solid var(--line); border-radius:var(--radius-sm); font-family:inherit; font-size:1rem;">
+          </div>
+          <div style="margin-bottom:1rem;">
+            <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--pine-deep); margin-bottom:4px;">Matrícula Universitaria:</label>
+            <input type="text" id="inputStudentID" value="ARQ-2026-904" style="width:100%; padding:0.75rem; border:1px solid var(--line); border-radius:var(--radius-sm); font-family:inherit; font-size:1rem;">
+          </div>
+          <button class="btn btn-secondary" id="btnSaveStudent" style="width:100%;">Actualizar Datos en Boleta</button>
+        </div>
+
+        <div>
+          <h4 style="margin-bottom:0.8rem;">Estatuto y Compromiso Ético Profesional</h4>
+          <div class="callout callout-info" style="margin-top:0;">
+            <div class="callout-icon">⚖️</div>
+            <div style="font-size:0.9rem;">
+              En arquitectura, un cálculo deficiente representa fallas de confort higrotérmico, colapsos estructurales o patologías constructivas costosas. Este examen evalúa tu capacidad para transformar las matemáticas en decisiones espaciales seguras.
+            </div>
+          </div>
+          <label style="display:flex; align-items:center; gap:10px; cursor:pointer; font-size:0.9rem; font-weight:600; color:var(--pine-deep); margin-top:1rem;">
+            <input type="checkbox" id="chkHonesty" checked style="width:18px; height:18px; accent-color:var(--pine);">
+            Acepto el Código de Integridad y Honestidad Académica Institucional.
+          </label>
+        </div>
+      </div>
+
+      <h3 class="mt-3" style="border-top:1px solid var(--line); padding-top:1.5rem;">Selecciona el Examen a Presentar:</h3>
+      
+      <div class="exam-selector-box">
+        <div class="exam-choice-card selected" id="cardSelectIntermedio" onclick="selectExamMode('intermedio')">
+          <div>
+            <div class="exam-choice-header">
+              <span class="badge badge-primary">Primer Bloque (30%)</span>
+              <strong style="color:var(--pine);">10 Reactivos</strong>
+            </div>
+            <h3 style="font-size:1.35rem; margin-bottom:0.5rem;">Examen Parcial Intermedio</h3>
+            <p style="font-size:0.9rem; color:var(--muted); margin-bottom:1rem;">
+              Cubre las <strong>Unidades 1 y 2</strong>: Cálculo diferencial univariable, pendientes de cubiertas, sumas de Riemann para radiación solar, cálculo multivariable, planos tangentes y multiplicadores de Lagrange.
+            </p>
+            <ul class="rules-list">
+              <li>&bull; 5 preguntas de Unidad 1 (Univariable)</li>
+              <li>&bull; 5 preguntas de Unidad 2 (Multivariable)</li>
+              <li>&bull; Tiempo límite: 75 minutos cronometrados</li>
+            </ul>
+          </div>
+          <div class="mt-2"><span style="font-weight:700; color:var(--pine-deep); font-size:0.9rem;">Modalidad elegida</span></div>
+        </div>
+
+        <div class="exam-choice-card" id="cardSelectFinal" onclick="selectExamMode('final')">
+          <div>
+            <div class="exam-choice-header">
+              <span class="badge badge-warning">Evaluación Ordinaria (40%)</span>
+              <strong style="color:var(--pine);">10 Reactivos</strong>
+            </div>
+            <h3 style="font-size:1.35rem; margin-bottom:0.5rem;">Examen Ordinario Final</h3>
+            <p style="font-size:0.9rem; color:var(--muted); margin-bottom:1rem;">
+              Cubre las <strong>Unidades 3 y 4</strong>: Integrales dobles para cubicación de concreto, centros de masa sísmicos, momentos de inercia, EDO de osciladores con amortiguamiento, enfriamiento de Newton y vigas de Euler-Bernoulli.
+            </p>
+            <ul class="rules-list">
+              <li>&bull; 5 preguntas de Unidad 3 (Integrales múltiples)</li>
+              <li>&bull; 5 preguntas de Unidad 4 (EDO &amp; Dinámica)</li>
+              <li>&bull; Tiempo límite: 75 minutos cronometrados</li>
+            </ul>
+          </div>
+          <div class="mt-2"><span style="font-weight:700; color:var(--muted); font-size:0.9rem;">Hacer clic para seleccionar</span></div>
+        </div>
+      </div>
+
+      <div class="text-center mt-3">
+        <button class="btn btn-primary btn-lg" id="btnIniciarExamenDirecto">
+          Comenzar Evaluación Cronometrada Ahora
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PESTAÑA 2: REPASO -->
+  <section id="tab-repaso" class="tab-content">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h2>Compendio Teórico y Formulario para Arquitectura</h2>
+          <p class="mt-1" style="color:var(--muted);">Consulta las fórmulas fundamentales, criterios normativos y demostraciones antes de iniciar el cronómetro.</p>
+        </div>
+        <span class="badge badge-primary">Material Autorizado</span>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+          <span>Unidad 1 · Cálculo Univariable: Pendientes, Escorrentía y Riemann</span>
+          <span>&#9662;</span>
+        </button>
+        <div class="accordion-body open">
+          <div class="grid-2">
+            <div class="formula-card">
+              <h4>1. Pendiente y Escorrentía Pluvial</h4>
+              <div class="formula-display">$$m(x) = f'(x) = \lim_{\Delta x \to 0} \frac{f(x+\Delta x)-f(x)}{\Delta x}$$</div>
+              <p style="font-size:0.85rem;">Rampa universal: $s \le 0.08$. Cubierta plana: $s \ge 0.02$ para evitar estancamientos patológicos.</p>
+            </div>
+            <div class="formula-card">
+              <h4>2. Radiación Solar Acumulada</h4>
+              <div class="formula-display">$$E = \int_{a}^{b} I(t) \, dt \approx \sum_{i=1}^{n} I(t_i^*) \, \Delta t$$</div>
+              <p style="font-size:0.85rem;">Cuantifica sobrecalentamiento diurno en fachadas acristaladas.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+          <span>Unidad 2 · Cálculo Multivariable: Planos Tangentes y Lagrange</span>
+          <span>&#9662;</span>
+        </button>
+        <div class="accordion-body">
+          <div class="grid-2">
+            <div class="formula-card">
+              <h4>1. Plano Tangente a Cascarones</h4>
+              <div class="formula-display">$$z - z_0 = f_x(x_0, y_0)(x - x_0) + f_y(x_0, y_0)(y - y_0)$$</div>
+              <p style="font-size:0.85rem;">Vector normal $\vec{n} = \langle -f_x, -f_y, 1 \rangle$ para paneles planos de cimbra.</p>
+            </div>
+            <div class="formula-card">
+              <h4>2. Multiplicadores de Lagrange</h4>
+              <div class="formula-display">$$\nabla V = \lambda \nabla g \iff \begin{cases} V_x = \lambda g_x \\ V_y = \lambda g_y \\ V_z = \lambda g_z \end{cases}$$</div>
+              <p style="font-size:0.85rem;">Optimización de volumen habitable con presupuesto de envolvente.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+          <span>Unidad 3 · Integrales Múltiples: Cubicación y Centroides Sísmicos</span>
+          <span>&#9662;</span>
+        </button>
+        <div class="accordion-body">
+          <div class="grid-2">
+            <div class="formula-card">
+              <h4>1. Cubicación de Losa Alabeada</h4>
+              <div class="formula-display">$$V = \iint_R h(x,y) \, dA$$</div>
+              <p style="font-size:0.85rem;">Volumen exacto de concreto premezclado y cálculo de carga muerta.</p>
+            </div>
+            <div class="formula-card">
+              <h4>2. Excentricidad Torsional Sísmica</h4>
+              <div class="formula-display">$$\bar{x} = \frac{1}{A} \iint_R x \, dA, \quad e = |x_{CR} - \bar{x}| \le 0.10 B$$</div>
+              <p style="font-size:0.85rem;">Límite reglamentario NTC para prevenir torsión en terremotos.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+          <span>Unidad 4 · Dinámica Estructural y Transferencia Térmica</span>
+          <span>&#9662;</span>
+        </button>
+        <div class="accordion-body">
+          <div class="grid-2">
+            <div class="formula-card">
+              <h4>1. Oscilador Sísmico con Amortiguamiento</h4>
+              <div class="formula-display">$$m \ddot{x}(t) + c \dot{x}(t) + k x(t) = 0, \quad \zeta = \frac{c}{2\sqrt{km}} = 0.05$$</div>
+              <p style="font-size:0.85rem;">Periodo natural $T_n = 2\pi/\omega_n$. Respuesta subamortiguada en marcos rígidos.</p>
+            </div>
+            <div class="formula-card">
+              <h4>2. Flecha Máxima en Vigas (Euler-Bernoulli)</h4>
+              <div class="formula-display">$$y_{max} = \frac{5 q_0 L^4}{384 EI} \le \frac{L}{360}$$</div>
+              <p style="font-size:0.85rem;">Criterio de servicio para evitar fisuras en canceles y plafones.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PESTAÑA 3: PRÁCTICA FORMATIVA -->
+  <section id="tab-practica" class="tab-content">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h2>Simulador de Práctica con Retroalimentación Instantánea</h2>
+          <p class="mt-1" style="color:var(--muted);">Entrena con reactivos tipo examen sin límite de tiempo. No afecta tu calificación oficial.</p>
+        </div>
+        <span class="badge badge-success">Entrenamiento Libre</span>
+      </div>
+
+      <div class="sim-question-card" id="simCard1">
+        <div style="display:flex; justify-content:space-between; margin-bottom:0.6rem;">
+          <strong style="color:var(--pine);">Reactivo Formativo 1 · Pendiente de Cubierta</strong>
+          <span class="badge badge-primary">Unidad 1</span>
+        </div>
+        <p>Una cubierta curva tiene por perfil $y = 8 - 0.04 x^2$ en $[0, 10]\text{ m}$. ¿Cuál es la pendiente en $x = 5\text{ m}$ y cumple la norma mínima de escorrentía ($|m| \ge 0.02$)?</p>
+        <div class="mt-2">
+          <button class="sim-opt-btn" onclick="checkSim(1, 0)">A) $m = -0.04$; cumple estrictamente con el 4%.</button>
+          <button class="sim-opt-btn" onclick="checkSim(1, 1)">B) $m = -0.40$ (40% de inclinación); cumple con creces la norma de escorrentía mínima.</button>
+          <button class="sim-opt-btn" onclick="checkSim(1, 2)">C) $m = -0.20$; no cumple porque es una pendiente negativa peligrosa.</button>
+          <button class="sim-opt-btn" onclick="checkSim(1, 3)">D) $m = 0$; es un punto de estancamiento de agua.</button>
+        </div>
+        <div class="sim-feedback" id="simFeedback1"></div>
+      </div>
+
+      <div class="sim-question-card" id="simCard2">
+        <div style="display:flex; justify-content:space-between; margin-bottom:0.6rem;">
+          <strong style="color:var(--pine);">Reactivo Formativo 2 · Torsión Sísmica en Losa</strong>
+          <span class="badge badge-primary">Unidad 3</span>
+        </div>
+        <p>Una losa simétrica de $20\text{ m} \times 20\text{ m}$ tiene su centro de rigidez en $(10, 10)$. Un cubo de elevadores desplaza el centro de masa a $(13, 10)$. ¿Cuál es la excentricidad $e_x$ y viola la norma NTC ($e \le 0.10 B$)?</p>
+        <div class="mt-2">
+          <button class="sim-opt-btn" onclick="checkSim(2, 0)">A) $e_x = 3\text{ m} > 2.0\text{ m}$ ($15\% > 10\%$); SÍ viola la norma e inducirá torsión crítica.</button>
+          <button class="sim-opt-btn" onclick="checkSim(2, 1)">B) $e_x = 1.5\text{ m}$; no viola la norma.</button>
+          <button class="sim-opt-btn" onclick="checkSim(2, 2)">C) $e_x = 0$; al ser una losa cuadrada no existe excentricidad.</button>
+          <button class="sim-opt-btn" onclick="checkSim(2, 3)">D) $e_x = 6\text{ m}$; cumple siempre que se arriostre.</button>
+        </div>
+        <div class="sim-feedback" id="simFeedback2"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PESTAÑA 4: EXAMEN OFICIAL -->
+  <section id="tab-examen" class="tab-content">
+    <div class="exam-layout">
+      <div class="exam-questions-column">
+        <div class="card" id="examStartPanel">
+          <div class="card-header">
+            <div>
+              <h2 id="examTitleHeading">Examen Parcial Intermedio</h2>
+              <p class="mt-1" style="color:var(--muted);" id="examSubtitleHeading">Evaluación curricular formal · 10 Reactivos aplicados a casos reales de Arquitectura.</p>
+            </div>
+            <span class="badge badge-primary" id="examActiveBadge">Unidades 1 &amp; 2</span>
+          </div>
+
+          <p>Instrucciones generales:</p>
+          <ul class="rules-list">
+            <li>El cronómetro tiene una duración de <strong>75 minutos</strong> continuos.</li>
+            <li>Tus respuestas se guardan automáticamente en memoria local.</li>
+            <li>Puedes navegar libremente entre las 10 preguntas antes del envío definitivo.</li>
+            <li>Al presionar <strong>"Concluir y Calificar Examen"</strong>, se cerrará la prueba, se calculará tu nota y se habilitará el modo de revisión justificada.</li>
+          </ul>
+
+          <div class="mt-3 text-center">
+            <button class="btn btn-primary btn-lg" id="btnStartExamTimer" onclick="startOfficialExam()">
+              Comenzar Evaluación Oficial y Activar Cronómetro
+            </button>
+          </div>
+        </div>
+
+        <div id="examQuestionsContainer" class="hidden"></div>
+
+        <div class="card text-center hidden" id="examSubmitPanel">
+          <h3>¿Has completado la revisión de tus 10 reactivos?</h3>
+          <p class="mt-1" style="color:var(--muted);">Una vez enviado, se generará tu reporte final con calificación y no podrás modificar tus selecciones.</p>
+          <div class="mt-2" style="display:flex; justify-content:center; gap:12px;">
+            <button class="btn btn-primary btn-lg" onclick="finishAndGradeExam()">
+              Concluir y Calificar Examen Oficial
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <aside class="exam-sidebar">
+        <div class="exam-nav-card">
+          <h4 style="font-size:0.95rem; color:var(--pine-deep); margin-bottom:0.5rem;">Navegación de Preguntas</h4>
+          <p style="font-size:0.8rem; color:var(--muted);">Haz clic para desplazarte a cualquier reactivo:</p>
+          <div class="nav-grid" id="quickNavGrid"></div>
+          <div class="mt-3">
+            <button class="btn btn-secondary" onclick="openBreathModal()" style="width:100%; font-size:0.85rem; padding:6px;">
+              🧘 Pausa de Concentración
+            </button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- PESTAÑA 5: CÍRCULO DE DIÁLOGO -->
+  <section id="tab-dialogo" class="tab-content">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h2>Círculo de Diálogo y Bitácora Metacognitiva</h2>
+          <p class="mt-1" style="color:var(--muted);">Espacio reflexivo para verbalizar el proceso de razonamiento proyectual y toma de decisiones técnicas.</p>
+        </div>
+        <span class="badge badge-primary">Formación Integral</span>
+      </div>
+
+      <form id="formDialogo" onsubmit="event.preventDefault(); saveReflection();">
+        <div style="margin-bottom:1.5rem;">
+          <label style="display:block; font-weight:700; color:var(--pine-deep); margin-bottom:0.5rem;">1. ¿Cuál fue el problema técnico más desafiante del examen y cómo lograste traducirlo en términos geométricos o físicos?</label>
+          <textarea id="refq1" style="width:100%; min-height:80px; padding:0.8rem; border:1px solid var(--line); border-radius:var(--radius-sm);" placeholder="Describe tu proceso..."></textarea>
+        </div>
+
+        <div style="margin-bottom:1.5rem;">
+          <label style="display:block; font-weight:700; color:var(--pine-deep); margin-bottom:0.5rem;">2. ¿Cómo influyen las herramientas del cálculo en tu proceso intuitivo al bocetar en el taller de proyectos?</label>
+          <textarea id="refq2" style="width:100%; min-height:80px; padding:0.8rem; border:1px solid var(--line); border-radius:var(--radius-sm);" placeholder="Describe tu proceso..."></textarea>
+        </div>
+
+        <div style="margin-bottom:1.5rem;">
+          <label style="display:block; font-weight:700; color:var(--pine-deep); margin-bottom:0.5rem;">3. En el ámbito bioclimático, ¿qué utilidad encuentras a las ecuaciones diferenciales de transferencia térmica?</label>
+          <textarea id="refq3" style="width:100%; min-height:80px; padding:0.8rem; border:1px solid var(--line); border-radius:var(--radius-sm);" placeholder="Describe tu proceso..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar Reflexiones en Bitácora</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- PESTAÑA 6: BOLETA OFICIAL -->
+  <section id="tab-boleta" class="tab-content">
+    <div class="report-card">
+      <div class="card-header">
+        <div>
+          <h2>Boleta Oficial de Evaluación y Desempeño</h2>
+          <p class="mt-1" style="color:var(--muted);">Universidad Nacional · Departamento de Arquitectura · Licenciatura en Arquitectura</p>
+        </div>
+        <span class="badge badge-warning" id="boletaBadgeStatus">Pendiente de Conclusión</span>
+      </div>
+
+      <div class="score-banner">
+        <div>
+          <span style="font-size:0.9rem; text-transform:uppercase; letter-spacing:1px; opacity:0.85;">Calificación Global Obtenida</span>
+          <div class="big-score"><span id="boletaFinalScore">--</span><span style="font-size:1.8rem; font-weight:400; opacity:0.7;"> / 100</span></div>
+          <div style="font-size:0.95rem; margin-top:4px;" id="boletaScoreText">Presenta tu examen en la pestaña correspondiente para generar tu calificación.</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:0.9rem; opacity:0.85;">Modalidad Evaluada:</div>
+          <div style="font-size:1.2rem; font-weight:700;" id="boletaExamTitle">Examen Parcial Intermedio</div>
+          <div style="font-size:0.85rem; opacity:0.75; margin-top:4px;" id="boletaFolio">Folio: ARQ-PENDING</div>
+        </div>
+      </div>
+
+      <h3 style="margin-bottom:1rem;">Desglose Analítico por Competencia Profesional</h3>
+      
+      <div class="competence-meter">
+        <div class="meter-label">
+          <span>1. Dominio Matemático &amp; Modelación Geométrica</span>
+          <span id="scoreComp1">--%</span>
+        </div>
+        <div class="meter-track"><div class="meter-fill" id="fillComp1" style="width:0%;"></div></div>
+      </div>
+
+      <div class="competence-meter">
+        <div class="meter-label">
+          <span>2. Aplicación Estructural &amp; Resistencia (NTC Sismo/Viento)</span>
+          <span id="scoreComp2">--%</span>
+        </div>
+        <div class="meter-track"><div class="meter-fill" id="fillComp2" style="width:0%;"></div></div>
+      </div>
+
+      <div class="competence-meter">
+        <div class="meter-label">
+          <span>3. Criterio de Sustentabilidad &amp; Comportamiento Higrotérmico</span>
+          <span id="scoreComp3">--%</span>
+        </div>
+        <div class="meter-track"><div class="meter-fill" id="fillComp3" style="width:0%;"></div></div>
+      </div>
+
+      <div class="mt-3" style="border-top:1px solid var(--line); padding-top:1.5rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+        <div>
+          <p style="font-size:0.85rem; color:var(--muted);">Emisión institucional certificada con sello de integridad criptográfico.</p>
+        </div>
+        <button class="btn btn-primary btn-lg" id="btnDownloadCertificate" onclick="generateAndDownloadPNG()">
+          Descargar Comprobante Oficial en PNG
+        </button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="modal-backdrop" id="breathModal">
+  <div class="modal-content">
+    <h3>Pausa de Concentración Consciente</h3>
+    <p class="mt-1" style="color:var(--muted); font-size:0.9rem;">Sigue el ritmo del círculo para estabilizar el sistema nervioso y recuperar la claridad analítica.</p>
+    <div class="breath-circle-container">
+      <div class="breath-circle" id="breathCircleNode">
+        <span id="breathPhaseText">Inhala</span>
+      </div>
+    </div>
+    <div style="font-size:1.1rem; font-weight:700; color:var(--pine-deep); margin-bottom:1rem;" id="breathCounter">4s</div>
+    <button class="btn btn-secondary" onclick="closeBreathModal()">Volver al Examen</button>
+  </div>
+</div>
+
+<canvas id="certificateCanvas" width="1200" height="850"></canvas>
+
+<script>
+/* >>> INSERTAR AQUÍ LA PARTE 2 <<< */
