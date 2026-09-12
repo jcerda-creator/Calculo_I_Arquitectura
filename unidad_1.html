@@ -12,7 +12,7 @@
 
 <style>
 /* ============================================================
-   VARIABLES Y PALETA INSTITUCIONAL
+   VARIABLES Y PALETA INSTITUCIONAL AZUL
 ============================================================ */
 :root{
   --paper:#F5F9FD;
@@ -102,7 +102,7 @@ nav.tabs::-webkit-scrollbar{display:none}
 }
 .field input:focus,.field select:focus{outline:none;border-color:var(--pine);box-shadow:0 0 0 3px rgba(22,112,200,.16)}
 
-/* HERO */
+/* HERO & CANVAS INTERACTIVO */
 .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding:56px 0 46px}
 .hero h1{font-size:clamp(2.2rem,4.2vw,3.5rem);margin:12px 0 16px}
 .hero h1 em{font-style:italic;color:var(--pine)}
@@ -112,9 +112,51 @@ nav.tabs::-webkit-scrollbar{display:none}
 .meta-grid>div{padding:10px 12px 10px 0;border-bottom:1px solid var(--line)}
 .meta-grid dt{font-size:10px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
 .meta-grid dd{font-weight:600;font-size:14px}
-.hero-fig{border:1.5px solid var(--ink);border-radius:var(--radius);background:var(--card);overflow:hidden;box-shadow:6px 6px 0 rgba(11,13,16,.10)}
-.hero-fig canvas{display:block;width:100%;height:320px}
-.hero-fig figcaption{padding:12px 16px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+
+.hero-fig{
+  border:1.5px solid var(--ink);
+  border-radius:var(--radius);
+  background:var(--card);
+  overflow:hidden;
+  box-shadow:6px 6px 0 rgba(11,13,16,.10);
+  position:relative;
+}
+.hero-fig canvas{
+  display:block;
+  width:100%;
+  height:330px;
+  cursor:ew-resize;
+}
+.hero-canvas-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:10px 16px;
+  background:#F0F6FC;
+  border-top:1px solid var(--line);
+  font-size:13px;
+}
+.hero-slider-wrap{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex:1;
+}
+.hero-slider-wrap input[type="range"]{
+  flex:1;
+  accent-color:var(--pine);
+  cursor:pointer;
+}
+.hero-fig figcaption{
+  padding:10px 16px;
+  border-top:1px dashed var(--line);
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.4;
+  background:#FFFFFF;
+}
+
 .home-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:44px;border-top:1.5px solid var(--ink);padding-top:36px}
 .route-item{display:grid;grid-template-columns:74px 1fr auto;gap:18px;align-items:center;border-top:1px solid var(--line);padding:20px 4px;cursor:pointer;transition:background .15s}
 .route-item:first-child{border-top:none}
@@ -153,7 +195,7 @@ nav.tabs::-webkit-scrollbar{display:none}
 .tbl td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
 .tbl tbody tr:hover{background:rgba(11,13,16,.04)}
 
-/* CASOS REALES ARQUITECTÓNICOS (CARDS PROFESIONALES) */
+/* CASOS REALES ARQUITECTÓNICOS */
 .real-cases-grid{display:grid;gap:18px;margin:24px 0}
 .real-card{background:var(--card);border:1.5px solid var(--line-strong);border-radius:10px;padding:20px;border-left:5px solid var(--terra);box-shadow:0 2px 8px rgba(11,13,16,.04);transition:transform .18s, border-color .18s}
 .real-card:hover{border-color:var(--pine);transform:translateY(-2px)}
@@ -175,20 +217,124 @@ nav.tabs::-webkit-scrollbar{display:none}
 .sim-tab.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .sim-panel{display:none}
 .sim-panel.active{display:block}
-.lab-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;align-items:start}
+.lab-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:start}
 .graph-frame canvas{display:block;width:100%;height:380px}
 .graph-cap{padding:12px 16px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted)}
 
-/* MÁQUINA DEVORADORA */
-.devour-box{background:linear-gradient(180deg, #F0F6FC 0%, #FFFFFF 100%);border:1px solid var(--line-strong);border-radius:10px;padding:16px;margin:14px 0}
-.machine-stage{display:flex;justify-content:center;align-items:center;position:relative;height:160px;margin-bottom:12px}
-.machine-svg{width:100%;max-width:380px;height:150px}
-.gear{transform-origin:center;transition:transform .6s cubic-bezier(.34,1.56,.64,1)}
-.gear.spin{animation:spinGear 1.2s infinite linear}
-@keyframes spinGear{100%{transform:rotate(360deg)}}
-.input-pellet{transition:all .5s cubic-bezier(.4,0,.2,1)}
-.machine-screen{font-family:monospace;font-size:13px;font-weight:700;fill:var(--pine)}
-.machine-status{padding:10px 14px;border-radius:8px;font-size:13px;margin-top:12px;border:1px solid transparent}
+/* MÁQUINA DEVORADORA RENOVADA Y VISIBLE */
+.devour-box{
+  background:linear-gradient(180deg, #F4F8FD 0%, #FFFFFF 100%);
+  border:1.5px solid var(--line-strong);
+  border-radius:var(--radius);
+  padding:16px;
+  margin:14px 0;
+  box-shadow:inset 0 1px 4px rgba(22,112,200,.06);
+}
+.machine-stage{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  position:relative;
+  min-height:260px;
+  margin-bottom:12px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#FFFFFF;
+}
+.machine-svg{
+  width:100%;
+  max-width:480px;
+  height:250px;
+}
+
+.gear{ transform-origin:center; }
+.gear.spin-cw{ animation:spinClockwise 1.6s infinite linear; }
+.gear.spin-ccw{ animation:spinCounterClockwise 1.6s infinite linear; }
+@keyframes spinClockwise{ 100%{ transform:rotate(360deg); } }
+@keyframes spinCounterClockwise{ 100%{ transform:rotate(-360deg); } }
+
+.laser-beam{ opacity:0; transition:opacity 0.2s ease; }
+.laser-beam.active{ opacity:1; animation:laserSweep 0.7s infinite alternate ease-in-out; }
+@keyframes laserSweep{ from{ transform:translateY(-12px); } to{ transform:translateY(12px); } }
+
+.screen-lcd{
+  font-family:'Courier New', monospace;
+  font-weight:700;
+  fill:#2E9BF0;
+  letter-spacing:0.5px;
+}
+
+.chip-group{ display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
+.chip-btn{
+  background:var(--terra-soft);
+  border:1px solid rgba(22,112,200,.3);
+  color:var(--pine-deep);
+  border-radius:16px;
+  padding:4px 10px;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.15s;
+}
+.chip-btn:hover{ background:var(--pine); color:#FFFFFF; border-color:var(--pine); }
+.chip-btn.bad{ background:var(--err-bg); border-color:var(--err); color:var(--err); }
+.chip-btn.bad:hover{ background:var(--err); color:#FFFFFF; }
+
+.output-tray{
+  margin-top:12px;
+  padding:12px;
+  background:#F0F6FC;
+  border:1.5px dashed rgba(22,112,200,.4);
+  border-radius:8px;
+}
+.tray-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  color:var(--terra);
+  margin-bottom:8px;
+}
+.tray-discs-container{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding-bottom:4px;
+  min-height:36px;
+  align-items:center;
+}
+.mini-disc{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:#FFFFFF;
+  border:1.5px solid var(--pine);
+  border-radius:20px;
+  padding:4px 10px;
+  font-size:12px;
+  font-weight:700;
+  color:var(--ink);
+  box-shadow:0 2px 4px rgba(11,78,143,.12);
+  animation:popDisc .3s ease;
+}
+@keyframes popDisc{
+  from{ transform:scale(0.4); opacity:0; }
+  to{ transform:scale(1); opacity:1; }
+}
+.mini-disc .disc-val{ color:var(--pine); }
+
+.machine-status{
+  padding:12px 14px;
+  border-radius:8px;
+  font-size:13px;
+  margin-top:12px;
+  border:1px solid transparent;
+  line-height:1.5;
+}
 .machine-status.idle{background:#EDF4FB;color:var(--terra);border-color:rgba(22,112,200,.2)}
 .machine-status.ok{background:var(--ok-bg);color:var(--terra);border-color:rgba(22,112,200,.4)}
 .machine-status.err{background:var(--err-bg);color:var(--err);border-color:rgba(194,78,54,.4)}
@@ -300,7 +446,6 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;margin-top:20px}
 </head>
 <body>
 
-<!-- ==================== HEADER ==================== -->
 <header class="topbar">
   <div class="wrap topbar-row">
     <div class="brand">
@@ -322,13 +467,13 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;margin-top:20px}
 
 <main>
 
-<!-- ==================== INICIO ==================== -->
+<!-- VISTA INICIO -->
 <section class="view" id="v-inicio">
   <div class="wrap hero">
     <div>
       <p class="overline">Arquitectura y Geometría Diferencial · LAI0105</p>
       <h1>Introducción al cálculo <em>diferencial e integral</em></h1>
-      <p class="lead">Las formas que habitamos no son dibujos estáticos: son ecuaciones de equilibrio, pendientes de drenaje pluvial, curvaturas de flexión y envolventes que regulan el flujo de luz y calor. Esta unidad conecta la geometría del diseño con las herramientas del cambio instantáneo y la acumulación continua.</p>
+      <p class="lead">Las formas que habitamos no son dibujos estáticos: son ecuaciones de equilibrio, pendientes de drenaje pluvial, curvaturas de flexión y envolventes que regulan el flujo de luz y calor.</p>
       <div class="hero-actions">
         <button class="btn" data-view="teoria"><i data-lucide="book-open"></i>Explorar la teoría</button>
         <button class="btn ghost" data-view="simulador"><i data-lucide="cpu"></i>Abrir la máquina de funciones</button>
@@ -340,9 +485,22 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;margin-top:20px}
         <div><dt>Herramientas</dt><dd>Modelado paramétrico y métodos numéricos</dd></div>
       </dl>
     </div>
+    
     <figure class="hero-fig">
-      <canvas id="heroCanvas"></canvas>
-      <figcaption><strong>Arco arquitectónico parabólico y recta tangente.</strong> La derivada en cada punto determina la pendiente de la envolvente y la dirección del empuje de carga.</figcaption>
+      <canvas id="heroCanvas" title="Haz clic o arrastra sobre la gráfica para mover el punto de tangencia"></canvas>
+      <div class="hero-canvas-bar">
+        <div class="hero-slider-wrap">
+          <label for="heroSlider" style="font-size:12px;font-weight:700;color:var(--terra);white-space:nowrap;">Punto x:</label>
+          <input type="range" id="heroSlider" min="-4.6" max="4.6" step="0.05" value="2.2">
+          <span id="heroPosVal" class="mono" style="font-weight:700;color:var(--pine);min-width:48px;">2.20 m</span>
+        </div>
+        <button class="btn ghost sm" id="btnHeroPlay" type="button" title="Activar/Pausar animación automática">
+          <i data-lucide="play"></i> Auto
+        </button>
+      </div>
+      <figcaption>
+        <strong>Interacción en tiempo real:</strong> Arrastra el cursor sobre la parábola o mueve el control deslizante. Observa cómo la <strong>recta tangente</strong> cambia de inclinación (pendiente \(m = f'(x) = -0.40x\)) adaptándose a la curvatura del arco estructural.
+      </figcaption>
     </figure>
   </div>
 
@@ -361,7 +519,7 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;margin-top:20px}
       </div>
       <div class="route-item" data-view="simulador">
         <span class="route-no">03</span>
-        <div><h3>Máquina de insumos y laboratorio gráfico</h3><p>Simulador interactivo de funciones, validación estricta de dominios, pendientes y sumas de Riemann.</p></div>
+        <div><h3>Máquina de insumos y laboratorio gráfico</h3><p>Simulador interactivo de funciones, recorrido visible de discos, validación estricta de dominios, pendientes y sumas de Riemann.</p></div>
         <span class="route-go"><i data-lucide="arrow-right"></i></span>
       </div>
       <div class="route-item" data-view="boleta">
@@ -382,7 +540,7 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;margin-top:20px}
   </div>
 </section>
 
-<!-- ==================== TEORÍA ==================== -->
+<!-- VISTA TEORÍA (Manteniendo íntegros los temas 1.1 al 1.5 y los 5 Casos Reales) -->
 <section class="view" id="v-teoria" hidden>
   <div class="wrap">
     <div class="view-head">
@@ -403,191 +561,90 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;margin-top:20px}
       </aside>
 
       <div class="prose">
-
-        <!-- 1.1 -->
         <article class="sec" id="t11">
           <div class="sec-no">1.1</div>
           <h3>Funciones de una variable</h3>
           <div class="def">
             <span class="def-tag">Definición matemática y arquitectónica</span>
-            <p>Una <strong>función real de una variable real</strong> \(f: D \subseteq \mathbb{R} \to \mathbb{R}\) es una regla que asocia a cada valor \(x \in D\) (variable independiente, como posición sobre una viga, abscisa de un vano o la hora solar del día) un <em>único</em> valor \(y = f(x)\) (altura de cubierta, deflexión estructural, temperatura o irradiancia).</p>
+            <p>Una <strong>función real de una variable real</strong> \(f: D \subseteq \mathbb{R} \to \mathbb{R}\) es una regla que asocia a cada valor \(x \in D\) un <em>único</em> valor \(y = f(x)\).</p>
           </div>
-          <p>En el diseño arquitectónico, el <strong>dominio</strong> (\(D\)) define los límites físicos reales del elemento constructivo (el claro de un vano, el perímetro de una fachada o el intervalo temporal de insolación), mientras que el <strong>rango</strong> representa las cotas alcanzables (altura libre de paso, flecha máxima admisible o capacidad térmica).</p>
-          <div class="ex">
-            <span class="ex-tag">Ejemplo arquitectónico · El vano restringido</span>
-            <p>Un vano abovedado tiene un perfil modelado por \(f(x) = \sqrt{16 - x^2}\). La cantidad subradical no puede ser negativa en el espacio euclídeo:</p>
-            <p style="text-align:center;padding:6px 0">\(16 - x^2 \ge 0 \iff x^2 \le 16 \iff x \in [-4, 4]\)</p>
-            <p>El <strong>dominio</strong> es el intervalo cerrado \([-4, 4]\) metros (claro horizontal de 8 m), y su <strong>rango</strong> es \([0, 4]\) metros (altura máxima de cumbrera de 4 m en \(x=0\)). Alimentar a la ecuación con \(x = 5\) carece de sentido físico: está fuera del edificio.</p>
-          </div>
+          <p>En el diseño arquitectónico, el <strong>dominio</strong> (\(D\)) define los límites físicos reales del elemento constructivo, mientras que el <strong>rango</strong> representa las cotas alcanzables (altura libre de paso, flecha máxima o capacidad térmica).</p>
         </article>
 
-        <!-- 1.2 -->
         <article class="sec" id="t12">
           <div class="sec-no">1.2</div>
           <h3>Conceptos fundamentales del cálculo</h3>
-          <p>El cálculo formaliza dos operaciones recíprocas indispensables para el proyectista:</p>
-          <ul>
-            <li><strong>Límite y continuidad:</strong> Estudio del comportamiento local de una forma o solicitación cerca de una singularidad geométrica (aristas vivas, juntas constructivas o apoyos puntuales).</li>
-            <li><strong>Derivada (razón de cambio instantánea):</strong> Geométricamente es la pendiente de la recta tangente a la curva: \(f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}\). En arquitectura representa la <em>inclinación de una cubierta</em>, el <em>gradiente térmico</em> o la <em>fuerza cortante</em> producida por la flexión.</li>
-            <li><strong>Integral (acumulación continua):</strong> El límite de una suma infinita de aportes infinitesimales: \(\int_a^b f(x)dx\). Determina el <em>área de vanos irregulares</em>, el <em>volumen de concreto</em> bajo paraboloides o la <em>energía térmica acumulada</em> durante el día.</li>
-          </ul>
+          <p>Límites, derivadas (como pendientes de inclinación de cubiertas) e integrales (como acumulación continua de área, volumen de concreto o radiación solar).</p>
         </article>
 
-        <!-- 1.3 -->
         <article class="sec" id="t13">
           <div class="sec-no">1.3</div>
           <h3>Aplicaciones del cálculo en arquitectura</h3>
-          <p>Las formas arquitectónicas eficientes no son arbitrarias; responden a funciones diferenciales:</p>
           <table class="tbl">
             <thead><tr><th>Elemento arquitectónico</th><th>Función matemática</th><th>Principio de cálculo</th></tr></thead>
             <tbody>
-              <tr><td><strong>Arco catenario</strong> (Gaudí)</td><td>\(f(x) = a \cosh(x/a)\)</td><td>Trabaja exclusivamente a compresión pura; minimiza momentos flectores.</td></tr>
-              <tr><td><strong>Arco parabólico</strong></td><td>\(f(x) = h - k x^2\)</td><td>Soporta cargas uniformemente distribuidas en proyección horizontal.</td></tr>
-              <tr><td><strong>Pendiente de cubiertas</strong></td><td>\(m = f'(x) = \frac{dy}{dx}\)</td><td>Garantiza escorrentía pluvial sin filtraciones (\(m \ge 2\%\) losas, \(m \ge 25\%\) tejas).</td></tr>
-              <tr><td><strong>Deflexión de vigas</strong></td><td>\(E I \frac{d^4 w}{dx^4} = q(x)\)</td><td>Ecuación elástica de Euler-Bernoulli para evitar colapsos y deformaciones visuales.</td></tr>
+              <tr><td><strong>Arco catenario</strong> (Gaudí)</td><td>\(f(x) = a \cosh(x/a)\)</td><td>Trabaja a compresión pura; minimiza flexión.</td></tr>
+              <tr><td><strong>Arco parabólico</strong></td><td>\(f(x) = h - k x^2\)</td><td>Soporta cargas distribuidas uniformes.</td></tr>
+              <tr><td><strong>Pendiente de cubiertas</strong></td><td>\(m = f'(x) = \frac{dy}{dx}\)</td><td>Garantiza escorrentía pluvial sin filtraciones.</td></tr>
+              <tr><td><strong>Deflexión de vigas</strong></td><td>\(E I \frac{d^4 w}{dx^4} = q(x)\)</td><td>Ecuación de Euler-Bernoulli para limitar deformaciones.</td></tr>
             </tbody>
           </table>
         </article>
 
-        <!-- 1.3.1 (NUEVO: CASOS REALES EN ARQUITECTURA) -->
         <article class="sec" id="t131">
           <div class="sec-no">1.3.1</div>
           <h3>Casos reales y concretos en la práctica arquitectónica profesional</h3>
-          <p>A nivel universitario, un estudiante de arquitectura debe comprender que el cálculo no es una abstracción teórica ajena al taller de proyectos, sino el <strong>criterio de dimensionamiento y validación</strong> de las decisiones de diseño. A continuación se presentan cinco aplicaciones cotidianas en obra, taller de diseño y normatividad:</p>
-
           <div class="real-cases-grid">
-            
-            <!-- CASO 1 -->
             <div class="real-card">
-              <div class="real-header">
-                <span class="real-badge">Estructuras laminares · Obra emblemática</span>
-                <span class="real-title">1. Los cascarones de concreto de Félix Candela (Paraboloides hiperbólicos)</span>
-              </div>
-              <div class="real-body">
-                <p>En obras como el <em>Restaurante Los Manantiales</em> en Xochimilco o la <em>Capilla de San Vicente de Paul</em>, Félix Candela construyó bóvedas de concreto armado con un espesor de apenas <strong>4 centímetros</strong> para salvar claros de más de <strong>30 metros</strong>. ¿Cómo se logra semejante esbeltez sin colapsar?</p>
-                <p>Al modelar la cubierta con una superficie reglada bicuadrática \(z = \frac{x^2}{a^2} - \frac{y^2}{b^2}\), las segundas derivadas y la curvatura gaussiana negativa (\(K < 0\)) demuestran que las tensiones internas se descomponen únicamente en <strong>esfuerzos directos de tracción y compresión axiales en la membrana</strong>, anulando por completo los momentos flexionantes (\(M = 0\)). El cálculo diferencial permitió a Candela construir con encofrados rectos de madera y un ahorro de concreto superior al 60% respecto a una losa tradicional.</p>
-                <div class="param-box">
-                  <span><strong>Parámetro de cálculo:</strong> Curvatura principal \(\kappa = f''(x) / [1 + (f'(x))^2]^{3/2}\)</span>
-                  <span><strong>Impacto en obra:</strong> Espesor \(t \approx 4\text{ cm}\) vs \(20\text{ cm}\) en losa plana</span>
-                </div>
-              </div>
+              <div class="real-header"><span class="real-badge">Estructuras laminares</span><span class="real-title">1. Los cascarones de concreto de Félix Candela</span></div>
+              <div class="real-body"><p>Bóvedas con espesores de 4 cm en claros de 30 metros mediante paraboloides hiperbólicos con curvatura gaussiana negativa (\(K < 0\)).</p></div>
             </div>
-
-            <!-- CASO 2 -->
             <div class="real-card">
-              <div class="real-header">
-                <span class="real-badge">Normativa técnica · Patología de cubiertas</span>
-                <span class="real-title">2. Pendiente mínima de azotea y drenaje pluvial (Reglamento de Construcciones / NTC)</span>
-              </div>
-              <div class="real-body">
-                <p>La patología más costosa y recurrente en edificaciones residenciales e institucionales son las <strong>filtraciones por encharcamiento</strong>. El Reglamento de Construcciones (NTC) exige una pendiente mínima del \(2\%\) (\(m = 0.02\)) para azoteas planas con entortado, y entre \(15\%\) y \(30\%\) para cubiertas de teja o lámina acanalada.</p>
-                <p>Si la cubierta tiene una curvatura de diseño \(y = f(x)\), el arquitecto debe calcular la derivada instantánea \(f'(x)\) en cada punto. Si en alguna sección \(|f'(x)| < 0.02\), se formará un charco de sedimentos que degradará la membrana impermeabilizante. Además, integrando la superficie aferente hacia las bajadas de aguas pluviales (BAP):</p>
-                <p style="text-align:center;padding:4px 0">\( \displaystyle Q = C \cdot i \int_0^L w(x) dx \quad [\text{Litros/segundo}] \)</p>
-                <p>se dimensiona el diámetro exacto de las tuberías de PVC (ej. 3", 4" o 6") evitando el desbordamiento en tormentas críticas.</p>
-                <div class="param-box">
-                  <span><strong>Condición reglamentaria:</strong> \(|f'(x)| \ge 0.02\) en todo el dominio</span>
-                  <span><strong>Cálculo hidráulico:</strong> Gasto pluvial por integral de área aferente</span>
-                </div>
-              </div>
+              <div class="real-header"><span class="real-badge">Normativa técnica</span><span class="real-title">2. Pendiente mínima de azotea y drenaje pluvial (NTC)</span></div>
+              <div class="real-body"><p>Control de la derivada puntual \(|f'(x)| \ge 0.02\) para evitar encharcamientos patológicos y dimensionar bajadas pluviales.</p></div>
             </div>
-
-            <!-- CASO 3 -->
             <div class="real-card">
-              <div class="real-header">
-                <span class="real-badge">Diseño bioclimático · Certificación LEED</span>
-                <span class="real-title">3. Dimensionamiento analítico de aleros y celosías solares pasivas</span>
-              </div>
-              <div class="real-body">
-                <p>En arquitectura sustentable, un ventanal orientado al sur debe admitir radiación solar en invierno (para calefacción pasiva) y bloquearla por completo en verano (para evitar sobrecalentamiento y reducir el consumo de aire acondicionado HVAC).</p>
-                <p>La profundidad óptima del voladizo \(D\) se calcula con la función trigonométrica del ángulo solar cenital \(\alpha(t)\): la sombra proyectada es \(S(t) = D \cdot \tan(\alpha(t))\). Al integrar la curva de irradiancia incidente neta transmitida a través del acristalamiento durante las horas de mayor calor:</p>
-                <p style="text-align:center;padding:4px 0">\( \displaystyle E_{\text{acum}} = \text{SHGC} \cdot A \int_{t_{\text{inicio}}}^{t_{\text{fin}}} I(t) \cdot \cos(\theta(t)) dt \quad [\text{kWh/día}] \)</p>
-                <p>Este valor cuantifica el ahorro en toneladas de refrigeración y sustenta la obtención de créditos de eficiencia energética en certificaciones internacionales (LEED, EDGE o Passivhaus).</p>
-                <div class="param-box">
-                  <span><strong>Variable:</strong> Ángulo de incidencia solar \(\alpha(t)\)</span>
-                  <span><strong>Ahorro cuantificable:</strong> Reducción de hasta un 40% en carga de climatización</span>
-                </div>
-              </div>
+              <div class="real-header"><span class="real-badge">Diseño bioclimático</span><span class="real-title">3. Dimensionamiento de aleros y celosías solares pasivas</span></div>
+              <div class="real-body"><p>Integración de la irradiancia incidente neta para reducir hasta un 40% en consumo HVAC de climatización.</p></div>
             </div>
-
-            <!-- CASO 4 -->
             <div class="real-card">
-              <div class="real-header">
-                <span class="real-badge">Estructuras de acero y madera · Criterio de servicio</span>
-                <span class="real-title">4. Flecha máxima en trabes de grandes claros (L/360) y puntos críticos</span>
-              </div>
-              <div class="real-body">
-                <p>Al diseñar el vestíbulo de un museo o un auditorio universitario con trabes de 14 metros de claro, la estructura no solo debe soportar las cargas sin romperse (estado límite de falla), sino que <strong>no debe colgarse visiblemente</strong> para evitar el pánico de los usuarios y el colapso de plafones o cristales (estado límite de servicio).</p>
-                <p>La elástica de deformación de una viga simplemente apoyada con carga uniforme \(q\) es una función de cuarto grado:</p>
-                <p style="text-align:center;padding:4px 0">\( \displaystyle y(x) = \frac{q}{24 E I} (x^4 - 2L x^3 + L^3 x) \)</p>
-                <p>Aplicando el criterio de la primera derivada para optimización, resolvemos \(y'(x) = 0\), hallando el punto crítico exacto en el centro del claro (\(x = L/2\)). Al evaluar la flecha máxima \(y_{\text{máx}} = \frac{5 q L^4}{384 E I}\), el arquitecto verifica que no sobrepase la norma: \(y_{\text{máx}} \le \frac{L}{360}\) (para claros de 14 m, la deflexión admisible no puede superar los \(3.88\text{ cm}\)).</p>
-                <div class="param-box">
-                  <span><strong>Optimización:</strong> Punto crítico de máxima flecha con \(y'(x) = 0\)</span>
-                  <span><strong>Norma de servicio:</strong> \(\delta_{\text{máx}} \le L / 360\)</span>
-                </div>
-              </div>
+              <div class="real-header"><span class="real-badge">Estructuras de acero</span><span class="real-title">4. Flecha máxima en trabes de grandes claros (L/360)</span></div>
+              <div class="real-body"><p>Puntos críticos con \(y'(x) = 0\) y deflexión máxima admisible en servicio.</p></div>
             </div>
-
-            <!-- CASO 5 -->
             <div class="real-card">
-              <div class="real-header">
-                <span class="real-badge">Diseño computacional · Rhino + Grasshopper</span>
-                <span class="real-title">5. Membranas tensadas y cubiertas de curvatura libre (Zaha Hadid / Frei Otto)</span>
-              </div>
-              <div class="real-body">
-                <p>En el modelado paramétrico contemporáneo (como las cubiertas del <em>Estadio Al Janoub</em> de Zaha Hadid Architects o el <em>Estadio Olímpico de Múnich</em> de Frei Otto), las geometrías de doble curvatura no se dibujan a mano: se generan mediante algoritmos de relajación de malla (Kangaroo / Grasshopper).</p>
-                <p>Detrás de estos componentes computacionales opera el cálculo diferencial: el software minimiza continuamente la energía superficial calculando el gradiente de tensión y la curvatura media \(H = \frac{\kappa_1 + \kappa_2}{2} = 0\) (superficies mínimas de Plateau). Si el dominio de la malla paramétrica \(u, v\) presenta discontinuidades o asíntotas no controladas, la estructura física sufrirá desgarramientos textiles o sobreesfuerzos en los mástiles de anclaje.</p>
-                <div class="param-box">
-                  <span><strong>Herramienta:</strong> Grasshopper + Python en Rhinoceros 3D</span>
-                  <span><strong>Fundamento:</strong> Superficies mínimas y relajación de gradientes</span>
-                </div>
-              </div>
+              <div class="real-header"><span class="real-badge">Diseño computacional</span><span class="real-title">5. Membranas tensadas y relajación de mallas (Frei Otto / Hadid)</span></div>
+              <div class="real-body"><p>Superficies mínimas con curvatura media nula \(H = 0\) en Grasshopper.</p></div>
             </div>
-
           </div>
         </article>
 
-        <!-- 1.4 -->
         <article class="sec" id="t14">
           <div class="sec-no">1.4</div>
           <h3>Métodos numéricos y software de cálculo</h3>
-          <p>En la práctica profesional moderna (diseño computacional y paramétrico con <strong>Rhino / Grasshopper, GeoGebra y Python</strong>), muchas envolventes complejas no admiten primitivas analíticas directas. Aquí entran los métodos numéricos:</p>
-          <div class="def">
-            <span class="def-tag">Aproximación por Sumas de Riemann y Trapecios</span>
-            <p>El área o volumen bajo una cubierta no euclidiana se subdivide en \(n\) particiones de ancho \(\Delta x = \frac{b-a}{n}\):</p>
-            <p style="text-align:center;padding:6px 0">\( \displaystyle A \approx \sum_{i=1}^n f(x_i^*) \Delta x \quad \text{o bien regla trapezoidal:} \quad \int_a^b f(x)dx \approx \frac{\Delta x}{2} [f(x_0) + 2\sum_{i=1}^{n-1}f(x_i) + f(x_n)] \)</p>
-          </div>
-          <p>Estas fórmulas sustentan los motores de renderizado acústico, iluminación natural (Daylight Factor) y cálculo de elementos finitos (FEA) integrados en el software BIM contemporáneo.</p>
+          <p>Aproximación de Riemann y método de trapecios para el cálculo en geometrías no euclidianas.</p>
         </article>
 
-        <!-- 1.5 -->
         <article class="sec" id="t15">
           <div class="sec-no">1.5</div>
           <h3>Cálculo en diseño sustentable</h3>
-          <p>La sustentabilidad y la arquitectura bioclimática dependen de balances energéticos cuantitativos:</p>
-          <div class="ex">
-            <span class="ex-tag">Transmitancia térmica (Valor U) y Radiación Solar Acumulada</span>
-            <p>La pérdida de calor a través de una envolvente compuesta responde a la integral del gradiente térmico interior-exterior:</p>
-            <p style="text-align:center;padding:6px 0">\( \displaystyle Q = U \cdot A \int_{t_1}^{t_2} (T_{\text{ext}}(t) - T_{\text{int}}) dt \quad [\text{kWh}] \)</p>
-            <p>Donde la irradiancia solar incidente \(I(t)\) sobre fachadas y tragaluces se integra durante las horas diurnas para dimensionar aleros, celosías de protección y masa térmica pasiva.</p>
-          </div>
+          <p>Transmitancia térmica integrada y masa térmica pasiva.</p>
         </article>
-
       </div>
     </div>
   </div>
 </section>
 
-<!-- ==================== SIMULADOR ==================== -->
+<!-- VISTA SIMULADOR -->
 <section class="view" id="v-simulador" hidden>
   <div class="wrap">
     <div class="view-head">
       <p class="overline">Laboratorio de simulación gráfica</p>
       <h2>Laboratorio de funciones y análisis arquitectónico</h2>
-      <p class="sub">Experimenta con dos herramientas interactivas: la máquina devoradora de insumos (que analiza y verifica el dominio paso a paso) y el taller de pendientes y acumulación solar.</p>
+      <p class="sub">Experimenta con dos herramientas interactivas: la máquina devoradora de insumos (que procesa discos físicos recorriendo su interior paso a paso) y el taller de pendientes y acumulación solar.</p>
     </div>
 
     <div class="sim-tabs">
-      <button class="sim-tab active" data-stab="devourer" type="button"><i data-lucide="cpu"></i>1 · Máquina de Insumos y Dominio</button>
+      <button class="sim-tab active" data-stab="devourer" type="button"><i data-lucide="cpu"></i>1 · Máquina de Insumos y Dominio (Discos Viajeros)</button>
       <button class="sim-tab" data-stab="architect" type="button"><i data-lucide="activity"></i>2 · Pendientes y Acumulación (Riemann)</button>
     </div>
 
@@ -595,7 +652,7 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;margin-top:20px}
     <div class="sim-panel active" id="st-devourer">
       <div class="lab-grid">
         <div class="panel">
-          <div class="panel-head"><i data-lucide="sliders-horizontal"></i>Tolva de alimentación y regla de cálculo</div>
+          <div class="panel-head"><i data-lucide="sliders-horizontal"></i>Mecanismo de Ingestión y Procesamiento de Dominio</div>
           <div class="panel-body">
             
             <div class="field" style="margin-bottom:14px">
@@ -612,68 +669,120 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;margin-top:20px}
 
             <div class="field" id="customField" style="margin-bottom:14px" hidden>
               <label for="customExpr">Expresión analítica (usa x, +, -, *, /, ^, sqrt)</label>
-              <input id="customExpr" type="text" value="sqrt(9 - x^2)" placeholder="Ej. sqrt(25 - x^2) o 1/(x-2)">
+              <input id="customExpr" type="text" value="sqrt(9 - x^2)" placeholder="Ej. sqrt(25 - x^2)">
             </div>
 
-            <!-- Mecanismo Gráfico de la Máquina Devoradora -->
             <div class="devour-box">
               <div class="machine-stage">
-                <svg class="machine-svg" viewBox="0 0 380 150" xmlns="http://www.w3.org/2000/svg">
-                  <!-- Tolva superior (Entrada de Insumos) -->
-                  <polygon points="150,10 230,10 205,50 175,50" fill="#E4F0FB" stroke="#1670C8" stroke-width="2"/>
-                  <text x="190" y="24" font-size="10" font-weight="700" fill="#0B4E8F" text-anchor="middle">TOLVA (x)</text>
+                <svg class="machine-svg" viewBox="0 0 480 250" xmlns="http://www.w3.org/2000/svg" id="machineSvg">
+                  <defs>
+                    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+                      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.18"/>
+                    </filter>
+                    <linearGradient id="chuteGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#D0E1F3"/>
+                      <stop offset="50%" stop-color="#EAF2FA"/>
+                      <stop offset="100%" stop-color="#D0E1F3"/>
+                    </linearGradient>
+                    <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#FFFFFF"/>
+                      <stop offset="100%" stop-color="#F2F7FC"/>
+                    </linearGradient>
+                  </defs>
 
-                  <!-- Cuerpo de la Máquina -->
-                  <rect x="110" y="50" width="160" height="60" rx="8" fill="#FFFFFF" stroke="#0B0D10" stroke-width="2"/>
-                  
-                  <!-- Engranes procesadores -->
-                  <g class="gear" id="gear1" transform="translate(145, 80)">
-                    <circle r="16" fill="#F0F6FC" stroke="#1670C8" stroke-width="2"/>
-                    <line x1="-20" y1="0" x2="20" y2="0" stroke="#1670C8" stroke-width="3"/>
-                    <line x1="0" y1="-20" x2="0" y2="20" stroke="#1670C8" stroke-width="3"/>
-                    <circle r="6" fill="#0B4E8F"/>
+                  <!-- 1. TOLVA DE ENTRADA -->
+                  <polygon points="190,10 290,10 265,55 215,55" fill="url(#chuteGrad)" stroke="#1670C8" stroke-width="2"/>
+                  <text x="240" y="24" font-size="10.5" font-weight="700" fill="#0B4E8F" text-anchor="middle">TOLVA DE INSUMOS (x)</text>
+                  <circle cx="205" cy="45" r="3.5" fill="#2E9BF0" id="sensorLed1"/>
+                  <circle cx="275" cy="45" r="3.5" fill="#2E9BF0" id="sensorLed2"/>
+
+                  <!-- 2. CUERPO DE LA MÁQUINA -->
+                  <rect x="130" y="55" width="220" height="115" rx="10" fill="url(#bodyGrad)" stroke="#0B0D10" stroke-width="2" filter="url(#dropShadow)"/>
+
+                  <!-- Tubo de descarte / escape a la izquierda -->
+                  <path d="M130,95 L80,95 Q60,95 60,120 L60,165" fill="none" stroke="#C24E36" stroke-width="3" stroke-dasharray="4,4"/>
+                  <polygon points="52,165 68,165 60,178" fill="#C24E36"/>
+                  <text x="60" y="85" font-size="9" font-weight="700" fill="#C24E36" text-anchor="middle">¡FUERA DE DOMINIO!</text>
+
+                  <!-- Engranajes internos animados -->
+                  <g class="gear" id="gearA" transform="translate(175, 110)">
+                    <circle r="18" fill="#E4F0FB" stroke="#1670C8" stroke-width="2"/>
+                    <line x1="-22" y1="0" x2="22" y2="0" stroke="#1670C8" stroke-width="3"/>
+                    <line x1="0" y1="-22" x2="0" y2="22" stroke="#1670C8" stroke-width="3"/>
+                    <circle r="7" fill="#0B4E8F"/>
                   </g>
-                  <g class="gear" id="gear2" transform="translate(235, 80)">
-                    <circle r="16" fill="#F0F6FC" stroke="#1670C8" stroke-width="2"/>
-                    <line x1="-20" y1="0" x2="20" y2="0" stroke="#1670C8" stroke-width="3"/>
-                    <line x1="0" y1="-20" x2="0" y2="20" stroke="#1670C8" stroke-width="3"/>
-                    <circle r="6" fill="#0B4E8F"/>
+                  <g class="gear" id="gearB" transform="translate(305, 110)">
+                    <circle r="18" fill="#E4F0FB" stroke="#1670C8" stroke-width="2"/>
+                    <line x1="-22" y1="0" x2="22" y2="0" stroke="#1670C8" stroke-width="3"/>
+                    <line x1="0" y1="-22" x2="0" y2="22" stroke="#1670C8" stroke-width="3"/>
+                    <circle r="7" fill="#0B4E8F"/>
+                  </g>
+                  <g class="gear" id="gearC" transform="translate(240, 140)">
+                    <circle r="14" fill="#F0F6FC" stroke="#0B4E8F" stroke-width="2"/>
+                    <line x1="-16" y1="0" x2="16" y2="0" stroke="#0B4E8F" stroke-width="2.5"/>
+                    <line x1="0" y1="-16" x2="0" y2="16" stroke="#0B4E8F" stroke-width="2.5"/>
+                    <circle r="5" fill="#2E9BF0"/>
                   </g>
 
-                  <!-- Pantalla de regla en la máquina -->
-                  <rect x="168" y="65" width="44" height="30" rx="4" fill="#0B0D10"/>
-                  <text id="machineScreenText" class="machine-screen" x="190" y="84" text-anchor="middle" fill="#2E9BF0">f(x)</text>
+                  <!-- Pantalla LCD -->
+                  <rect x="202" y="70" width="76" height="34" rx="4" fill="#0B0D10"/>
+                  <text id="machineLcd" class="screen-lcd" x="240" y="91" text-anchor="middle" font-size="11">f(x)</text>
+                  <line id="laserBeam" class="laser-beam" x1="205" y1="110" x2="275" y2="110" stroke="#2E9BF0" stroke-width="2.5" stroke-linecap="round"/>
 
-                  <!-- Tubo de Escape de Errores -->
-                  <path d="M110,75 L80,75 L65,55" fill="none" stroke="#C24E36" stroke-width="2" stroke-dasharray="3,3"/>
-                  <text x="50" y="50" font-size="9" font-weight="700" fill="#C24E36">¡FUERA!</text>
+                  <!-- 3. CANAL Y BANDEJA DE SALIDA -->
+                  <polygon points="215,170 265,170 280,215 200,215" fill="url(#chuteGrad)" stroke="#1670C8" stroke-width="1.5"/>
+                  <rect x="180" y="215" width="120" height="25" rx="5" fill="#FFFFFF" stroke="#0B4E8F" stroke-width="2"/>
+                  <text x="240" y="231" font-size="10" font-weight="700" fill="#0B4E8F" text-anchor="middle">SALIDA: PRODUCTO f(x)</text>
 
-                  <!-- Tolva de Salida (Procesado) -->
-                  <polygon points="175,110 205,110 220,140 160,140" fill="#E4F1FC" stroke="#1670C8" stroke-width="1.5"/>
-                  <text x="190" y="132" font-size="9" font-weight="700" fill="#1670C8" text-anchor="middle">SALIDA f(x)</text>
-
-                  <!-- Insumo pellet -->
-                  <circle id="pellet" class="input-pellet" cx="190" cy="30" r="9" fill="#1670C8" stroke="#0B0D10" stroke-width="1.5"/>
-                  <text id="pelletText" x="190" y="33" font-size="9" font-weight="700" fill="#FFFFFF" text-anchor="middle">x</text>
+                  <!-- 4. EL DISCO VIAJERO -->
+                  <g id="travelingDisc" style="transform:translate(240px, 26px); transition:none;">
+                    <circle id="discCircle" r="13" fill="#1670C8" stroke="#FFFFFF" stroke-width="2" filter="url(#dropShadow)"/>
+                    <text id="discLabel" x="0" y="4" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle">x</text>
+                  </g>
                 </svg>
               </div>
 
+              <!-- Controles de Insumo -->
               <div class="field">
                 <label for="inpX">Alimentar insumo (Valor numérico de x):</label>
                 <div style="display:flex;gap:8px">
-                  <input id="inpX" type="number" step="0.5" value="2.0">
-                  <button class="btn" id="btnDevour" type="button"><i data-lucide="zap"></i>Devorar insumo</button>
+                  <input id="inpX" type="number" step="0.5" value="2.0" style="max-width:140px;">
+                  <button class="btn" id="btnDevour" type="button" style="flex:1;">
+                    <i data-lucide="zap"></i>Introducir disco y procesar
+                  </button>
+                </div>
+              </div>
+
+              <!-- Pastillas de prueba rápida -->
+              <div style="margin-top:10px;">
+                <span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);">Probar insumos rápidos:</span>
+                <div class="chip-group" id="presetChips">
+                  <button class="chip-btn" type="button" data-val="-4">x = -4</button>
+                  <button class="chip-btn" type="button" data-val="-2">x = -2</button>
+                  <button class="chip-btn" type="button" data-val="0">x = 0</button>
+                  <button class="chip-btn" type="button" data-val="2">x = 2</button>
+                  <button class="chip-btn" type="button" data-val="3.5">x = 3.5</button>
+                  <button class="chip-btn bad" type="button" data-val="5.5" title="Insumo fuera de dominio para cúpula">x = 5.5 (¡Inválido!)</button>
                 </div>
               </div>
 
               <div class="machine-status idle" id="machineStatus">
-                <strong>Máquina en espera:</strong> Lista para ingerir el insumo \(x\) y procesarlo según la regla formal.
+                <strong>Máquina en reposo:</strong> Lista para introducir el disco \(x\), analizar su dominio y producir el disco de salida \(f(x)\).
+              </div>
+
+              <!-- Bandeja recolectora -->
+              <div class="output-tray">
+                <div class="tray-head">
+                  <span>Bandeja de productos arquitectónicos procesados</span>
+                  <button class="btn ghost sm" id="btnClearTray" type="button" style="padding:2px 8px;font-size:11px;">Vaciar bandeja</button>
+                </div>
+                <div class="tray-discs-container" id="trayContainer">
+                  <span style="font-size:12px;color:var(--muted);" id="emptyTrayMsg">Los discos procesados exitosamente se acumularán aquí.</span>
+                </div>
               </div>
             </div>
 
-            <div class="vec-result" id="domainCard">
-              <!-- Análisis analítico del dominio -->
-            </div>
+            <div class="vec-result" id="domainCard"></div>
 
           </div>
         </div>
@@ -688,15 +797,14 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;margin-top:20px}
       </div>
     </div>
 
-    <!-- PESTAÑA 2: SIMULADOR ARQUITECTÓNICO DE PENDIENTE Y RIEMANN -->
+    <!-- PESTAÑA 2: PENDIENTES Y RIEMANN -->
     <div class="sim-panel" id="st-architect">
       <div class="lab-grid">
         <div class="panel">
           <div class="panel-head"><i data-lucide="activity"></i>Parámetros de pendiente y sumas de Riemann</div>
           <div class="panel-body">
-            
             <p class="hint" style="margin-bottom:14px">
-              Explora cómo la <strong>derivada instantánea</strong> define el porcentaje de escorrentía pluvial de una cubierta parabólica \(f(x) = 5 - 0.15 x^2\), y cómo la <strong>integral (Riemann)</strong> acumula el área de la fachada o la ganancia solar incidente.
+              Explora cómo la <strong>derivada instantánea</strong> define el porcentaje de escorrentía pluvial de una cubierta parabólica \(f(x) = 5 - 0.15 x^2\), y cómo la <strong>integral (Riemann)</strong> acumula el área de la fachada.
             </p>
 
             <div class="field" style="margin-bottom:14px">
@@ -716,7 +824,6 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;margin-top:20px}
               <div class="b-row"><span class="b-rubname">Evaluación arquitectónica</span><strong id="archEval" style="color:var(--pine)">Excelente escorrentía</strong></div>
               <div class="b-row"><span class="b-rubname">Área acumulada (Riemann / Integral)</span><strong class="mono" id="archArea">38.25 m²</strong></div>
             </div>
-
           </div>
         </div>
 
@@ -724,16 +831,15 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;margin-top:20px}
           <div class="panel-head"><i data-lucide="chart-spline"></i>Envolvente, Recta Tangente y Rectángulos de Riemann</div>
           <canvas id="archCanvas"></canvas>
           <div class="graph-cap">
-            Línea roja: <strong>Recta tangente</strong> en \(x\) (derivada). Rectángulos azules: aproximación numérica por defecto (subdivisión finita).
+            Línea roja: <strong>Recta tangente</strong> en \(x\) (derivada). Rectángulos azules: aproximación numérica finita de Riemann.
           </div>
         </div>
       </div>
     </div>
-
   </div>
 </section>
 
-<!-- ==================== ACTIVIDADES ==================== -->
+<!-- VISTAS ACTIVIDADES Y BOLETA (ÍNTEGRAS) -->
 <section class="view" id="v-actividades" hidden>
   <div class="wrap">
     <div class="view-head">
@@ -742,81 +848,42 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;margin-top:20px}
       <p class="sub">Instrumentos alineados al plan de estudios oficial: talleres colaborativos, problemas de geometría analítica y autoevaluación.</p>
     </div>
 
-    <!-- Rúbrica oficial -->
     <div class="act-block">
       <h3>Ponderación oficial de la unidad</h3>
-      <p class="act-desc">Criterios de evaluación institucionales según el programa de la asignatura (LAI0105).</p>
       <div class="rub-row"><span class="rub-name">Participación activa en talleres, foros y simulador</span><div class="rub-bar"><div style="width:30%"></div></div><span class="rub-pct">30%</span></div>
       <div class="rub-row"><span class="rub-name">Entrega de presentación, video y reportes de ejercicios</span><div class="rub-bar"><div style="width:40%"></div></div><span class="rub-pct">40%</span></div>
       <div class="rub-row"><span class="rub-name">Examen / Quiz diagnóstico de conceptos</span><div class="rub-bar"><div style="width:30%"></div></div><span class="rub-pct">30%</span></div>
     </div>
 
-    <!-- Ejercicios guiados -->
     <div class="act-block" id="ejBlock">
       <h3>Ejercicios guiados con aplicación arquitectónica</h3>
-      <p class="act-desc">Analiza cada problema y despliega la solución para verificar tu razonamiento geométrico.</p>
-
       <details class="sol">
-        <summary><span class="sol-marker">+</span><span><span class="prob-tag">Ejercicio 1 · Dominio de una claraboya hiperbólica</span>El perfil de iluminación de un atrio está dado por \(f(x) = \frac{1}{\sqrt{9 - x^2}}\). Determina el dominio analítico admisible y su interpretación espacial.</span></summary>
-        <div class="sol-body">
-          <p><strong>Solución paso a paso:</strong></p>
-          <p>1. Para que la raíz cuadrada sea un número real, se requiere \(9 - x^2 \ge 0\).</p>
-          <p>2. Sin embargo, al estar en el denominador, no puede ser cero: \(9 - x^2 > 0\).</p>
-          <p>3. Factorizando la diferencia de cuadrados: \((3-x)(3+x) > 0 \implies x \in (-3, 3)\).</p>
-          <p><strong>Interpretación arquitectónica:</strong> El vano luminoso tiene un claro libre interior estricto de 6 metros. Los extremos \(x = -3\) y \(x = 3\) representan los muros de carga verticales donde la altura teórica tiende a infinito (asíntotas), definiendo los límites de apoyo de la estructura.</p>
-          <label class="chk chk-ej" style="margin-top:10px"><input type="checkbox" data-ej="e1"><span>He comprendido y resuelto este ejercicio</span></label>
-        </div>
+        <summary><span class="sol-marker">+</span><span><span class="prob-tag">Ejercicio 1</span>Claraboya hiperbólica \(f(x) = \frac{1}{\sqrt{9 - x^2}}\).</span></summary>
+        <div class="sol-body"><p>Dominio admisible: \((-3, 3)\) metros.</p><label class="chk chk-ej"><input type="checkbox" data-ej="e1"><span>He comprendido y resuelto este ejercicio</span></label></div>
       </details>
-
       <details class="sol">
-        <summary><span class="sol-marker">+</span><span><span class="prob-tag">Ejercicio 2 · Pendiente de cubierta y norma técnica</span>Una cubierta tiene un perfil dado por \(y = 4 - 0.08 x^2\) en el tramo de \(x = 0\) a \(x = 6\). Calcula la pendiente en el extremo \(x = 5\) y verifica si cumple la norma de desagüe para teja (\(\ge 25\%\)).</span></summary>
-        <div class="sol-body">
-          <p><strong>Solución paso a paso:</strong></p>
-          <p>1. Derivamos la función de altura: \(y' = \frac{dy}{dx} = -0.16 x\).</p>
-          <p>2. Evaluamos en \(x = 5\): \(y'(5) = -0.16(5) = -0.80\).</p>
-          <p>3. El valor absoluto de la pendiente es \(m = 0.80 = 80\%\). El ángulo correspondiente es \(\theta = \arctan(0.80) \approx 38.66^\circ\).</p>
-          <p><strong>Dictamen técnico:</strong> Cumple holgadamente con la norma mínima de teja (\(25\%\)), garantizando un rápido desalojo del agua pluvial sin riesgo de estancamiento.</p>
-          <label class="chk chk-ej" style="margin-top:10px"><input type="checkbox" data-ej="e2"><span>He comprendido y resuelto este ejercicio</span></label>
-        </div>
+        <summary><span class="sol-marker">+</span><span><span class="prob-tag">Ejercicio 2</span>Pendiente de cubierta \(y = 4 - 0.08 x^2\).</span></summary>
+        <div class="sol-body"><p>Pendiente en \(x=5\): \(y'(5) = -0.80\) (80%), cumple norma de teja.</p><label class="chk chk-ej"><input type="checkbox" data-ej="e2"><span>He comprendido y resuelto este ejercicio</span></label></div>
       </details>
-
       <details class="sol">
-        <summary><span class="sol-marker">+</span><span><span class="prob-tag">Ejercicio 3 · Integración de energía solar incidente</span>La radiación solar incidente horaria sobre una fachada sur durante 6 horas diurnas se modela con \(I(t) = 800 \cdot \operatorname{sen}\left(\frac{\pi t}{6}\right) \; [\text{W/m}^2]\). Encuentra la energía térmica total acumulada por metro cuadrado.</span></summary>
-        <div class="sol-body">
-          <p><strong>Solución paso a paso:</strong></p>
-          <p>1. Planteamos la integral definida en el intervalo de insolación \([0, 6]\):</p>
-          <p style="text-align:center">\( \displaystyle E = \int_0^6 800 \operatorname{sen}\left(\frac{\pi t}{6}\right) dt \)</p>
-          <p>2. Antiderivada: \(\int \operatorname{sen}(k t) dt = -\frac{1}{k} \cos(k t)\), con \(k = \frac{\pi}{6}\):</p>
-          <p style="text-align:center">\( \displaystyle E = \left[ -800 \cdot \frac{6}{\pi} \cos\left(\frac{\pi t}{6}\right) \right]_0^6 = -\frac{4800}{\pi} [\cos(\pi) - \cos(0)] = -\frac{4800}{\pi} [-1 - 1] = \frac{9600}{\pi} \approx 3055.77 \; \text{Wh/m}^2 \)</p>
-          <p><strong>Cálculo sustentable:</strong> La fachada acumula aproximadamente \(3.06 \; \text{kWh/m}^2\) al día, dato crítico para el dimensionamiento de las protecciones solares pasivas.</p>
-          <label class="chk chk-ej" style="margin-top:10px"><input type="checkbox" data-ej="e3"><span>He comprendido y resuelto este ejercicio</span></label>
-        </div>
+        <summary><span class="sol-marker">+</span><span><span class="prob-tag">Ejercicio 3</span>Integración de radiación solar diurna \(I(t) = 800 \operatorname{sen}(\pi t / 6)\).</span></summary>
+        <div class="sol-body"><p>Energía térmica total: \(E \approx 3055.77\text{ Wh/m}^2\) (\(3.06\text{ kWh/m}^2\)).</p><label class="chk chk-ej"><input type="checkbox" data-ej="e3"><span>He comprendido y resuelto este ejercicio</span></label></div>
       </details>
     </div>
 
-    <!-- Memoria de cálculo interactiva -->
     <div class="act-block">
       <h3>Memoria de cálculo y redacción en LaTeX</h3>
-      <p class="act-desc">Redacta el planteamiento formal para una viga con deflexión o un arco de cubierta. El editor compila fórmulas matemáticas en tiempo real.</p>
       <div class="ed-box">
-        <div class="ed-toolbar">
-          <span class="ed-title"><i data-lucide="pencil"></i>Tu memoria de cálculo arquitectónica</span>
-          <span id="edStatus" style="font-size:11px;color:var(--muted)">Autoguardado activado</span>
-        </div>
+        <div class="ed-toolbar"><span class="ed-title"><i data-lucide="pencil"></i>Tu memoria de cálculo arquitectónica</span><span id="edStatus" style="font-size:11px;color:var(--muted)">Autoguardado activado</span></div>
         <div class="ed-main">
-          <textarea id="edText" class="ed-ta" spellcheck="false" placeholder="Escribe tu desarrollo aquí. Usa fórmulas entre \( ... \). Ejemplo: El dominio del claro es \(D = [0, 12]\) metros, y la altura máxima se obtiene cuando \(f'(x) = 0\)..."></textarea>
-          <div class="ed-preview-wrap">
-            <div class="ed-preview-head">Vista previa matemática en vivo</div>
-            <div class="ed-preview" id="edPreview"><em style="color:var(--muted)">La compilación de tus fórmulas aparecerá aquí.</em></div>
-          </div>
+          <textarea id="edText" class="ed-ta" spellcheck="false" placeholder="Escribe tu desarrollo aquí..."></textarea>
+          <div class="ed-preview-wrap"><div class="ed-preview-head">Vista previa matemática</div><div class="ed-preview" id="edPreview"></div></div>
         </div>
       </div>
     </div>
 
-    <!-- Quiz -->
     <div class="act-block">
       <h3>Diagnóstico y examen formativo de conceptos</h3>
-      <p class="act-desc">Seis preguntas clave que evalúan la comprensión de los subtemas 1.1 al 1.5.</p>
       <div id="quizList"></div>
       <div class="quiz-foot">
         <button class="btn" id="btnQuizGrade"><i data-lucide="check-check"></i>Calificar evaluación</button>
@@ -827,31 +894,21 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;margin-top:20px}
   </div>
 </section>
 
-<!-- ==================== BOLETA ==================== -->
 <section class="view" id="v-boleta" hidden>
   <div class="wrap">
     <div class="view-head">
       <p class="overline">Control escolar y seguimiento</p>
       <h2>Mi registro y boleta de la Unidad 1</h2>
-      <p class="sub">Regístrate una sola vez para almacenar tu avance, calcular tu nota final sobre 10 y descargar tu comprobante institucional de evidencias.</p>
+      <p class="sub">Regístrate para almacenar tu avance y descargar tu comprobante institucional de evidencias.</p>
     </div>
 
     <div class="panel" id="regFormWrap" style="max-width:560px">
       <div class="panel-head"><i data-lucide="user-plus"></i>Ficha de identificación del estudiante</div>
       <div class="panel-body">
         <form id="formEstudiante" style="display:grid;gap:14px" novalidate>
-          <div class="field">
-            <label for="estNombre">Nombre completo del alumno(a)</label>
-            <input id="estNombre" type="text" placeholder="Ej. Carlos Mendoza Silva" autocomplete="off">
-          </div>
-          <div class="field">
-            <label for="estMatricula">Matrícula institucional</label>
-            <input id="estMatricula" type="text" placeholder="Ej. ARQ-2026-0412" autocomplete="off">
-          </div>
-          <div class="field">
-            <label for="estCorreo">Correo electrónico</label>
-            <input id="estCorreo" type="email" placeholder="alumno@universidad.edu.mx" autocomplete="off">
-          </div>
+          <div class="field"><label for="estNombre">Nombre completo</label><input id="estNombre" type="text" placeholder="Ej. Carlos Mendoza Silva"></div>
+          <div class="field"><label for="estMatricula">Matrícula</label><input id="estMatricula" type="text" placeholder="Ej. ARQ-2026-0412"></div>
+          <div class="field"><label for="estCorreo">Correo electrónico</label><input id="estCorreo" type="email" placeholder="alumno@universidad.edu.mx"></div>
           <button class="btn" type="submit" id="btnGuardarPerfil"><i data-lucide="save"></i>Guardar y ver boleta</button>
         </form>
       </div>
@@ -868,25 +925,20 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;margin-top:20px}
           </div>
           <div class="b-seal"><span>UNITI / ARQ</span><strong>U-1</strong></div>
         </div>
-        <div class="b-body" id="bRows">
-          <!-- Renglones de la rúbrica -->
-        </div>
+        <div class="b-body" id="bRows"></div>
         <div class="b-total">
-          <div>
-            <div class="b-total-lbl">Calificación final de la Unidad 1</div>
-            <div class="b-total-det">Talleres/Simulador (30%) + Reportes/Ejercicios (40%) + Examen (30%)</div>
-          </div>
+          <div><div class="b-total-lbl">Calificación final de la Unidad 1</div><div class="b-total-det">Talleres/Simulador (30%) + Reportes/Ejercicios (40%) + Examen (30%)</div></div>
           <div class="b-score"><span class="big" id="bNotaTotal">0.0</span><span class="den">/ 10</span></div>
         </div>
         <div class="b-foot">
-          <span>Fecha de emisión: <strong id="bFecha">—</strong></span>
+          <span>Fecha: <strong id="bFecha">—</strong></span>
           <span>Profesor titular: <strong>Dr. Adrián Cerda</strong></span>
           <span>Validez curricular LAI0105</span>
         </div>
       </div>
 
       <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap">
-        <button class="btn" id="btnDescargarPng"><i data-lucide="download"></i>Descargar boleta de evidencias (PNG)</button>
+        <button class="btn" id="btnDescargarPng"><i data-lucide="download"></i>Descargar boleta en PNG</button>
         <button class="btn ghost" id="btnEditarPerfil"><i data-lucide="pencil"></i>Editar mis datos</button>
         <button class="btn ghost" id="btnLimpiarProgreso" style="color:var(--err)"><i data-lucide="trash-2"></i>Reiniciar avance</button>
       </div>
@@ -899,19 +951,19 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;margin-top:20px}
 <footer>
   <div class="wrap foot-row">
     <div><strong>Asignatura:</strong> Cálculo (LAI0105) · Licenciatura en Arquitectura, Primer Cuatrimestre.</div>
-    <div>Universidad Internacional de Innovación (UNITI) · Diseñado para la articulación entre geometría diferencial y práctica arquitectónica.</div>
+    <div>Universidad Internacional de Innovación (UNITI) · Dr. Adrián Cerda.</div>
   </div>
 </footer>
 
 <div id="toasts"></div>
 
-<!-- LIBRERÍAS EXTERNAS -->
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 
 <script>
+/* >>> INSERTAR AQUÍ LA PARTE 2 <<< */
 /* ============================================================
    UTILIDADES & ESTADO GLOBAL
 ============================================================ */
@@ -929,7 +981,6 @@ function toast(msg, type='ok'){
   setTimeout(()=>{ t.classList.add('out'); setTimeout(()=>t.remove(), 320); }, 3200);
 }
 
-/* PERSISTENCIA LOCAL */
 const LS_PERFIL = 'arq_u1_perfil';
 const LS_AVANCE = 'arq_u1_avance';
 
@@ -943,7 +994,6 @@ function loadAvance(){
 }
 function saveAvance(a){ localStorage.setItem(LS_AVANCE, JSON.stringify(a)); }
 
-/* NAVEGACIÓN ENTRE VISTAS */
 function showView(v){
   $$('.view').forEach(s => s.hidden = true);
   $('#v-'+v).hidden = false;
@@ -960,9 +1010,6 @@ $$('[data-view]').forEach(el => el.addEventListener('click', e => {
   if($('#v-'+v)) showView(v);
 }));
 
-/* ============================================================
-   CANVAS: DIBUJO RETINA & PLANO CARTESIANO
-============================================================ */
 function setupCanvas(cv){
   const dpr = window.devicePixelRatio || 1;
   const rect = cv.getBoundingClientRect();
@@ -974,61 +1021,187 @@ function setupCanvas(cv){
   return { ctx, w, h };
 }
 
-/* HERO CANVAS: ARCO PARABÓLICO ARQUITECTÓNICO */
+/* ============================================================
+   MEJORA 1: HERO CANVAS CON PUNTO DE TANGENCIA MÓVIL INTERACTIVO
+============================================================ */
+let heroX = 2.20;
+let heroIsDragging = false;
+let heroAutoPlay = false;
+let heroAutoDir = 1;
+
 function drawHero(){
   const cv = $('#heroCanvas'); if(!cv || cv.offsetParent===null) return;
   const { ctx, w, h } = setupCanvas(cv);
   ctx.clearRect(0,0,w,h);
-  
-  // Fondo
   ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0,0,w,h);
   
-  const ox = w/2, oy = h - 40;
-  const sx = w / 16, sy = (h - 70) / 6;
+  const ox = w/2, oy = h - 45;
+  const sx = w / 12.5;
+  const sy = (h - 75) / 5.5;
 
-  // Rejilla técnica sutil
-  ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(11,13,16,.06)';
-  for(let x=-8; x<=8; x++){ ctx.beginPath(); ctx.moveTo(ox + x*sx, 20); ctx.lineTo(ox + x*sx, oy); ctx.stroke(); }
-  for(let y=0; y<=6; y++){ ctx.beginPath(); ctx.moveTo(20, oy - y*sy); ctx.lineTo(w-20, oy - y*sy); ctx.stroke(); }
+  ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(11,13,16,.05)';
+  for(let x=-6; x<=6; x+=1){ 
+    ctx.beginPath(); ctx.moveTo(ox + x*sx, 15); ctx.lineTo(ox + x*sx, oy); ctx.stroke(); 
+  }
+  for(let y=0; y<=5; y+=1){ 
+    ctx.beginPath(); ctx.moveTo(20, oy - y*sy); ctx.lineTo(w-20, oy - y*sy); ctx.stroke(); 
+  }
 
-  // Ejes
   ctx.lineWidth = 1.5; ctx.strokeStyle = '#0B0D10';
   ctx.beginPath(); ctx.moveTo(20, oy); ctx.lineTo(w-20, oy); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(ox, 20); ctx.lineTo(ox, oy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(ox, 15); ctx.lineTo(ox, oy); ctx.stroke();
 
-  // Arco: y = 5 - 0.2 x^2
-  const f = x => 5 - 0.2*x*x;
+  const f = x => 5 - 0.20*x*x;
+  const df = x => -0.40*x;
+
   ctx.beginPath();
-  ctx.lineWidth = 3; ctx.strokeStyle = '#1670C8';
-  for(let px = -5; px <= 5; px += 0.1){
+  ctx.lineWidth = 3.5; ctx.strokeStyle = '#1670C8';
+  const spanMax = 5.0;
+  for(let px = -spanMax; px <= spanMax; px += 0.05){
     const cx = ox + px*sx, cy = oy - f(px)*sy;
-    if(px === -5) ctx.moveTo(cx, cy); else ctx.lineTo(cx, cy);
+    if(px === -spanMax) ctx.moveTo(cx, cy); else ctx.lineTo(cx, cy);
   }
   ctx.stroke();
 
-  // Sombreado de volumen/área interior
-  ctx.lineTo(ox + 5*sx, oy);
-  ctx.lineTo(ox - 5*sx, oy);
+  ctx.lineTo(ox + spanMax*sx, oy);
+  ctx.lineTo(ox - spanMax*sx, oy);
   ctx.closePath();
-  ctx.fillStyle = 'rgba(46,155,240,.12)'; ctx.fill();
+  ctx.fillStyle = 'rgba(46,155,240,.10)'; ctx.fill();
 
-  // Tangente en x = 2.5
-  const x0 = 2.5, y0 = f(x0), m = -0.4 * x0; // derivada: -0.4 x
-  const tStart = x0 - 2, tEnd = x0 + 2;
+  ctx.fillStyle = '#0B4E8F';
+  ctx.beginPath(); ctx.arc(ox - spanMax*sx, oy, 5, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(ox + spanMax*sx, oy, 5, 0, Math.PI*2); ctx.fill();
+
+  const x0 = Math.max(-4.6, Math.min(4.6, heroX));
+  const y0 = f(x0);
+  const m = df(x0);
+
+  const tanReach = 2.4;
+  const xL = x0 - tanReach;
+  const xR = x0 + tanReach;
+  const yL = y0 + m * (xL - x0);
+  const yR = y0 + m * (xR - x0);
+
   ctx.beginPath();
-  ctx.lineWidth = 2; ctx.strokeStyle = '#0B4E8F';
-  ctx.moveTo(ox + tStart*sx, oy - (y0 + m*(tStart-x0))*sy);
-  ctx.lineTo(ox + tEnd*sx, oy - (y0 + m*(tEnd-x0))*sy);
+  ctx.lineWidth = 2.5; ctx.strokeStyle = '#0B4E8F';
+  ctx.moveTo(ox + xL*sx, oy - yL*sy);
+  ctx.lineTo(ox + xR*sx, oy - yR*sy);
   ctx.stroke();
 
-  // Punto de tangencia
+  const dtX = 0.9;
+  const triX1 = x0, triY1 = y0;
+  const triX2 = x0 + dtX, triY2 = y0;
+  const triX3 = x0 + dtX, triY3 = y0 + m*dtX;
+
+  ctx.fillStyle = 'rgba(11,78,143,.14)';
+  ctx.beginPath();
+  ctx.moveTo(ox + triX1*sx, oy - triY1*sy);
+  ctx.lineTo(ox + triX2*sx, oy - triY2*sy);
+  ctx.lineTo(ox + triX3*sx, oy - triY3*sy);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = '#0B4E8F'; ctx.lineWidth = 1; ctx.stroke();
+
+  ctx.setLineDash([3,3]); ctx.strokeStyle = 'rgba(22,112,200,.6)'; ctx.lineWidth = 1.2;
+  ctx.beginPath(); ctx.moveTo(ox + x0*sx, oy); ctx.lineTo(ox + x0*sx, oy - y0*sy); ctx.lineTo(ox, oy - y0*sy); ctx.stroke();
+  ctx.setLineDash([]);
+
+  const ptX = ox + x0*sx;
+  const ptY = oy - y0*sy;
+
+  ctx.beginPath(); ctx.arc(ptX, ptY, 11, 0, Math.PI*2);
+  ctx.fillStyle = 'rgba(46,155,240,.28)'; ctx.fill();
+
+  ctx.beginPath(); ctx.arc(ptX, ptY, 6, 0, Math.PI*2);
+  ctx.fillStyle = '#0B0D10'; ctx.fill();
+  ctx.lineWidth = 2; ctx.strokeStyle = '#FFFFFF'; ctx.stroke();
+
+  ctx.font = '700 12px "Instrument Sans", sans-serif';
   ctx.fillStyle = '#0B0D10';
-  ctx.beginPath(); ctx.arc(ox + x0*sx, oy - y0*sy, 5, 0, Math.PI*2); ctx.fill();
+  const labelText = `P(${x0.toFixed(2)}, ${y0.toFixed(2)}) m`;
+  const slopeText = `f'(x) = ${m.toFixed(2)} (${(m*100).toFixed(0)}%)`;
   
-  ctx.font = '600 12px "Instrument Sans", sans-serif';
-  ctx.fillText('Punto (x, f(x))', ox + x0*sx + 10, oy - y0*sy - 6);
-  ctx.fillStyle = '#0B4E8F';
-  ctx.fillText(`Pendiente m = f'(x) = ${m.toFixed(2)}`, ox + tEnd*sx - 80, oy - (y0 + m*(tEnd-x0))*sy - 10);
+  let labelX = ptX + 14;
+  let labelY = ptY - 14;
+  if(x0 > 2.0) labelX = ptX - 140;
+  if(y0 > 4.2) labelY = ptY + 28;
+
+  ctx.fillStyle = 'rgba(255,255,255,.92)';
+  ctx.fillRect(labelX - 6, labelY - 14, 136, 36);
+  ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(11,78,143,.3)';
+  ctx.strokeRect(labelX - 6, labelY - 14, 136, 36);
+
+  ctx.fillStyle = '#0B0D10'; ctx.fillText(labelText, labelX, labelY);
+  ctx.fillStyle = '#1670C8'; ctx.fillText(slopeText, labelX, labelY + 16);
+
+  $('#heroSlider').value = x0;
+  $('#heroPosVal').textContent = `${x0.toFixed(2)} m`;
+}
+
+function updateHeroFromCoord(clientX){
+  const cv = $('#heroCanvas'); if(!cv) return;
+  const rect = cv.getBoundingClientRect();
+  const ox = rect.width / 2;
+  const sx = rect.width / 12.5;
+  const mouseX = clientX - rect.left;
+  const computedX = (mouseX - ox) / sx;
+  heroX = Math.max(-4.6, Math.min(4.6, computedX));
+  drawHero();
+}
+
+const heroCv = $('#heroCanvas');
+if(heroCv){
+  heroCv.addEventListener('mousedown', e => {
+    heroIsDragging = true;
+    heroAutoPlay = false;
+    $('#btnHeroPlay').innerHTML = '<i data-lucide="play"></i> Auto';
+    refreshIcons();
+    updateHeroFromCoord(e.clientX);
+  });
+  window.addEventListener('mousemove', e => {
+    if(heroIsDragging) updateHeroFromCoord(e.clientX);
+  });
+  window.addEventListener('mouseup', () => { heroIsDragging = false; });
+
+  heroCv.addEventListener('touchstart', e => {
+    if(e.touches.length > 0){
+      heroIsDragging = true;
+      heroAutoPlay = false;
+      updateHeroFromCoord(e.touches[0].clientX);
+    }
+  }, {passive:true});
+  heroCv.addEventListener('touchmove', e => {
+    if(heroIsDragging && e.touches.length > 0){
+      updateHeroFromCoord(e.touches[0].clientX);
+    }
+  }, {passive:true});
+  heroCv.addEventListener('touchend', () => { heroIsDragging = false; });
+}
+
+$('#heroSlider').addEventListener('input', e => {
+  heroX = parseFloat(e.target.value);
+  heroAutoPlay = false;
+  $('#btnHeroPlay').innerHTML = '<i data-lucide="play"></i> Auto';
+  refreshIcons();
+  drawHero();
+});
+
+$('#btnHeroPlay').addEventListener('click', () => {
+  heroAutoPlay = !heroAutoPlay;
+  $('#btnHeroPlay').innerHTML = heroAutoPlay 
+    ? '<i data-lucide="pause"></i> Pausa' 
+    : '<i data-lucide="play"></i> Auto';
+  refreshIcons();
+  if(heroAutoPlay) animateHero();
+});
+
+function animateHero(){
+  if(!heroAutoPlay) return;
+  heroX += 0.035 * heroAutoDir;
+  if(heroX >= 4.4) heroAutoDir = -1;
+  if(heroX <= -4.4) heroAutoDir = 1;
+  drawHero();
+  requestAnimationFrame(animateHero);
 }
 
 /* ============================================================
@@ -1040,7 +1213,7 @@ const MODELS = {
     fnStr: 'f(x) = \\sqrt{16 - x^2}',
     eval: x => {
       const arg = 16 - x*x;
-      if(arg < 0) throw new Error(`El valor ${x} genera una raíz de número negativo (16 − ${x*x} = ${arg}). En geometría euclídea de vanos, este punto cae fuera de la estructura.`);
+      if(arg < 0) throw new Error(`El valor x = ${x} genera una raíz de número negativo (16 − ${x*x} = ${arg}). En geometría de vanos, este punto cae fuera de la estructura.`);
       return Math.sqrt(arg);
     },
     domCheck: x => Math.abs(x) <= 4,
@@ -1098,6 +1271,8 @@ const MODELS = {
 
 let currentModelKey = 'cupula';
 let lastProcessed = { x: 2, y: Math.sqrt(12), ok: true };
+let processedTrayList = [];
+let isDevouring = false;
 
 function getModel(){
   if(currentModelKey === 'custom'){
@@ -1135,78 +1310,166 @@ function updateDomainCard(){
   }
 }
 
-/* ANIMACIÓN Y PROCESAMIENTO DE LA MÁQUINA DEVORADORA */
-function devourInput(){
+/* ============================================================
+   MEJORA 2: ANIMACIÓN POR ETAPAS VISIBLES DE LA MÁQUINA DEVORADORA
+============================================================ */
+function startDevourerJourney(targetX){
+  if(isDevouring) return;
+  isDevouring = true;
+
   const m = getModel();
-  const rawX = $('#inpX').value.trim();
-  const x = parseFloat(rawX);
-  
-  if(rawX === '' || isNaN(x)){
-    toast('Introduce un valor numérico válido para x.', 'err');
-    return;
+  const discGroup = $('#travelingDisc');
+  const discCircle = $('#discCircle');
+  const discLabel = $('#discLabel');
+  const gearA = $('#gearA');
+  const gearB = $('#gearB');
+  const gearC = $('#gearC');
+  const laserBeam = $('#laserBeam');
+  const lcdText = $('#machineLcd');
+  const statusBox = $('#machineStatus');
+  const sensorLed1 = $('#sensorLed1');
+  const sensorLed2 = $('#sensorLed2');
+
+  let isOk = true;
+  let computedY = 0;
+  let errorReason = '';
+
+  try {
+    computedY = m.eval(targetX);
+  } catch(err) {
+    isOk = false;
+    errorReason = err.message;
   }
 
-  const gear1 = $('#gear1');
-  const gear2 = $('#gear2');
-  const pellet = $('#pellet');
-  const pelletText = $('#pelletText');
-  const status = $('#machineStatus');
-
-  pelletText.textContent = x;
-  gear1.classList.add('spin');
-  gear2.classList.add('spin');
-  status.className = 'machine-status idle';
-  status.innerHTML = `<strong>Devorando:</strong> Procesando el insumo x = ${x}...`;
-
-  // Animación de caída a la tolva
-  pellet.style.transform = 'translateY(50px) scale(0.7)';
+  // ETAPA 1: TOLVA SUPERIOR (0 a 400ms)
+  discCircle.setAttribute('fill', '#1670C8');
+  discCircle.setAttribute('stroke', '#FFFFFF');
+  discLabel.textContent = targetX;
+  discLabel.setAttribute('fill', '#FFFFFF');
   
-  setTimeout(()=>{
-    try {
-      const y = m.eval(x);
-      lastProcessed = { x, y, ok: true };
+  discGroup.style.transition = 'none';
+  discGroup.style.transform = 'translate(240px, 25px) scale(0.9)';
+  
+  statusBox.className = 'machine-status idle';
+  statusBox.innerHTML = `<strong>1. Ingestión:</strong> El disco <strong>x = ${targetX}</strong> ingresa por la tolva superior hacia la cámara de análisis...`;
+
+  sensorLed1.setAttribute('fill', '#0B4E8F');
+  sensorLed2.setAttribute('fill', '#0B4E8F');
+
+  setTimeout(() => {
+    // ETAPA 2: VIAJE AL INTERIOR DE LA MÁQUINA (400 a 1200ms)
+    discGroup.style.transition = 'transform 0.65s cubic-bezier(0.34, 1.3, 0.64, 1)';
+    discGroup.style.transform = 'translate(240px, 110px) scale(1.05)';
+
+    gearA.classList.add('spin-cw');
+    gearB.classList.add('spin-ccw');
+    gearC.classList.add('spin-cw');
+    
+    laserBeam.classList.add('active');
+    lcdText.textContent = `eval(${targetX})`;
+
+    statusBox.innerHTML = `<strong>2. Procesamiento interno:</strong> Los engranes giran y el escáner verifica las restricciones de dominio para <strong>x = ${targetX}</strong>...`;
+  }, 400);
+
+  setTimeout(() => {
+    // ETAPA 3: RESOLUCIÓN Y SALIDA VISIBLE (1200 a 2000ms)
+    gearA.classList.remove('spin-cw');
+    gearB.classList.remove('spin-ccw');
+    gearC.classList.remove('spin-cw');
+    laserBeam.classList.remove('active');
+
+    if(isOk){
+      discCircle.setAttribute('fill', '#2E9BF0');
+      discCircle.setAttribute('stroke', '#0B4E8F');
+      discLabel.textContent = computedY.toFixed(2);
+      lcdText.textContent = computedY.toFixed(2);
+
+      discGroup.style.transition = 'transform 0.65s cubic-bezier(0.18, 0.89, 0.32, 1.28)';
+      discGroup.style.transform = 'translate(240px, 226px) scale(0.95)';
+
+      lastProcessed = { x: targetX, y: computedY, ok: true };
       
-      // Éxito: expulsión por la tolva inferior
-      pellet.style.transform = 'translateY(110px) scale(1)';
-      pellet.setAttribute('fill', '#2E9BF0');
-      
-      status.className = 'machine-status ok';
-      status.innerHTML = `
-        <strong>¡Insumo procesado con éxito!</strong><br>
-        El valor <strong>x = ${x}</strong> pertenece al dominio de la regla arquitectónica.<br>
-        <strong>Resultado devuelto:</strong> f(${x}) = <span class="mono"><strong>${y.toFixed(4)}</strong></span>.
+      statusBox.className = 'machine-status ok';
+      statusBox.innerHTML = `
+        <strong>¡Disco de salida generado con éxito!</strong><br>
+        El insumo <strong>x = ${targetX}</strong> pertenece al dominio de la regla.<br>
+        <strong>Producto devuelto en bandeja:</strong> f(${targetX}) = <strong class="mono">${computedY.toFixed(4)}</strong>.
       `;
-      toast(`f(${x}) = ${y.toFixed(3)} calculada.`);
-    } catch(err){
-      lastProcessed = { x, y: 0, ok: false, msg: err.message };
-      
-      // Rechazo: expulsión por el tubo de escape de error
-      pellet.style.transform = 'translate(-120px, 30px) scale(1.1)';
-      pellet.setAttribute('fill', '#C24E36');
-      
-      status.className = 'machine-status err';
-      status.innerHTML = `
-        <strong>¡Alerta de Dominio / Rechazo de Insumo!</strong><br>
-        La máquina no puede procesar <strong>x = ${x}</strong> porque:<br>
-        <em>${err.message}</em>
+      toast(`f(${targetX}) = ${computedY.toFixed(3)} procesado.`);
+      addDiscToTray(targetX, computedY);
+
+    } else {
+      discCircle.setAttribute('fill', '#C24E36');
+      discCircle.setAttribute('stroke', '#FFFFFF');
+      discLabel.textContent = '!';
+      lcdText.textContent = 'ERR:DOM';
+
+      discGroup.style.transition = 'transform 0.65s cubic-bezier(0.2, 0.8, 0.4, 1)';
+      discGroup.style.transform = 'translate(60px, 145px) scale(0.9)';
+
+      lastProcessed = { x: targetX, y: 0, ok: false, msg: errorReason };
+
+      statusBox.className = 'machine-status err';
+      statusBox.innerHTML = `
+        <strong>¡Insumo rechazado por la máquina!</strong><br>
+        El disco <strong>x = ${targetX}</strong> no puede procesarse porque está <strong>fuera del dominio</strong>:<br>
+        <em>${errorReason}</em>
       `;
-      toast('Insumo fuera de dominio.', 'err');
+      toast('Insumo fuera del dominio.', 'err');
     }
-    
-    gear1.classList.remove('spin');
-    gear2.classList.remove('spin');
-    
-    // Registrar uso para boleta
+
+    drawCartesian();
+
     const av = loadAvance();
     av.simCount = (av.simCount || 0) + 1;
     saveAvance(av);
     renderBoleta();
 
-    drawCartesian();
-  }, 600);
+    setTimeout(() => {
+      isDevouring = false;
+    }, 700);
+
+  }, 1300);
 }
 
-/* PLANO CARTESIANO DE LA MÁQUINA (CON INTERVALO DE DOMINIO RESALTADO) */
+function addDiscToTray(x, y){
+  const tray = $('#trayContainer');
+  const emptyMsg = $('#emptyTrayMsg');
+  if(emptyMsg) emptyMsg.style.display = 'none';
+
+  const mini = document.createElement('div');
+  mini.className = 'mini-disc';
+  mini.innerHTML = `x: ${x} &rarr; <span class="disc-val">${y.toFixed(2)}</span>`;
+  tray.prepend(mini);
+}
+
+$('#btnClearTray').addEventListener('click', () => {
+  const tray = $('#trayContainer');
+  tray.innerHTML = '<span style="font-size:12px;color:var(--muted);" id="emptyTrayMsg">Los discos procesados exitosamente se acumularán aquí.</span>';
+  toast('Bandeja vaciada.');
+});
+
+$('#presetChips').addEventListener('click', e => {
+  const btn = e.target.closest('.chip-btn');
+  if(!btn) return;
+  const val = parseFloat(btn.dataset.val);
+  $('#inpX').value = val;
+  startDevourerJourney(val);
+});
+
+function devourInput(){
+  const rawX = $('#inpX').value.trim();
+  const x = parseFloat(rawX);
+  if(rawX === '' || isNaN(x)){
+    toast('Introduce un valor numérico para x.', 'err');
+    return;
+  }
+  startDevourerJourney(x);
+}
+
+/* ============================================================
+   PLANO CARTESIANO DE LA MÁQUINA
+============================================================ */
 function drawCartesian(){
   const cv = $('#cartesianCanvas'); if(!cv || cv.offsetParent===null) return;
   const { ctx, w, h } = setupCanvas(cv);
@@ -1217,38 +1480,30 @@ function drawCartesian(){
   const ox = w/2, oy = h * 0.65;
   const sx = w / 18, sy = h / 14;
 
-  // Grilla de coordenadas
   ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(11,13,16,.07)';
   for(let x=-9; x<=9; x++){ ctx.beginPath(); ctx.moveTo(ox + x*sx, 0); ctx.lineTo(ox + x*sx, h); ctx.stroke(); }
   for(let y=-4; y<=10; y++){ ctx.beginPath(); ctx.moveTo(0, oy - y*sy); ctx.lineTo(w, oy - y*sy); ctx.stroke(); }
 
-  // Ejes cartesianos
   ctx.lineWidth = 1.5; ctx.strokeStyle = '#0B0D10';
-  ctx.beginPath(); ctx.moveTo(0, oy); ctx.lineTo(w, oy); ctx.stroke(); // Eje X
-  ctx.beginPath(); ctx.moveTo(ox, 0); ctx.lineTo(ox, h); ctx.stroke(); // Eje Y
+  ctx.beginPath(); ctx.moveTo(0, oy); ctx.lineTo(w, oy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(ox, 0); ctx.lineTo(ox, h); ctx.stroke();
 
-  // Marcas numéricas
   ctx.font = '10px "Instrument Sans", sans-serif'; ctx.fillStyle = 'rgba(11,13,16,.5)';
   for(let x=-8; x<=8; x+=2){ if(x!==0) ctx.fillText(x, ox + x*sx - 4, oy + 13); }
   for(let y=-2; y<=8; y+=2){ if(y!==0) ctx.fillText(y, ox + 6, oy - y*sy + 4); }
 
-  // 1. DIBUJO DE LA FRANJA DEL DOMINIO EN EL EJE X
   if(m.intervals){
     m.intervals.forEach(inv => {
       const xA = Math.max(-9, inv.min), xB = Math.min(9, inv.max);
       const pxA = ox + xA*sx, pxB = ox + xB*sx;
       
-      // Franja de dominio resaltada
       ctx.fillStyle = 'rgba(46,155,240,.22)';
       ctx.fillRect(pxA, oy - 8, pxB - pxA, 16);
       
-      // Bordes / corchetes
       ctx.lineWidth = 2.5; ctx.strokeStyle = '#1670C8';
       ctx.beginPath();
-      // Extremo izquierdo
       ctx.moveTo(pxA, oy - 10); ctx.lineTo(pxA, oy + 10);
       if(!inv.openL) { ctx.lineTo(pxA + 6, oy + 10); ctx.moveTo(pxA, oy - 10); ctx.lineTo(pxA + 6, oy - 10); }
-      // Extremo derecho
       ctx.moveTo(pxB, oy - 10); ctx.lineTo(pxB, oy + 10);
       if(!inv.openR) { ctx.lineTo(pxB - 6, oy + 10); ctx.moveTo(pxB, oy - 10); ctx.lineTo(pxB - 6, oy - 10); }
       ctx.stroke();
@@ -1257,7 +1512,6 @@ function drawCartesian(){
     ctx.fillText('DOMINIO ADMISIBLE SOBRE EL EJE X', 16, 24);
   }
 
-  // 2. CURVA DE LA FUNCIÓN
   ctx.lineWidth = 2.5; ctx.strokeStyle = '#0B4E8F';
   ctx.beginPath();
   let first = true;
@@ -1272,23 +1526,19 @@ function drawCartesian(){
   }
   ctx.stroke();
 
-  // 3. MARCADO DEL ÚLTIMO INSUMO PROCESADO
   if(lastProcessed){
     const { x, y, ok } = lastProcessed;
     const px = ox + x*sx;
     if(ok){
       const py = oy - y*sy;
-      // Proyecciones ortogonales punteadas
       ctx.setLineDash([4,4]); ctx.strokeStyle = '#1670C8'; ctx.lineWidth = 1.5;
       ctx.beginPath(); ctx.moveTo(px, oy); ctx.lineTo(px, py); ctx.lineTo(ox, py); ctx.stroke();
       ctx.setLineDash([]);
 
-      // Punto sobre la curva
       ctx.fillStyle = '#1670C8'; ctx.beginPath(); ctx.arc(px, py, 6, 0, Math.PI*2); ctx.fill();
       ctx.fillStyle = '#0B0D10'; ctx.font = '600 12px "Instrument Sans", sans-serif';
       ctx.fillText(`(${x}, ${y.toFixed(2)})`, px + 8, py - 8);
     } else {
-      // Insumo inválido en el eje X
       ctx.fillStyle = '#C24E36'; ctx.beginPath(); ctx.arc(px, oy, 7, 0, Math.PI*2); ctx.fill();
       ctx.font = '700 11px "Instrument Sans", sans-serif';
       ctx.fillText(`x=${x} (¡Fuera de dominio!)`, px - 35, oy + 24);
@@ -1297,7 +1547,7 @@ function drawCartesian(){
 }
 
 /* ============================================================
-   SIMULADOR 2: PENDIENTES Y SUMAS DE RIEMANN
+   SIMULADOR 2: PENDIENTES Y RIEMANN
 ============================================================ */
 function drawArchitect(){
   const cv = $('#archCanvas'); if(!cv || cv.offsetParent===null) return;
@@ -1313,11 +1563,9 @@ function drawArchitect(){
   const currentX = parseFloat($('#sliderX').value);
   const currentN = parseInt($('#sliderN').value);
 
-  // Eje X
   ctx.lineWidth = 1.5; ctx.strokeStyle = '#0B0D10';
   ctx.beginPath(); ctx.moveTo(20, oy); ctx.lineTo(w-20, oy); ctx.stroke();
 
-  // 1. RECTÁNGULOS DE RIEMANN (de x = -5 a x = 5)
   const a = -5, b = 5;
   const dx = (b - a) / currentN;
   let riemannSum = 0;
@@ -1339,7 +1587,6 @@ function drawArchitect(){
     ctx.strokeRect(rpx, rpy, rpw, rph);
   }
 
-  // 2. CURVA REAL DE LA CUBIERTA
   ctx.beginPath(); ctx.lineWidth = 3; ctx.strokeStyle = '#0B4E8F';
   for(let x=-5.5; x<=5.5; x+=0.1){
     const cx = ox + x*sx, cy = oy - f(x)*sy;
@@ -1347,7 +1594,6 @@ function drawArchitect(){
   }
   ctx.stroke();
 
-  // 3. TANGENTE EN currentX
   const curY = f(currentX);
   const m = df(currentX);
   const tanL = 2.0;
@@ -1361,11 +1607,9 @@ function drawArchitect(){
   ctx.lineTo(ox + tx2*sx, oy - ty2*sy);
   ctx.stroke();
 
-  // Punto de inspección
   ctx.fillStyle = '#C24E36';
   ctx.beginPath(); ctx.arc(ox + currentX*sx, oy - curY*sy, 6, 0, Math.PI*2); ctx.fill();
 
-  // Actualizar métricas textuales
   $('#valX').textContent = currentX.toFixed(1) + ' m';
   $('#valN').textContent = currentN;
   $('#archHeight').textContent = curY.toFixed(2) + ' m';
@@ -1375,7 +1619,6 @@ function drawArchitect(){
   $('#archAngle').textContent = `${angleDeg}°`;
   $('#archArea').textContent = `${riemannSum.toFixed(2)} m² (Exacta: ${(50 - 0.15*250/3).toFixed(2)} m²)`;
 
-  // Evaluación reglamentaria
   const absSlope = Math.abs(m);
   let evalText = 'Cumbrera plana (m = 0%)';
   if(absSlope > 0.02 && absSlope <= 0.15) evalText = 'Pendiente apta para losa plana impermeabilizada (2% - 15%)';
@@ -1385,44 +1628,44 @@ function drawArchitect(){
 }
 
 /* ============================================================
-   QUIZ DIAGNÓSTICO (6 PREGUNTAS CLAVE)
+   QUIZ, EDITOR Y BOLETA
 ============================================================ */
 const QUIZ = [
   {
     q: 'En el diseño de una cubierta abovedada dada por f(x) = \\sqrt{25 - x^2}, ¿cuál es el claro máximo admisible (dominio) donde la estructura se mantiene en los números reales?',
     opts: ['De x = 0 a x = 25 metros', 'El intervalo cerrado [-5, 5] metros (claro de 10 m)', 'Todos los números reales (-∞, ∞)', 'El intervalo abierto (0, 5) metros'],
     ans: 1,
-    why: 'Para que la raíz cuadrada exista en los reales, se requiere 25 − x² ≥ 0, lo que define x² ≤ 25, es decir, el intervalo cerrado [-5, 5]. Físicamente corresponde a una bóveda de 10 m de claro apoyada en ambos extremos.'
+    why: 'Para que la raíz cuadrada exista en los reales, se requiere 25 − x² ≥ 0, lo que define x² ≤ 25, es decir, el intervalo cerrado [-5, 5].'
   },
   {
     q: 'Desde la perspectiva geométrica y constructiva, ¿qué representa la primera derivada f\'(x) de una función de cubierta en un punto específico?',
-    opts: ['El volumen total de concreto bajo el arco', 'La pendiente de la recta tangente, que determina la inclinación de desagüe y dirección del empuje estructural', 'El costo por metro cuadrado del material de impermeabilización', 'El radio de giro inercial de la viga'],
+    opts: ['El volumen total de concreto bajo el arco', 'La pendiente de la recta tangente, que determina la inclinación de desagüe y dirección del empuje estructural', 'El costo por metro cuadrado del material', 'El radio de giro inercial de la viga'],
     ans: 1,
-    why: 'La primera derivada dy/dx es matemáticamente la pendiente de la recta tangente. En arquitectura indica la inclinación puntual para drenaje pluvial y la línea de empuje tangencial.'
+    why: 'La primera derivada dy/dx es matemáticamente la pendiente de la recta tangente.'
   },
   {
     q: '¿Por qué el arco catenario (y = a · cosh(x/a)) es considerado estructuralmente óptimo en comparación con una parábola estándar?',
     opts: ['Porque es más económico de cimbrar con madera', 'Porque bajo su propio peso no experimenta esfuerzos de flexión, trabajando exclusivamente a compresión pura', 'Porque permite vanos de radio infinito', 'Porque no requiere cimientos en los apoyos'],
     ans: 1,
-    why: 'La catenaria es la curva natural que adopta una cadena suspendida sometida a su propio peso. Al invertirse, los esfuerzos de tracción se transforman rigurosamente en compresión pura, eliminando la flexión.'
+    why: 'La catenaria elimina la flexión bajo peso propio y trabaja exclusivamente a compresión pura.'
   },
   {
     q: 'Una claraboya cenital tiene una envolvente dada por f(x) = 1 / (x − 4). Al evaluar el insumo x = 4, ¿qué diagnóstico matemático y constructivo es correcto?',
-    opts: ['La altura en x = 4 es exactamente cero', 'El punto x = 4 está fuera del dominio por división entre cero, representando una asíntota vertical (muro límite o singularidad geométrica)', 'La claraboya se duplica en ese punto', 'El dominio incluye a x = 4 porque está en el centro del edificio'],
+    opts: ['La altura en x = 4 es exactamente cero', 'El punto x = 4 está fuera del dominio por división entre cero, representando una asíntota vertical', 'La claraboya se duplica en ese punto', 'El dominio incluye a x = 4'],
     ans: 1,
-    why: 'El denominador se anula en x = 4, generando una indeterminación que no pertenece a los reales. En la práctica es una singularidad geométrica donde la curva tiende a infinito.'
+    why: 'El denominador se anula en x = 4, produciendo una singularidad geométrica que tiende a infinito.'
   },
   {
     q: '¿Cuál es el propósito fundamental de aplicar las sumas de Riemann en el software paramétrico moderno (como Grasshopper o Dynamo)?',
-    opts: ['Calcular el número exacto de ladrillos sin desperdicio', 'Aproximar numéricamente áreas, volúmenes de concreto y radiación solar en superficies complejas que no tienen solución analítica directa', 'Crear renders hiperrealistas con trazado de rayos', 'Reducir el tamaño de los archivos CAD'],
+    opts: ['Calcular el número exacto de ladrillos sin desperdicio', 'Aproximar numéricamente áreas, volúmenes de concreto y radiación solar en superficies complejas', 'Crear renders hiperrealistas con trazado de rayos', 'Reducir el tamaño de los archivos CAD'],
     ans: 1,
-    why: 'Las sumas de Riemann dividen superficies y volúmenes continuos irregulares en particiones discretas finitas, permitiendo calcular integrales de energía, peso y masa por métodos numéricos.'
+    why: 'Permite calcular integrales de energía, peso y masa por métodos numéricos discretos.'
   },
   {
     q: 'En diseño bioclimático sustentable, ¿cómo se cuantifica la energía solar acumulada por una fachada a partir de la curva de irradiancia horaria I(t)?',
-    opts: ['Multiplicando la temperatura máxima por la mínima', 'Mediante la integral definida de I(t) respecto al tiempo en el intervalo de horas de insolación: Q = ∫ I(t) dt', 'Calculando la derivada de segundo orden de la sombra proyectada', 'Dividiendo el área de la ventana entre el espesor del muro'],
+    opts: ['Multiplicando la temperatura máxima por la mínima', 'Mediante la integral definida de I(t) respecto al tiempo en el intervalo de horas de insolación: Q = ∫ I(t) dt', 'Calculando la derivada de segundo orden', 'Dividiendo el área de la ventana entre el espesor del muro'],
     ans: 1,
-    why: 'La integral representa la acumulación continua de un flujo instantáneo: integrar la potencia solar por unidad de área (W/m²) en el tiempo genera la energía total incidente (Wh/m² o kWh/m²).'
+    why: 'La integral representa la acumulación continua de un flujo instantáneo en el tiempo.'
   }
 ];
 
@@ -1483,9 +1726,6 @@ function gradeQuiz(){
   renderBoleta();
 }
 
-/* ============================================================
-   EDITOR DE MEMORIA DE CÁLCULO
-============================================================ */
 function initEditor(){
   const ta = $('#edText');
   const pv = $('#edPreview');
@@ -1515,9 +1755,6 @@ function initEditor(){
   update();
 }
 
-/* ============================================================
-   BOLETA Y EVALUACIÓN FINAL
-============================================================ */
 function calcularProgreso(){
   const av = loadAvance();
   const eCount = ['e1','e2','e3'].filter(k => av.ej[k]).length;
@@ -1526,7 +1763,6 @@ function calcularProgreso(){
   const pctReportes = (eCount / 3) * 100;
   const pctQuiz = av.quiz ? (av.quiz.score / av.quiz.total) * 100 : 0;
   
-  // Ponderación oficial: 30% Talleres/Simulador, 40% Reportes/Ejercicios, 30% Examen
   const nota = (pctTalleres * 0.30 + pctReportes * 0.40 + pctQuiz * 0.30) / 10;
   
   return {
@@ -1577,9 +1813,7 @@ function renderBoleta(){
   `).join('');
 }
 
-/* ============================================================
-   EVENTOS Y ARRANQUE
-============================================================ */
+/* EVENTOS GENERALES */
 $('#selModel').addEventListener('change', e => {
   currentModelKey = e.target.value;
   $('#customField').hidden = (currentModelKey !== 'custom');
@@ -1606,7 +1840,6 @@ $('#btnQuizReset').addEventListener('click', () => {
   toast('Examen reiniciado.');
 });
 
-// Checkboxes de ejercicios guiados
 $('#ejBlock').addEventListener('change', e => {
   const cb = e.target.closest('input[data-ej]'); if(!cb) return;
   const a = loadAvance();
@@ -1624,7 +1857,6 @@ function syncEjCheckboxes(){
   });
 }
 
-// Registro de perfil
 $('#formEstudiante').addEventListener('submit', e => {
   e.preventDefault();
   const nombre = $('#estNombre').value.trim();
@@ -1659,7 +1891,6 @@ $('#btnLimpiarProgreso').addEventListener('click', () => {
   toast('Datos reiniciados.');
 });
 
-// Descargar boleta en PNG
 $('#btnDescargarPng').addEventListener('click', () => {
   const card = $('#boletaCard');
   if(typeof html2canvas !== 'function'){ toast('Módulo html2canvas no disponible.', 'err'); return; }
@@ -1674,7 +1905,6 @@ $('#btnDescargarPng').addEventListener('click', () => {
   }).catch(() => toast('Error al generar la imagen.', 'err'));
 });
 
-// Pestañas del simulador
 $$('.sim-tab').forEach(tab => {
   tab.addEventListener('click', () => {
     $$('.sim-tab').forEach(t => t.classList.toggle('active', t === tab));
@@ -1692,7 +1922,6 @@ window.addEventListener('resize', () => {
   });
 });
 
-// Inicialización general
 (function initApp(){
   refreshIcons();
   updateDomainCard();
