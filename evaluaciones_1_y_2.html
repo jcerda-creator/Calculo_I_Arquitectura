@@ -1271,3 +1271,803 @@ h1, h2, h3, h4, .serif {
 
 <script>
 /* >>> INSERTAR AQUÍ LA PARTE 2 <<< */
+/* ============================================================
+   1. BANCO MAESTRO DE REACTIVOS DE ARQUITECTURA
+============================================================ */
+const EXAM_DATA = {
+  intermedio: {
+    title: "Examen Parcial Intermedio (Unidades 1 y 2)",
+    subtitle: "Cálculo Diferencial Univariable, Aproximación de Riemann y Optimización Multivariable en Arquitectura",
+    badge: "Unidades 1 y 2",
+    questions: [
+      {
+        id: 1,
+        unit: "Unidad 1",
+        comp: "Modelación Geométrica",
+        text: "Una rampa peatonal de acceso a un museo se modela mediante la función de rasante $f(x) = 0.004 x^2 - 0.08 x + 3.2$ en el tramo $[0, 10]\\text{ m}$. ¿Cuál es la pendiente de la rampa en el inicio ($x = 0$) y en el final ($x = 10$), y cumple la norma técnica de accesibilidad universal ($|f'(x)| \\le 0.08$)?",
+        options: [
+          "A) $f'(0) = -0.08$ (8% de bajada) y $f'(10) = 0$ (transición horizontal plana); cumple exactamente con la norma técnica universal en todo el desarrollo.",
+          "B) $f'(0) = -0.16$ y $f'(10) = -0.08$; no cumple porque excede el 12% reglamentario.",
+          "C) $f'(0) = 0$ y $f'(10) = 0.08$; cumple pero la rampa asciende en lugar de descender.",
+          "D) $f'(0) = -0.04$ y $f'(10) = -0.02$; cumple pero su pendiente es insuficiente para salvar el desnivel."
+        ],
+        correct: 0,
+        rationale: "La derivada es $f'(x) = 0.008x - 0.08$. Evaluando en $x=0$: $f'(0) = -0.08$, es decir, una pendiente de 8% de descenso. En $x=10$: $f'(10) = 0.008(10) - 0.08 = 0$, logrando una llegada con pendiente cero sin quiebre brusco. El valor absoluto $|f'(x)| \\le 0.08$ satisface con rigor el límite reglamentario de accesibilidad."
+      },
+      {
+        id: 2,
+        unit: "Unidad 1",
+        comp: "Modelación Geométrica",
+        text: "El arco parabólico central de una terminal de autobuses responde a la curva $y = 15 - 0.06 x^2$ (en metros), donde $y$ es la altura sobre el suelo y $x$ es la distancia al eje central. ¿Cuál es el claro libre total en el terreno (ancho en la base) y la altura libre disponible a $x = 10\\text{ m}$ del centro?",
+        options: [
+          "A) Claro libre $= 31.62\\text{ m}$; altura a $10\\text{ m} = 9.00\\text{ m}$.",
+          "B) Claro libre $= 25.00\\text{ m}$; altura a $10\\text{ m} = 12.00\\text{ m}$.",
+          "C) Claro libre $= 40.00\\text{ m}$; altura a $10\\text{ m} = 6.50\\text{ m}$.",
+          "D) Claro libre $= 20.00\\text{ m}$; altura a $10\\text{ m} = 15.00\\text{ m}$."
+        ],
+        correct: 0,
+        rationale: "En el suelo $y = 0 \\implies 15 - 0.06x^2 = 0 \\implies x^2 = 15/0.06 = 250 \\implies x = \\pm \\sqrt{250} \\approx \\pm 15.811\\text{ m}$. El claro total entre apoyos es $2 \\times 15.811 = 31.62\\text{ m}$. La altura en $x = 10\\text{ m}$ es $y(10) = 15 - 0.06(10)^2 = 15 - 6 = 9.00\\text{ m}$."
+      },
+      {
+        id: 3,
+        unit: "Unidad 1",
+        comp: "Sustentabilidad & Confort",
+        text: "Se proyecta una ventana normanda (rectángulo rematado por un semicírculo superior) con un perímetro perimetral fijo de cancelería de $P = 12\\text{ m}$. ¿Cuál debe ser el ancho de la base $x$ para que el área de iluminación natural sea máxima?",
+        options: [
+          "A) $x = \\frac{24}{4 + \\pi} \\approx 3.36\\text{ m}$.",
+          "B) $x = 4.50\\text{ m}$.",
+          "C) $x = 2.00\\text{ m}$.",
+          "D) $x = \\frac{12}{2 + \\pi} \\approx 2.33\\text{ m}$."
+        ],
+        correct: 0,
+        rationale: "Sea $x$ el ancho y $y$ la altura del rectángulo. El radio del semicírculo es $r = x/2$. El perímetro es $P = x + 2y + \\pi(x/2) = 12 \\implies y = 6 - \\frac{x}{2} - \\frac{\\pi x}{4}$. El área es $A(x) = x y + \\frac{\\pi}{2}(x/2)^2 = 6x - \\frac{x^2}{2} - \\frac{\\pi x^2}{8}$. Derivando e igualando a cero: $A'(x) = 6 - x - \\frac{\\pi x}{4} = 0 \\implies x(1 + \\pi/4) = 6 \\implies x = \\frac{24}{4 + \\pi} \\approx 3.36\\text{ m}$."
+      },
+      {
+        id: 4,
+        unit: "Unidad 1",
+        comp: "Sustentabilidad & Confort",
+        text: "La irradiancia solar incidente en una fachada este acristalada durante las 6 horas de la mañana ($t \\in [6, 12]$) se modela por $I(t) = 800 \\sin\\left(\\frac{\\pi(t-6)}{6}\\right) \\text{ W/m}^2$. Si se aproxima la ganancia energética diaria mediante la integral definida $\\int_{6}^{12} I(t) \\, dt$, ¿cuál es la energía térmica total captada por $\\text{m}^2$?",
+        options: [
+          "A) $E = \\frac{9600}{\\pi} \\approx 3055.77\\text{ Wh/m}^2$ ($3.06\\text{ kWh/m}^2$).",
+          "B) $E = 4800\\text{ Wh/m}^2$.",
+          "C) $E = 1500\\text{ Wh/m}^2$.",
+          "D) $E = 2400\\pi \\approx 7539.82\\text{ Wh/m}^2$."
+        ],
+        correct: 0,
+        rationale: "La integral es $\\int_{6}^{12} 800 \\sin\\left(\\frac{\\pi(t-6)}{6}\\right) dt$. Haciendo $u = \\frac{\\pi(t-6)}{6}$, $du = \\frac{\\pi}{6} dt \\implies E = 800 \\cdot \\frac{6}{\\pi} \\int_0^\\pi \\sin(u) du = \\frac{4800}{\\pi} [-\\cos(u)]_0^\\pi = \\frac{4800}{\\pi}(1 - (-1)) = \\frac{9600}{\\pi} \\approx 3055.77\\text{ Wh/m}^2$."
+      },
+      {
+        id: 5,
+        unit: "Unidad 1",
+        comp: "Modelación Geométrica",
+        text: "En un tejado con vertiente a dos aguas modelado a la izquierda por $f_1(x) = 0.30 x$ para $x \\le 4$ y a la derecha por $f_2(x) = -0.30 x + 2.4$ para $x > 4$, la cumbrera en $x = 4$ presenta una arista viva. Desde el punto de vista del cálculo diferencial, ¿por qué la cumbrera no es diferenciable en $x = 4$?",
+        options: [
+          "A) Porque las derivadas laterales no coinciden: $\\lim_{x \\to 4^-} f'(x) = +0.30 \\ne \\lim_{x \\to 4^+} f'(x) = -0.30$, lo que exige instalar una pieza especial de remate de cumbrera.",
+          "B) Porque la función es discontinua en $x = 4$.",
+          "C) Porque la pendiente se vuelve infinita.",
+          "D) Porque en $x = 4$ la altura de la cubierta se anula."
+        ],
+        correct: 0,
+        rationale: "Aunque la función es continua ($f_1(4) = 1.2 = f_2(4)$), la derivada lateral izquierda es $+0.30$ (sube al 30%) y la derecha es $-0.30$ (baja al 30%). Al no existir límite único para el cociente de incrementos, la función presenta un punto anguloso (arista), justificando técnicamente por qué se requiere una pieza de caballete o cumbrera para sellar la junta constructiva."
+      },
+      {
+        id: 6,
+        unit: "Unidad 2",
+        comp: "Modelación Geométrica",
+        text: "Una cubierta suspendida de malla tensada sigue la ecuación de un paraboloide hiperbólico $z = f(x,y) = 18 - 0.05 x^2 + 0.08 y^2$. En el punto de fijación del tensor $P_0(6, 5)$, ¿cuál es la ecuación del plano tangente que define la orientación del anclaje metálico?",
+        options: [
+          "A) $0.60 x - 0.80 y + z - 14.2 = 0$.",
+          "B) $-0.30 x + 0.40 y + z = 18$.",
+          "C) $0.05 x - 0.08 y + z = 0$.",
+          "D) $1.2 x + 1.6 y - z + 5 = 0$."
+        ],
+        correct: 0,
+        rationale: "Evaluando en $P_0(6,5)$: $z_0 = 18 - 0.05(36) + 0.08(25) = 18 - 1.8 + 2.0 = 18.2$. Las derivadas parciales son: $f_x = -0.10 x \\implies f_x(6,5) = -0.60$. $f_y = 0.16 y \\implies f_y(6,5) = 0.80$. La ecuación del plano tangente es: $z - 18.2 = -0.60(x - 6) + 0.80(y - 5) \\iff z - 18.2 = -0.60x + 3.6 + 0.80y - 4.0 \\iff 0.60x - 0.80y + z - 14.2 = 0$."
+      },
+      {
+        id: 7,
+        unit: "Unidad 2",
+        comp: "Estructural & Sísmica",
+        text: "El campo de presiones eólicas sobre una fachada esbelta responde a $P(x,y) = 2 x^2 + y^2 - 4xy$ (en $\\text{kN/m}^2$). ¿Cuál es el punto crítico de presión y qué tipo de comportamiento presenta según el criterio de la matriz Hessiana?",
+        options: [
+          "A) Punto crítico en $(0,0)$; es un punto de ensilladura ($D = -16 < 0$), generando vórtices de succión y presión opuesta.",
+          "B) Punto crítico en $(0,0)$; es un mínimo estricto ($D > 0, P_{xx} > 0$).",
+          "C) Punto crítico en $(2,1)$; es un máximo local de presión.",
+          "D) No tiene puntos críticos en el primer cuadrante."
+        ],
+        correct: 0,
+        rationale: "Gradiente: $P_x = 4x - 4y = 0 \\implies x = y$. $P_y = 2y - 4x = 0 \\implies y = 2x$. La única solución es $(0,0)$. Derivadas de segundo orden: $P_{xx} = 4$, $P_{yy} = 2$, $P_{xy} = -4$. El determinante del Hessiano es $D = P_{xx}P_{yy} - (P_{xy})^2 = (4)(2) - (-4)^2 = 8 - 16 = -8 < 0$. Como $D < 0$, se trata de un punto de ensilladura (saddle point), característico de zonas de separación de flujo eólico."
+      },
+      {
+        id: 8,
+        unit: "Unidad 2",
+        comp: "Sustentabilidad & Confort",
+        text: "Un auditorio subterráneo de base rectangular con volumen fijado en $V = x y z = 1200\\text{ m}^3$ requiere minimizar las pérdidas térmicas por conducción perimetral, proporcionales a su área exterior de contacto $A(x,y,z) = x y + 2 x z + 2 y z$ (la cara superior está aislada). ¿Cuáles son las dimensiones óptimas $(x, y, z)$ aplicando multiplicadores de Lagrange?",
+        options: [
+          "A) $x = 13.39\\text{ m}$, $y = 13.39\\text{ m}$, $z = 6.69\\text{ m}$ (con $x = y = 2z$).",
+          "B) $x = 10.63\\text{ m}$, $y = 10.63\\text{ m}$, $z = 10.63\\text{ m}$ (cubo perfecto).",
+          "C) $x = 20.00\\text{ m}$, $y = 15.00\\text{ m}$, $z = 4.00\\text{ m}$.",
+          "D) $x = 8.00\\text{ m}$, $y = 10.00\\text{ m}$, $z = 15.00\\text{ m}$."
+        ],
+        correct: 0,
+        rationale: "Por Lagrange con $f = xy + 2xz + 2yz$ y $g = xyz = 1200$: $\\nabla f = \\lambda \\nabla g \\implies y + 2z = \\lambda yz$, $x + 2z = \\lambda xz$, $2x + 2y = \\lambda xy$. De las primeras dos, $x = y$. Sustituyendo en la tercera: $4x = \\lambda x^2 \\implies \\lambda = 4/x$. De la primera: $x + 2z = (4/x)(xz) = 4z \\implies x = 2z$. Por tanto, $x = y = 2z$. En el volumen: $(2z)(2z)(z) = 4z^3 = 1200 \\implies z^3 = 300 \\implies z = \\sqrt[3]{300} \\approx 6.694\\text{ m}$, y $x = y \\approx 13.388\\text{ m}$."
+      },
+      {
+        id: 9,
+        unit: "Unidad 2",
+        comp: "Modelación Geométrica",
+        text: "En una cubierta de forma cónica $z = \\sqrt{x^2 + y^2}$, la pendiente hacia el desagüe perimetral en la dirección del vector unitario $\\vec{u} = \\langle \\frac{3}{5}, \\frac{4}{5} \\rangle$ en el punto $P(3, 4)$ viene dada por la derivada direccional $D_{\\vec{u}} z$. ¿Cuál es su valor?",
+        options: [
+          "A) $D_{\\vec{u}} z = 1.00$ (pendiente radial directa del 100%).",
+          "B) $D_{\\vec{u}} z = 0.60$.",
+          "C) $D_{\\vec{u}} z = 0$ (camino sobre la curva de nivel).",
+          "D) $D_{\\vec{u}} z = 1.414$."
+        ],
+        correct: 0,
+        rationale: "El gradiente es $\\nabla z = \\langle \\frac{x}{\\sqrt{x^2+y^2}}, \\frac{y}{\\sqrt{x^2+y^2}} \\rangle$. En $P(3,4)$, $\\sqrt{3^2+4^2}=5$, por lo que $\\nabla z = \\langle \\frac{3}{5}, \\frac{4}{5} \\rangle$. Como el vector $\\vec{u} = \\langle \\frac{3}{5}, \\frac{4}{5} \\rangle$ apunta exactamente en la dirección radial del gradiente, $D_{\\vec{u}} z = \\nabla z \\cdot \\vec{u} = \\left(\\frac{3}{5}\\right)^2 + \\left(\\frac{4}{5}\\right)^2 = \\frac{9+16}{25} = 1.00$."
+      },
+      {
+        id: 10,
+        unit: "Unidad 2",
+        comp: "Sustentabilidad & Confort",
+        text: "Las isolíneas de confort acústico en una plaza abierta vienen dadas por los niveles sonoros $L(x,y) = 90 - 10 \\ln(x^2 + y^2)$. Si un arquitecto camina a lo largo de una línea de nivel $L(x,y) = 60\\text{ dB}$, ¿cuál es la tasa de cambio instantánea del nivel sonoro respecto a su desplazamiento?",
+        options: [
+          "A) $0\\text{ dB/m}$, ya que el gradiente es ortogonal a las líneas de nivel y a lo largo de la isolínea la función permanece constante.",
+          "B) $-10\\text{ dB/m}$.",
+          "C) $60\\text{ dB/m}$.",
+          "D) Depende de la velocidad de caminata."
+        ],
+        correct: 0,
+        rationale: "Por definición fundamental del cálculo multivariable, en cualquier curva de nivel $f(x,y) = k$, la función no experimenta variación ($df = 0$), lo que significa que el vector tangente a la curva de nivel es perpendicular al vector gradiente: $\\nabla f \\cdot \\vec{T} = 0$. Por ello, al desplazarse sobre la isolínea acústica de 60 dB, la tasa de cambio instantánea es exactamente cero."
+      }
+    ]
+  },
+
+  final: {
+    title: "Examen Ordinario Final (Unidades 3 y 4 / Síntesis Global)",
+    subtitle: "Integrales Múltiples, Centros de Rigidez Sísmica, Momentos de Inercia y Dinámica de Estructuras en Arquitectura",
+    badge: "Unidades 3 y 4",
+    questions: [
+      {
+        id: 1,
+        unit: "Unidad 3",
+        comp: "Estructural & Sísmica",
+        text: "Para colar una losa maciza de cubierta con alabeo superior de drenaje pluvial sobre un dominio rectangular $[0, 10] \\times [0, 8]\\text{ m}$, el peralte está modelado por $h(x,y) = 0.15 + 0.005 x + 0.002 y$ (en metros). ¿Cuál es el volumen total de concreto $V = \\iint_R h(x,y) \\, dA$ que debe ordenarse a la planta de premezclado considerando un 5% reglamentario de desperdicio?",
+        options: [
+          "A) $V_{teorico} = 14.64\\text{ m}^3 \\implies V_{pedido} \\approx 15.37\\text{ m}^3$.",
+          "B) $V_{teorico} = 12.00\\text{ m}^3 \\implies V_{pedido} \\approx 12.60\\text{ m}^3$.",
+          "C) $V_{teorico} = 18.50\\text{ m}^3 \\implies V_{pedido} \\approx 19.43\\text{ m}^3$.",
+          "D) $V_{teorico} = 10.80\\text{ m}^3 \\implies V_{pedido} \\approx 11.34\\text{ m}^3$."
+        ],
+        correct: 0,
+        rationale: "El volumen exacto es $\\int_0^{10} \\int_0^8 (0.15 + 0.005x + 0.002y) dy dx = \\int_0^{10} [0.15(8) + 0.005(8)x + 0.002(8^2/2)] dx = \\int_0^{10} (1.20 + 0.04x + 0.064) dx = \\int_0^{10} (1.264 + 0.04x) dx = 1.264(10) + 0.02(100) = 12.64 + 2.00 = 14.64\\text{ m}^3$. Con el 5% de merma: $14.64 \\times 1.05 = 15.372\\text{ m}^3$."
+      },
+      {
+        id: 2,
+        unit: "Unidad 3",
+        comp: "Estructural & Sísmica",
+        text: "Una losa de entrepiso mide $20\\text{ m}$ en dirección $X$ y $10\\text{ m}$ en dirección $Y$. Se proyecta un cubo de iluminación y escaleras vacío en la esquina $[15, 20] \\times [6, 10]$ (área $5 \\times 4 = 20\\text{ m}^2$). ¿Cuál es la coordenada $\\bar{x}$ del centro de masa de la losa perforada y la excentricidad sísmica respecto al eje geométrico central ($x_0 = 10\\text{ m}$)?",
+        options: [
+          "A) $\\bar{x} = 9.17\\text{ m}$; excentricidad $e_x = |10 - 9.17| = 0.83\\text{ m}$ (cumple $e_x \\le 0.10 \\times 20 = 2.00\\text{ m}$).",
+          "B) $\\bar{x} = 8.50\\text{ m}$; excentricidad $e_x = 1.50\\text{ m}$.",
+          "C) $\\bar{x} = 10.00\\text{ m}$; excentricidad nula por compensación de cargas.",
+          "D) $\\bar{x} = 7.80\\text{ m}$; excentricidad $e_x = 2.20\\text{ m}$ (viola la norma sísmica)."
+        ],
+        correct: 0,
+        rationale: "Área total losa llena: $A_1 = 20 \\times 10 = 200\\text{ m}^2$, $x_1 = 10\\text{ m}$. Área del hueco: $A_2 = 5 \\times 4 = 20\\text{ m}^2$, con centro en $x_2 = 15 + 5/2 = 17.5\\text{ m}$. Área neta: $A = 200 - 20 = 180\\text{ m}^2$. Primer momento de área: $M_y = (200)(10) - (20)(17.5) = 2000 - 350 = 1650\\text{ m}^3$. Centro de masa: $\\bar{x} = \\frac{1650}{180} \\approx 9.167\\text{ m}$. La excentricidad es $e_x = 10 - 9.167 = 0.833\\text{ m}$. El límite NTC es $0.10(20) = 2.00\\text{ m}$, por lo que cumple satisfactoriamente la seguridad contra torsión sísmica."
+      },
+      {
+        id: 3,
+        unit: "Unidad 3",
+        comp: "Estructural & Sísmica",
+        text: "Para calcular el pandeo de Euler de una columna esbelta rectangular maciza de madera de $b = 0.20\\text{ m}$ y $h = 0.40\\text{ m}$, se requiere el segundo momento de área menor $I_{min} = \\iint_R y^2 \\, dA$. ¿Cuál es el valor del momento de inercia respecto al eje débil de flexión?",
+        options: [
+          "A) $I_{min} = \\frac{h b^3}{12} = \\frac{(0.40)(0.20)^3}{12} = 2.667 \\times 10^{-4}\\text{ m}^4$.",
+          "B) $I_{min} = \\frac{b h^3}{12} = 1.067 \\times 10^{-3}\\text{ m}^4$.",
+          "C) $I_{min} = \\frac{b^2 h^2}{4} = 1.60 \\times 10^{-3}\\text{ m}^4$.",
+          "D) $I_{min} = 5.333 \\times 10^{-4}\\text{ m}^4$."
+        ],
+        correct: 0,
+        rationale: "Por la integral de inercia $I_y = \\int_{-h/2}^{h/2} \\int_{-b/2}^{b/2} x^2 dx dy = h \\left[\\frac{x^3}{3}\\right]_{-b/2}^{b/2} = \\frac{h b^3}{12}$. Evaluando: $\\frac{0.40 \\times (0.20)^3}{12} = \\frac{0.40 \\times 0.008}{12} = 2.667 \\times 10^{-4}\\text{ m}^4$. Toda columna tiende a pandearse críticamente por su eje de menor inercia."
+      },
+      {
+        id: 4,
+        unit: "Unidad 3",
+        comp: "Modelación Geométrica",
+        text: "El volumen de una bóveda piramidal acristalada construida sobre un atrio de base cuadrada $[-a, a] \\times [-a, a]$ con altura $z = H\\left(1 - \\frac{\\max(|x|,|y|)}{a}\\right)$ se calcula por integración doble. Para $a = 6\\text{ m}$ y $H = 4\\text{ m}$, ¿cuál es el volumen de aire interior que debe climatizarse?",
+        options: [
+          "A) $V = \\frac{1}{3} (2a)^2 H = \\frac{1}{3} (12)^2 (4) = 192\\text{ m}^3$.",
+          "B) $V = (12)^2 (4) = 576\\text{ m}^3$.",
+          "C) $V = \\frac{1}{2} (12)^2 (4) = 288\\text{ m}^3$.",
+          "D) $V = 96\\text{ m}^3$."
+        ],
+        correct: 0,
+        rationale: "La integral de la superficie piramidal de 4 faldas sobre la base cuadrada $[-6, 6] \\times [-6, 6]$ corresponde exactamente al volumen del sólido piramidal: $V = \\frac{1}{3} \\times \\text{Área de base} \\times \\text{Altura} = \\frac{1}{3} (12 \\times 12) (4) = \\frac{576}{3} = 192\\text{ m}^3$."
+      },
+      {
+        id: 5,
+        unit: "Unidad 4",
+        comp: "Sustentabilidad & Confort",
+        text: "La temperatura interior de un muro de tapial y adobe sigue la ley de enfriamiento/calentamiento de Newton: $\\frac{dT}{dt} = -k(T - T_{ext})$. Para un muro con constante de amortiguamiento térmico $k = 0.15\\text{ h}^{-1}$, si a las 14:00 ($t=0$) el interior está a $20^\\circ\\text{C}$ y el exterior se mantiene constante a $35^\\circ\\text{C}$, ¿cuál será la temperatura interior a las 18:00 ($t=4\\text{ h}$)?",
+        options: [
+          "A) $T(4) = 35 - 15 e^{-0.60} \\approx 26.77^\\circ\\text{C}$ (evidenciando una amortiguación térmica de más de $8^\\circ\\text{C}$ respecto al exterior).",
+          "B) $T(4) = 35.00^\\circ\\text{C}$ (equilibrio instantáneo).",
+          "C) $T(4) = 21.50^\\circ\\text{C}$.",
+          "D) $T(4) = 31.20^\\circ\\text{C}$."
+        ],
+        correct: 0,
+        rationale: "Resolviendo la EDO de variables separables: $\\frac{dT}{T - 35} = -0.15 dt \\implies \\ln|T - 35| = -0.15 t + C$. Con $T(0) = 20$: $20 - 35 = -15 \\implies T(t) = 35 - 15 e^{-0.15 t}$. Para $t = 4\\text{ h}$: $-0.15(4) = -0.60$. $e^{-0.60} \\approx 0.5488$. Así, $T(4) = 35 - 15(0.5488) = 35 - 8.23 = 26.77^\\circ\\text{C}$."
+      },
+      {
+        id: 6,
+        unit: "Unidad 4",
+        comp: "Estructural & Sísmica",
+        text: "Un pórtico estructural de concreto armado de un nivel se modela como un oscilador libre con amortiguamiento: $m \\ddot{x} + c \\dot{x} + k x = 0$. La masa de la cubierta es $m = 25{,}000\\text{ kg}$ y la rigidez lateral combinada de las columnas es $k = 100{,}000\\text{ N/m}$. ¿Cuál es el periodo natural de vibración $T_n$ del edificio y cómo se clasifica su respuesta si el amortiguamiento crítico es $\\zeta = 0.05$ (5%)?",
+        options: [
+          "A) $\\omega_n = 2.00\\text{ rad/s} \\implies T_n = \\pi \\approx 3.14\\text{ s}$; es un sistema subamortiguado que oscilará con amplitud decreciente.",
+          "B) $\\omega_n = 4.00\\text{ rad/s} \\implies T_n = 1.57\\text{ s}$; es críticamente amortiguado.",
+          "C) $\\omega_n = 10.0\\text{ rad/s} \\implies T_n = 0.63\\text{ s}$; es sobreamortiguado y no oscila.",
+          "D) $\\omega_n = 1.00\\text{ rad/s} \\implies T_n = 6.28\\text{ s}$; es inestable."
+        ],
+        correct: 0,
+        rationale: "La frecuencia natural es $\\omega_n = \\sqrt{k/m} = \\sqrt{100{,}000 / 25{,}000} = \\sqrt{4} = 2.00\\text{ rad/s}$. El periodo natural es $T_n = \\frac{2\\pi}{\\omega_n} = \\frac{2\\pi}{2} = \\pi \\approx 3.1416\\text{ s}$. Como $\\zeta = 0.05 < 1$, el sistema es subamortiguado, presentando oscilaciones sinusoidales con envolvente exponencial decreciente $e^{-\\zeta \\omega_n t}$."
+      },
+      {
+        id: 7,
+        unit: "Unidad 4",
+        comp: "Estructural & Sísmica",
+        text: "Durante un sismo con aceleración armónica forzada en el terreno $a(t) = A_0 \\sin(\\omega t)$, ¿qué ocurre cuando la frecuencia sísmica del terreno $\\omega$ coincide exactamente con la frecuencia natural del edificio $\\omega_n$?",
+        options: [
+          "A) Ocurre el fenómeno de resonancia estructural: las deflexiones laterales se amplifican dramáticamente hasta el límite disipado por el amortiguador, induciendo riesgo severo de colapso.",
+          "B) Las oscilaciones se cancelan mutuamente por desfase de 180 grados.",
+          "C) El amortiguamiento se anula convirtiéndose en un sistema rígido infinito.",
+          "D) El periodo natural del edificio se duplica automáticamente."
+        ],
+        correct: 0,
+        rationale: "El factor de amplificación dinámica $DMF = \\frac{1}{\\sqrt{(1 - \\beta^2)^2 + (2\\zeta\\beta)^2}}$, donde $\\beta = \\omega/\\omega_n$. Cuando $\\beta = 1$ (sintonización en resonancia), el término $(1-\\beta^2) = 0$ y la amplificación alcanza su valor máximo pico $DMF = \\frac{1}{2\\zeta} = \\frac{1}{2(0.05)} = 10$, multiplicando los esfuerzos sísmicos en columnas por diez veces."
+      },
+      {
+        id: 8,
+        unit: "Unidad 4",
+        comp: "Estructural & Sísmica",
+        text: "La ecuación diferencial de 4.° orden de Euler-Bernoulli para la deflexión de una viga simplemente apoyada de claro $L = 8\\text{ m}$ bajo carga uniforme $q_0 = 12\\text{ kN/m}$ establece que la flecha máxima en el centro es $y_{max} = \\frac{5 q_0 L^4}{384 E I}$. Si la rigidez a flexión es $E I = 25{,}000\\text{ kN}\\cdot\\text{m}^2$, ¿cuál es la flecha y cumple el límite estético y de servicio $\\delta_{adm} \\le L/360$?",
+        options: [
+          "A) $y_{max} = 0.0256\\text{ m} = 25.6\\text{ mm} > \\delta_{adm} = 22.2\\text{ mm}$; NO cumple la norma y provocará agrietamiento en canceles o plafones.",
+          "B) $y_{max} = 15.2\\text{ mm} < \\delta_{adm} = 22.2\\text{ mm}$; cumple holgadamente.",
+          "C) $y_{max} = 35.0\\text{ mm}$; cumple solo si se apuntala la losa.",
+          "D) $y_{max} = 8.5\\text{ mm}$; la flecha es imperceptible."
+        ],
+        correct: 0,
+        rationale: "Calculamos $L^4 = 8^4 = 4096\\text{ m}^4$. $y_{max} = \\frac{5 \\times 12 \\times 4096}{384 \\times 25{,}000} = \\frac{245{,}760}{9{,}600{,}000} = 0.0256\\text{ m} = 25.6\\text{ mm}$. El límite admisible por reglamento es $\\delta_{adm} = L/360 = 8000\\text{ mm} / 360 = 22.22\\text{ mm}$. Como $25.6\\text{ mm} > 22.22\\text{ mm}$, la viga se deforma en exceso y fallará en servicio, requiriendo aumentar el peralte $h$ de la sección."
+      },
+      {
+        id: 9,
+        unit: "Unidad 3",
+        comp: "Sustentabilidad & Confort",
+        text: "El flujo de calor conductivo total a través de una losa aligerada compuesta por tres materiales con conductividades variables se calcula integrando $Q = -\\iint_R k(x,y) \\frac{\\partial T}{\\partial z} \\, dA$. Si el flujo térmico promedio es $q = 18\\text{ W/m}^2$ y el área de la cubierta es de $250\\text{ m}^2$, ¿cuánta energía térmica en kWh ingresa al edificio durante 10 horas continuas de sol?",
+        options: [
+          "A) $E = 45\\text{ kWh}$.",
+          "B) $E = 450\\text{ kWh}$.",
+          "C) $E = 180\\text{ kWh}$.",
+          "D) $E = 25\\text{ kWh}$."
+        ],
+        correct: 0,
+        rationale: "Potencia térmica instantánea: $P = q \\times A = 18\\text{ W/m}^2 \\times 250\\text{ m}^2 = 4500\\text{ W} = 4.5\\text{ kW}$. Energía en 10 horas: $E = \\int_0^{10} P \\, dt = 4.5\\text{ kW} \\times 10\\text{ h} = 45\\text{ kWh}$."
+      },
+      {
+        id: 10,
+        unit: "Unidad 4",
+        comp: "Modelación Geométrica",
+        text: "En el diseño paramétrico de una envolvente fluida, la curvatura de Gauss $K$ y la curvatura media $H$ de una superficie reglada minimal cumplen la ecuación diferencial $H = 0$. ¿Qué propiedad arquitectónica fundamental tienen las superficies mínimas como los helioides y catenoides?",
+        options: [
+          "A) Tienen área superficial mínima para un contorno perimetral dado, logrando la máxima ligereza y economía de material con tracción pura.",
+          "B) Tienen volumen máximo y costo de cimbra cero.",
+          "C) No admiten aberturas ni vanos de iluminación.",
+          "D) Su curvatura de Gauss es siempre positiva como una esfera."
+        ],
+        correct: 0,
+        rationale: "Las superficies de curvatura media cero ($H = 0$) corresponden a superficies mínimas (Euler-Lagrange). En tensoestructuras y membranas de lona o cables (como las obras de Frei Otto), estas formas adoptan equilibrio natural de tensiones donde la superficie no requiere armaduras pesadas a flexión y optimiza el consumo de membrana al mínimo área matemáticamente posible."
+      }
+    ]
+  }
+};
+
+/* ============================================================
+   2. ESTADO GLOBAL DE LA APLICACIÓN
+============================================================ */
+const state = {
+  currentExamKey: 'intermedio',
+  studentName: "Adrian Cerda",
+  studentID: "ARQ-2026-904",
+  examStatus: 'idle',
+  timerSecondsRemaining: 75 * 60,
+  timerInterval: null,
+  userAnswers: {},
+  score: null,
+  reviewMode: false,
+  reflectionSaved: false
+};
+
+/* ============================================================
+   3. INICIALIZACIÓN
+============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  initTabs();
+  renderExamQuestions();
+  updateStudentDisplay();
+  renderMathInElement(document.body, {
+    delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}],
+    throwOnError: false
+  });
+  
+  document.getElementById('btnSaveStudent').addEventListener('click', () => {
+    state.studentName = document.getElementById('inputStudentName').value.trim() || "Adrian Cerda";
+    state.studentID = document.getElementById('inputStudentID').value.trim() || "ARQ-2026-904";
+    updateStudentDisplay();
+    alert("¡Datos del alumno actualizados correctamente!");
+  });
+
+  document.getElementById('btnIniciarExamenDirecto').addEventListener('click', () => {
+    switchTab('tab-examen');
+    if (state.examStatus === 'idle') startOfficialExam();
+  });
+
+  document.getElementById('btnOpenBreath').addEventListener('click', openBreathModal);
+});
+
+function initTabs() {
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => switchTab(btn.getAttribute('data-target')));
+  });
+}
+
+function switchTab(targetId) {
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('data-target') === targetId);
+  });
+  document.querySelectorAll('.tab-content').forEach(c => {
+    c.classList.toggle('active', c.id === targetId);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function selectExamMode(key) {
+  if (state.examStatus === 'running') {
+    if (!confirm("Hay un examen en curso. ¿Deseas reiniciar la prueba para cambiar de examen?")) return;
+    clearInterval(state.timerInterval);
+    state.examStatus = 'idle';
+  }
+  
+  state.currentExamKey = key;
+  state.userAnswers = {};
+  state.score = null;
+  state.reviewMode = false;
+  
+  document.getElementById('cardSelectIntermedio').classList.toggle('selected', key === 'intermedio');
+  document.getElementById('cardSelectFinal').classList.toggle('selected', key === 'final');
+  
+  const examInfo = EXAM_DATA[key];
+  document.getElementById('examTitleHeading').innerText = examInfo.title;
+  document.getElementById('examSubtitleHeading').innerText = examInfo.subtitle;
+  document.getElementById('examActiveBadge').innerText = examInfo.badge;
+  
+  renderExamQuestions();
+  
+  document.getElementById('examStartPanel').classList.remove('hidden');
+  document.getElementById('examQuestionsContainer').classList.add('hidden');
+  document.getElementById('examSubmitPanel').classList.add('hidden');
+  document.getElementById('timerDisplay').innerText = "75:00";
+  document.getElementById('globalTimerBox').className = "timer-box";
+  document.getElementById('examStatusText').innerText = "Sin iniciar";
+  
+  document.getElementById('boletaExamTitle').innerText = examInfo.title;
+  document.getElementById('boletaFinalScore').innerText = "--";
+  document.getElementById('boletaScoreText').innerText = "Presenta tu examen en la pestaña correspondiente para generar tu calificación.";
+  document.getElementById('boletaBadgeStatus').innerText = "Pendiente de Conclusión";
+  document.getElementById('boletaBadgeStatus').className = "badge badge-warning";
+  
+  setTimeout(() => {
+    renderMathInElement(document.getElementById('tab-examen'), {
+      delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}],
+      throwOnError: false
+    });
+  }, 50);
+}
+
+function renderExamQuestions() {
+  const container = document.getElementById('examQuestionsContainer');
+  const navGrid = document.getElementById('quickNavGrid');
+  const questions = EXAM_DATA[state.currentExamKey].questions;
+  
+  container.innerHTML = "";
+  navGrid.innerHTML = "";
+  
+  questions.forEach((q) => {
+    const card = document.createElement('div');
+    card.className = "question-item";
+    card.id = `qItem_${q.id}`;
+    
+    let optionsHtml = "";
+    q.options.forEach((opt, optIdx) => {
+      optionsHtml += `
+        <label class="opt-label" id="optLabel_${q.id}_${optIdx}" onclick="selectAnswer(${q.id}, ${optIdx})">
+          <input type="radio" name="qRadio_${q.id}" value="${optIdx}" ${state.userAnswers[q.id] === optIdx ? 'checked' : ''} ${state.reviewMode ? 'disabled' : ''}>
+          <span>${opt}</span>
+        </label>
+      `;
+    });
+    
+    card.innerHTML = `
+      <div class="q-header">
+        <span class="q-number">Reactivo #${q.id} de 10</span>
+        <span class="q-competence">${q.unit} &bull; ${q.comp}</span>
+      </div>
+      <div class="q-text">${q.text}</div>
+      <div class="q-options">${optionsHtml}</div>
+      <div class="rationale-box" id="rationale_${q.id}">
+        <strong>Justificación Técnica:</strong><br>${q.rationale}
+      </div>
+    `;
+    container.appendChild(card);
+    
+    const navBtn = document.createElement('button');
+    navBtn.className = "nav-item-btn";
+    navBtn.id = `navBtn_${q.id}`;
+    navBtn.innerText = q.id;
+    navBtn.onclick = () => scrollToQuestion(q.id);
+    navGrid.appendChild(navBtn);
+  });
+  
+  updateNavGridStatus();
+}
+
+function scrollToQuestion(id) {
+  const elem = document.getElementById(`qItem_${id}`);
+  if (elem) {
+    elem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    elem.style.borderColor = "var(--pine-soft)";
+    setTimeout(() => elem.style.borderColor = "var(--line)", 1200);
+  }
+}
+
+function selectAnswer(qId, optIdx) {
+  if (state.reviewMode) return;
+  state.userAnswers[qId] = optIdx;
+  for (let i = 0; i < 4; i++) {
+    const lbl = document.getElementById(`optLabel_${qId}_${i}`);
+    if (lbl) lbl.classList.toggle('selected', i === optIdx);
+  }
+  updateNavGridStatus();
+}
+
+function updateNavGridStatus() {
+  const questions = EXAM_DATA[state.currentExamKey].questions;
+  let answeredCount = 0;
+  questions.forEach(q => {
+    const btn = document.getElementById(`navBtn_${q.id}`);
+    if (state.userAnswers[q.id] !== undefined) {
+      btn.classList.add('answered');
+      answeredCount++;
+    } else {
+      btn.classList.remove('answered');
+    }
+  });
+  document.getElementById('badgeQuestionsLeft').innerText = `${10 - answeredCount} pendientes`;
+}
+
+function startOfficialExam() {
+  if (!document.getElementById('chkHonesty').checked) {
+    alert("Debes aceptar el Código de Integridad Académica en la pestaña de Inicio para comenzar.");
+    switchTab('tab-inicio');
+    return;
+  }
+  state.examStatus = 'running';
+  state.timerSecondsRemaining = 75 * 60;
+  document.getElementById('examStartPanel').classList.add('hidden');
+  document.getElementById('examQuestionsContainer').classList.remove('hidden');
+  document.getElementById('examSubmitPanel').classList.remove('hidden');
+  document.getElementById('examStatusText').innerText = "En curso";
+  
+  clearInterval(state.timerInterval);
+  state.timerInterval = setInterval(handleTimerTick, 1000);
+  
+  renderMathInElement(document.getElementById('examQuestionsContainer'), {
+    delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}],
+    throwOnError: false
+  });
+}
+
+function handleTimerTick() {
+  if (state.timerSecondsRemaining <= 0) {
+    clearInterval(state.timerInterval);
+    alert("¡Tiempo cumplido! Tu examen se entregará automáticamente.");
+    finishAndGradeExam();
+    return;
+  }
+  state.timerSecondsRemaining--;
+  const mins = Math.floor(state.timerSecondsRemaining / 60);
+  const secs = state.timerSecondsRemaining % 60;
+  document.getElementById('timerDisplay').innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  
+  const timerBox = document.getElementById('globalTimerBox');
+  if (state.timerSecondsRemaining < 300) timerBox.className = "timer-box danger";
+  else if (state.timerSecondsRemaining < 900) timerBox.className = "timer-box warning";
+  else timerBox.className = "timer-box";
+}
+
+function finishAndGradeExam() {
+  clearInterval(state.timerInterval);
+  state.examStatus = 'submitted';
+  state.reviewMode = true;
+  
+  const questions = EXAM_DATA[state.currentExamKey].questions;
+  let correctCount = 0;
+  let compScores = {
+    "Modelación Geométrica": { correct: 0, total: 0 },
+    "Estructural & Sísmica": { correct: 0, total: 0 },
+    "Sustentabilidad & Confort": { correct: 0, total: 0 }
+  };
+  
+  questions.forEach(q => {
+    const userOpt = state.userAnswers[q.id];
+    const isCorrect = userOpt === q.correct;
+    if (compScores[q.comp]) {
+      compScores[q.comp].total++;
+      if (isCorrect) compScores[q.comp].correct++;
+    }
+    if (isCorrect) correctCount++;
+    
+    for (let i = 0; i < 4; i++) {
+      const lbl = document.getElementById(`optLabel_${q.id}_${i}`);
+      if (!lbl) continue;
+      if (i === q.correct) lbl.classList.add('is-correct');
+      else if (i === userOpt && !isCorrect) lbl.classList.add('is-wrong');
+    }
+    const rationaleNode = document.getElementById(`rationale_${q.id}`);
+    if (rationaleNode) rationaleNode.classList.add('visible');
+  });
+  
+  const finalGrade = Math.round((correctCount / questions.length) * 100);
+  state.score = finalGrade;
+  
+  document.getElementById('examStatusText').innerText = `Completado (${finalGrade}/100)`;
+  document.getElementById('timerDisplay').innerText = "00:00";
+  document.getElementById('examSubmitPanel').innerHTML = `
+    <h3 style="color:var(--ok);">¡Examen calificado con éxito! Calificación: ${finalGrade} / 100</h3>
+    <p class="mt-1" style="color:var(--muted);">El modo revisión ha sido activado. Las respuestas correctas están resaltadas en verde y los errores en rojo con su respectiva justificación técnica.</p>
+    <div class="mt-2">
+      <button class="btn btn-primary" onclick="switchTab('tab-boleta')">Ver Boleta y Descargar Comprobante PNG</button>
+    </div>
+  `;
+  
+  document.getElementById('boletaFinalScore').innerText = finalGrade;
+  document.getElementById('boletaScoreText').innerText = finalGrade >= 70 
+    ? "Aprobado satisfactoriamente con sólidas competencias en modelación matemática y estructural."
+    : "Requiere fortalecimiento conceptual y asesoría académica en los temas de menor puntaje.";
+  
+  document.getElementById('boletaBadgeStatus').innerText = finalGrade >= 70 ? "Acreditado" : "No Acreditado";
+  document.getElementById('boletaBadgeStatus').className = finalGrade >= 70 ? "badge badge-success" : "badge badge-warning";
+  
+  const folio = "FOL-" + Math.random().toString(36).substring(2, 9).toUpperCase();
+  document.getElementById('boletaFolio').innerText = `Folio Oficial: ${folio}`;
+  
+  const p1 = compScores["Modelación Geométrica"].total ? Math.round((compScores["Modelación Geométrica"].correct / compScores["Modelación Geométrica"].total) * 100) : 100;
+  const p2 = compScores["Estructural & Sísmica"].total ? Math.round((compScores["Estructural & Sísmica"].correct / compScores["Estructural & Sísmica"].total) * 100) : 100;
+  const p3 = compScores["Sustentabilidad & Confort"].total ? Math.round((compScores["Sustentabilidad & Confort"].correct / compScores["Sustentabilidad & Confort"].total) * 100) : 100;
+  
+  document.getElementById('scoreComp1').innerText = `${p1}%`;
+  document.getElementById('fillComp1').style.width = `${p1}%`;
+  document.getElementById('scoreComp2').innerText = `${p2}%`;
+  document.getElementById('fillComp2').style.width = `${p2}%`;
+  document.getElementById('scoreComp3').innerText = `${p3}%`;
+  document.getElementById('fillComp3').style.width = `${p3}%`;
+  
+  alert(`Evaluación concluida.\n\nAciertos: ${correctCount} de ${questions.length}\nCalificación: ${finalGrade} / 100\n\nPuedes revisar cada reactivo abajo o dirigirte a la Boleta para descargar tu comprobante oficial en PNG.`);
+}
+
+function checkSim(qNum, optIdx) {
+  const fb = document.getElementById(`simFeedback${qNum}`);
+  fb.style.display = "block";
+  if (qNum === 1) {
+    if (optIdx === 1) {
+      fb.style.background = "var(--ok-bg)";
+      fb.style.color = "var(--ok)";
+      fb.innerHTML = "<strong>¡Correcto!</strong> La derivada es $f'(x) = -0.08x$. En $x=5\\text{ m}$, $f'(5) = -0.40$ (40%). Como $|-0.40| \\ge 0.02$, el agua drena rápidamente sin estancarse.";
+    } else {
+      fb.style.background = "var(--err-bg)";
+      fb.style.color = "var(--err)";
+      fb.innerHTML = "<strong>Incorrecto.</strong> Deriva con regla de potencias: $\\frac{d}{dx}(-0.04 x^2) = -0.08 x$. Evaluando en $x=5$ obtenemos $-0.40$.";
+    }
+  } else if (qNum === 2) {
+    if (optIdx === 0) {
+      fb.style.background = "var(--ok-bg)";
+      fb.style.color = "var(--ok)";
+      fb.innerHTML = "<strong>¡Correcto!</strong> La excentricidad es $e_x = |10 - 13| = 3\\text{ m}$. El límite reglamentario es $0.10 \\times 20 = 2.0\\text{ m}$. Al tener $3\\text{ m} > 2\\text{ m}$, la losa sufrirá torsión severa y violará las NTC sismorresistentes.";
+    } else {
+      fb.style.background = "var(--err-bg)";
+      fb.style.color = "var(--err)";
+      fb.innerHTML = "<strong>Incorrecto.</strong> Revisa la distancia entre el centro de rigidez $(10,10)$ y el centro de masa $(13,10)$: $e_x = 3\\text{ m}$. Comparado con el $10\\%$ del ancho $B=20\\text{ m}$ ($2.0\\text{ m}$), hay una evidente violación técnica.";
+    }
+  }
+  renderMathInElement(fb, {
+    delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}],
+    throwOnError: false
+  });
+}
+
+function toggleAccordion(btn) {
+  const body = btn.nextElementSibling;
+  body.classList.toggle('open');
+  const arrow = btn.querySelector('span:last-child');
+  if (arrow) arrow.innerHTML = body.classList.contains('open') ? '&#9652;' : '&#9662;';
+}
+
+let breathTimer = null;
+function openBreathModal() {
+  document.getElementById('breathModal').classList.add('open');
+  startBreathCycle();
+}
+
+function closeBreathModal() {
+  document.getElementById('breathModal').classList.remove('open');
+  clearInterval(breathTimer);
+}
+
+function startBreathCycle() {
+  const circle = document.getElementById('breathCircleNode');
+  const text = document.getElementById('breathPhaseText');
+  const countNode = document.getElementById('breathCounter');
+  let phase = 0;
+  const phases = ["Inhala Profundo", "Retén el Aire", "Exhala Suave", "Pausa Serena"];
+  let sec = 4;
+  circle.className = "breath-circle inhale";
+  text.innerText = phases[0];
+  countNode.innerText = `${sec}s`;
+  
+  clearInterval(breathTimer);
+  breathTimer = setInterval(() => {
+    sec--;
+    if (sec <= 0) {
+      phase = (phase + 1) % 4;
+      sec = 4;
+      text.innerText = phases[phase];
+      if (phase === 0) circle.className = "breath-circle inhale";
+      if (phase === 2) circle.className = "breath-circle exhale";
+    }
+    countNode.innerText = `${sec}s`;
+  }, 1000);
+}
+
+function saveReflection() {
+  state.reflectionSaved = true;
+  alert("¡Tus reflexiones metacognitivas han quedado registradas en tu bitácora!");
+}
+
+function updateStudentDisplay() {
+  document.getElementById('displayStudentName').innerText = state.studentName;
+  document.getElementById('displayStudentID').innerText = state.studentID;
+}
+
+function generateAndDownloadPNG() {
+  if (state.score === null) {
+    alert("Primero debes concluir tu examen para generar la boleta oficial.");
+    return;
+  }
+  const canvas = document.getElementById('certificateCanvas');
+  const ctx = canvas.getContext('2d');
+  
+  ctx.fillStyle = "#F5F9FD";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+  ctx.strokeStyle = "#1670C8";
+  ctx.lineWidth = 10;
+  ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
+  
+  ctx.strokeStyle = "#0B4E8F";
+  ctx.lineWidth = 2;
+  ctx.strokeRect(30, 30, canvas.width - 60, canvas.height - 60);
+
+  const grad = ctx.createLinearGradient(0, 40, canvas.width, 160);
+  grad.addColorStop(0, "#0B4E8F");
+  grad.addColorStop(0.5, "#1670C8");
+  grad.addColorStop(1, "#2E9BF0");
+  ctx.fillStyle = grad;
+  ctx.fillRect(35, 35, canvas.width - 70, 130);
+
+  ctx.fillStyle = "#FFFFFF";
+  ctx.font = "bold 16px 'Instrument Sans', sans-serif";
+  ctx.fillText("FACULTAD DE ARQUITECTURA • SISTEMA DE EVALUACIÓN OFICIAL", 60, 75);
+  ctx.font = "bold 34px 'Fraunces', Georgia, serif";
+  ctx.fillText("Comprobante Oficial de Acreditación", 60, 120);
+  ctx.font = "16px 'Instrument Sans', sans-serif";
+  ctx.fillText("Materia: Cálculo para Arquitectura (LAI0105)", 60, 148);
+
+  ctx.fillStyle = "#0B0D10";
+  ctx.font = "18px 'Instrument Sans', sans-serif";
+  ctx.fillText("Por medio del presente documento institucional, se hace constar que el estudiante:", 60, 220);
+
+  ctx.font = "bold 32px 'Fraunces', serif";
+  ctx.fillStyle = "#0B4E8F";
+  ctx.fillText(state.studentName, 60, 270);
+
+  ctx.font = "18px 'Instrument Sans', sans-serif";
+  ctx.fillStyle = "#3A4553";
+  ctx.fillText(`Matrícula Universitaria: ${state.studentID}`, 60, 305);
+
+  ctx.font = "bold 22px 'Instrument Sans', sans-serif";
+  ctx.fillStyle = "#1670C8";
+  ctx.fillText(`Evaluación Rendida: ${EXAM_DATA[state.currentExamKey].title}`, 60, 360);
+
+  ctx.font = "16px 'Instrument Sans', sans-serif";
+  ctx.fillStyle = "#6B7C93";
+  ctx.fillText(`Alcance Temático: ${EXAM_DATA[state.currentExamKey].subtitle}`, 60, 390);
+
+  ctx.fillStyle = "#FFFFFF";
+  ctx.strokeStyle = "#D0E1F3";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.roundRect(60, 430, 480, 160, [12]);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = "#6B7C93";
+  ctx.font = "14px 'Instrument Sans', sans-serif";
+  ctx.fillText("CALIFICACIÓN DEFINITIVA OBTENIDA", 85, 465);
+
+  ctx.fillStyle = state.score >= 70 ? "#1E824C" : "#C24E36";
+  ctx.font = "bold 58px 'Fraunces', serif";
+  ctx.fillText(`${state.score}`, 85, 535);
+
+  ctx.fillStyle = "#6B7C93";
+  ctx.font = "24px 'Fraunces', serif";
+  ctx.fillText("/ 100", 185, 535);
+
+  ctx.font = "bold 16px 'Instrument Sans', sans-serif";
+  ctx.fillStyle = state.score >= 70 ? "#1E824C" : "#C24E36";
+  ctx.fillText(state.score >= 70 ? "ACREDITADO OFICIALMENTE" : "REQUIERE RECUPERACIÓN", 85, 570);
+
+  ctx.fillStyle = "#FFFFFF";
+  ctx.beginPath();
+  ctx.roundRect(570, 430, 560, 160, [12]);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = "#0B4E8F";
+  ctx.font = "bold 16px 'Instrument Sans', sans-serif";
+  ctx.fillText("VALIDACIÓN Y TRAZABILIDAD ACADÉMICA", 595, 465);
+
+  ctx.font = "14px 'Instrument Sans', sans-serif";
+  ctx.fillStyle = "#3A4553";
+  const fecha = new Date().toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+  ctx.fillText(`Fecha y Hora de Emisión: ${fecha}`, 595, 495);
+  ctx.fillText(`Folio Institucional: ${document.getElementById('boletaFolio').innerText.replace('Folio Oficial: ', '')}`, 595, 525);
+  ctx.fillText(`Código de Verificación: SHA256-${Math.random().toString(36).substring(2, 12).toUpperCase()}`, 595, 555);
+
+  ctx.strokeStyle = "#3A4553";
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(140, 720);
+  ctx.lineTo(420, 720);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(760, 720);
+  ctx.lineTo(1040, 720);
+  ctx.stroke();
+
+  ctx.font = "bold 16px 'Instrument Sans', sans-serif";
+  ctx.fillStyle = "#0B0D10";
+  ctx.textAlign = "center";
+  ctx.fillText("Dr. Arq. Titular de Cátedra", 280, 745);
+  ctx.fillText("Coordinación de Ciencias Básicas", 900, 745);
+  ctx.textAlign = "left";
+
+  const dataURL = canvas.toDataURL('image/png');
+  const link = document.createElement('a');
+  link.download = `Comprobante_Calculo_Arquitectura_${state.studentID}.png`;
+  link.href = dataURL;
+  link.click();
+}
+</script>
+</body>
+</html>
