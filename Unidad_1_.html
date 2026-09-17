@@ -51,30 +51,47 @@ button{font-family:inherit;cursor:pointer}
 a{color:var(--pine)}
 svg.lucide{width:16px;height:16px;stroke-width:2}
 
-/* HEADER & TOPBAR */
-.topbar-logo{
-  position:absolute;top:14px;right:24px;
-  width:64px;height:64px;object-fit:contain;
-  filter:drop-shadow(0 2px 4px rgba(11,13,16,.15));
-}
-.topbar-row{position:relative}
-@media (max-width:640px){
-  .topbar-logo{width:28px;height:44px;top:12px;right:16px}
-  .topbar-side{padding-right:56px}
-}
+/* HEADER & TOPBAR
+   El logo se integra dentro del flujo del brand, no posicionado absoluto,
+   para que se vea nativo y no "flotando" sobre el encabezado. */
 header.topbar{
   position:sticky;top:0;z-index:60;
   background:rgba(245,249,253,.94);
   backdrop-filter:blur(10px);
   border-bottom:1.5px solid var(--ink);
 }
-.topbar-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0}
-.brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:700;font-size:1.15rem}
-.brand .brand-ico{width:48px;height:38px;border-radius:9px;display:grid;place-items:center;background:transparent;border:none;color:var(--pine)}
-.brand .brand-ico img{width:36px;height:36px;object-fit:contain;display:block}
-.brand .brand-ico svg{width:20px;height:20px}
-.brand small{display:block;font-family:'Instrument Sans';font-weight:600;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.topbar-side{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:right}
+.topbar-row{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;padding:14px 0;
+}
+.brand{
+  display:flex;align-items:center;gap:12px;
+  font-family:'Fraunces',serif;font-weight:700;font-size:1.15rem;
+  min-width:0;
+}
+.brand .brand-ico{
+  width:48px;height:48px;border-radius:9px;
+  display:grid;place-items:center;flex:none;
+  background:transparent;border:none;color:var(--pine);
+}
+.brand .brand-ico svg{width:24px;height:24px}
+.brand small{
+  display:block;font-family:'Instrument Sans';font-weight:600;
+  font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+}
+/* Logo como parte del header (nativo, en flujo, sin position:absolute) */
+.topbar-logo{
+  display:block;
+  height:56px;width:auto;max-height:56px;object-fit:contain;
+  flex:none;
+  transition:transform .18s ease;
+}
+.topbar-logo:hover{transform:scale(1.03)}
+@media (max-width:640px){
+  .topbar-logo{height:38px;max-height:38px}
+  .brand{font-size:1rem;gap:8px}
+  .brand .brand-ico{width:36px;height:36px}
+}
 nav.tabs{display:flex;gap:6px;border-top:1px solid var(--line);padding:10px 0;overflow-x:auto;scrollbar-width:none}
 nav.tabs::-webkit-scrollbar{display:none}
 .nav-btn{
@@ -492,7 +509,7 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;margin-top:20px}
       <span class="brand-ico"><i data-lucide="compass"></i></span>
       <span>Cálculo · Arquitectura<small>Unidad 1 — Dr. Adrián Cerda</small></span>
     </div>
-    <img class="topbar-logo" src="unii_logo_clean.png" alt="unii_logo.png">
+    <img class="topbar-logo" src="unii_logo_clean.png" alt="Logo UNII">
   </div>
   <div class="wrap">
     <nav class="tabs" id="mainNav">
