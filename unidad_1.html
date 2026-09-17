@@ -51,18 +51,47 @@ button{font-family:inherit;cursor:pointer}
 a{color:var(--pine)}
 svg.lucide{width:16px;height:16px;stroke-width:2}
 
-/* HEADER & TOPBAR */
+/* HEADER & TOPBAR
+   El logo se integra dentro del flujo del brand, no posicionado absoluto,
+   para que se vea nativo y no "flotando" sobre el encabezado. */
 header.topbar{
   position:sticky;top:0;z-index:60;
   background:rgba(245,249,253,.94);
   backdrop-filter:blur(10px);
   border-bottom:1.5px solid var(--ink);
 }
-.topbar-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0}
-.brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:700;font-size:1.15rem}
-.brand .brand-ico{width:38px;height:38px;border-radius:9px;display:grid;place-items:center;background:var(--terra-soft);color:var(--pine);border:1px solid rgba(22,112,200,.3)}
-.brand small{display:block;font-family:'Instrument Sans';font-weight:600;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.topbar-side{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:right}
+.topbar-row{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;padding:14px 0;
+}
+.brand{
+  display:flex;align-items:center;gap:12px;
+  font-family:'Fraunces',serif;font-weight:700;font-size:1.15rem;
+  min-width:0;
+}
+.brand .brand-ico{
+  width:48px;height:48px;border-radius:9px;
+  display:grid;place-items:center;flex:none;
+  background:transparent;border:none;color:var(--pine);
+}
+.brand .brand-ico svg{width:24px;height:24px}
+.brand small{
+  display:block;font-family:'Instrument Sans';font-weight:600;
+  font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+}
+/* Logo como parte del header (nativo, en flujo, sin position:absolute) */
+.topbar-logo{
+  display:block;
+  height:56px;width:auto;max-height:56px;object-fit:contain;
+  flex:none;
+  transition:transform .18s ease;
+}
+.topbar-logo:hover{transform:scale(1.03)}
+@media (max-width:640px){
+  .topbar-logo{height:38px;max-height:38px}
+  .brand{font-size:1rem;gap:8px}
+  .brand .brand-ico{width:36px;height:36px}
+}
 nav.tabs{display:flex;gap:6px;border-top:1px solid var(--line);padding:10px 0;overflow-x:auto;scrollbar-width:none}
 nav.tabs::-webkit-scrollbar{display:none}
 .nav-btn{
@@ -194,7 +223,6 @@ nav.tabs::-webkit-scrollbar{display:none}
 .ex{background:var(--card);border:1px solid var(--line-strong);border-left:4px solid var(--gold);border-radius:0 10px 10px 0;padding:18px 22px;margin:20px 0}
 .ex .ex-tag{font-size:10.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#0B4E8F}
 .ex p{margin:8px 0 0;max-width:74ch}
-/* Procedimientos paso a paso */
 ol.steps{list-style:none;counter-reset:paso;margin:12px 0 6px;max-width:76ch}
 ol.steps li{position:relative;padding:9px 0 9px 52px;border-top:1px dashed var(--line);counter-increment:paso;font-size:14.5px}
 ol.steps li::before{
@@ -264,7 +292,6 @@ ol.steps li::before{
   max-width:480px;
   height:250px;
 }
-/* Los engranes rotan en un grupo INTERIOR para no perder la traslación */
 .gear-rot{transform-box:fill-box;transform-origin:center}
 .gear-rot.spin-cw{animation:spinCW 1.6s linear infinite}
 .gear-rot.spin-ccw{animation:spinCCW 1.6s linear infinite}
@@ -399,7 +426,6 @@ details[open].sol .sol-marker{transform:rotate(45deg);background:var(--ink);colo
 .opt:hover{border-color:var(--pine)}
 .opt input{position:absolute;opacity:0;width:1px;height:1px}
 .opt-key{flex:none;width:24px;height:24px;border:1.5px solid var(--line-strong);border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:11px;transition:all .15s}
-/* Estado de selección VISIBLE (fix del diagnóstico) */
 .opt.is-selected{border-color:var(--pine);background:#EAF3FC;box-shadow:0 0 0 3px rgba(22,112,200,.14)}
 .opt.is-selected .opt-key{background:var(--pine);border-color:var(--pine);color:#fff}
 .opt.is-correct{border-color:var(--pine);background:var(--ok-bg)}
@@ -466,7 +492,7 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;margin-top:20px}
   .lab-grid{grid-template-columns:1fr}
   .rub-row{grid-template-columns:1fr;gap:6px}
   .rub-pct{text-align:left}
-  .opts{margin-left:0}
+  .opts{margin-left:0} 
   .explain{margin-left:0}
 }
 @media (max-width:640px){
@@ -483,7 +509,7 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;margin-top:20px}
       <span class="brand-ico"><i data-lucide="compass"></i></span>
       <span>Cálculo · Arquitectura<small>Unidad 1 — Dr. Adrián Cerda</small></span>
     </div>
-    <div class="topbar-side">Clave LAI0105<br>Primer Cuatrimestre</div>
+    <img class="topbar-logo" src="unii_logo_clean.png" alt="Logo UNII">
   </div>
   <div class="wrap">
     <nav class="tabs" id="mainNav">
@@ -815,7 +841,7 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;margin-top:20px}
                   <li><strong>Voladizo</strong> que sombrea por completo una ventana de \(h=2.40\) m: \(p=h/\tan\beta=2.40/2.833=0.847\approx\mathbf{0.85\ m}\).</li>
                   <li><strong>Solsticio de invierno</strong> (\(\delta=-23.45°\)): \(\beta=90-19.43-23.45=47.12°\); \(\tan(47.12°)=1.076\).</li>
                   <li><strong>Penetración solar invernal</strong> medida desde la ventana: \(d=h/\tan(47.12°)=2.40/1.076=\mathbf{2.23\ m}\).</li>
-                  <li>Lectura: el mismo alero que protege del sol alto deja entrar 2.23 m de radiación directa en invierno, calentando la masa térmica del piso. La ganancia pasivareduce cargas de climatización; la literatura bioclimática reporta reducciones de hasta 30–40% en consumo HVAC cuando se combina con masa térmica.</li>
+                  <li>Lectura: el mismo alero que protege del sol alto deja entrar 2.23 m de radiación directa en invierno, calentando la masa térmica del piso. La ganancia pasiva reduce cargas de climatización; la literatura bioclimática reporta reducciones de hasta 30–40% en consumo HVAC cuando se combina con masa térmica.</li>
                 </ol>
               </div>
             </div>
@@ -944,7 +970,7 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;margin-top:20px}
           <h4>1.5.3 · Masa térmica y la ley de enfriamiento</h4>
           <p>El comportamiento nocturno de un muro de adobe o de concreto sigue la <strong>ley de enfriamiento de Newton</strong> \(\frac{dT}{dt}=-k(T-T_{ext})\), una ecuación diferencial cuya solución exponencial determina cuánto calor almacena la estructura durante el día y cuándo libera. Su análisis con Euler y RK4 está implementado como primer problema del <strong>laboratorio numérico</strong> del Simulador: verifica cuánto tarda el muro en alcanzar la temperatura de confort (24 °C) y compáralo con el valor exacto.</p>
 
-          <p class="hint"><strong>Cierre de la unidad:</strong> el cálculo no decora el proyecto — lo cuantifica. La derivada certifica que el agua saldrá de la azotea, que el alero protegerá en verano y que la viga no vibrará; la integral convierte curvas de clima en kWh, prespuesto y verificable. La sustentabilidad sin cálculo es una declaración de intenciones; con cálculo, es una especificación técnica.</p>
+          <p class="hint"><strong>Cierre de la unidad:</strong> el cálculo no decora el proyecto — lo cuantifica. La derivada certifica que el agua saldrá de la azotea, que el alero protegerá en verano y que la viga no vibrará; la integral convierte curvas de clima en kWh, presupuesto y verificable. La sustentabilidad sin cálculo es una declaración de intenciones; con cálculo, es una especificación técnica.</p>
         </article>
 
         <!-- ============ BIBLIOGRAFÍA ============ -->
@@ -956,7 +982,7 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;margin-top:20px}
             <li>Leithold, L. <em>El cálculo</em>, 7.ª ed. Oxford University Press.</li>
             <li>Edwards, C. H. &amp; Penney, D. E. <em>Cálculo con trascendentes tempranas</em>. Pearson.</li>
             <li>Zill, D. G. <em>Ecuaciones diferenciales con aplicaciones de modelado</em>. Cengage. (Métodos de Euler y RK, cap. 2 y 9.)</li>
-            <li>Chapra, S. C. &amp; Canale, R. P. <em>Métodos numéricos para ingenieros</em>, 7.ª ed. McGraw-Hill. (Parte 7: ecuaciones diferenciales ordinarías.)</li>
+            <li>Chapra, S. C. &amp; Canale, R. P. <em>Métodos numéricos para ingenieros</em>, 7.ª ed. McGraw-Hill. (Parte 7: ecuaciones diferenciales ordinarias.)</li>
             <li>Burden, R. L. &amp; Faires, J. D. <em>Análisis numérico</em>, 10.ª ed. Cengage. (Cap. 5: EDO — Runge–Kutta.)</li>
             <li>Salvadori, M. <em>Estructuras para arquitectos</em>. Limusa; y <em>¿Por qué no se caen los edificios?</em> Siglo XXI.</li>
             <li>Schodek, D. &amp; Bechthold, M. <em>Estructuras</em>, 7.ª ed. Gustavo Gili. (Deflexiones, líneas elásticas.)</li>
@@ -998,11 +1024,11 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;margin-top:20px}
             <div class="field" style="margin-bottom:14px">
               <label for="selModel">Elige la función arquitectónica / matemática</label>
               <select id="selModel">
-                <option value="cupula">Cúpula semicircular — f(x) = √(16 − x²)</option>
-                <option value="arco">Arco parabólico de claro 10m — f(x) = 6 − 0.24x²</option>
-                <option value="voladizo">Pendiente de rampa / drenaje — f(x) = 4 / (x + 2)</option>
-                <option value="cubierta_restringida">Cubierta biconvexa — f(x) = √(x + 3) + √(5 − x)</option>
-                <option value="bioclimatico">Perfil de radiación térmica — f(x) = 8 · sen(0.26x)</option>
+                <option value="cupula">Cúpula semicircular  f(x) = √(16 − x²)</option>
+                <option value="arco">Arco parabólico de claro 10m  f(x) = 6 − 0.24x²</option>
+                <option value="voladizo">Pendiente de rampa / drenaje  f(x) = 4 / (x + 2)</option>
+                <option value="cubierta_restringida">Cubierta biconvexa  f(x) = √(x + 3) + √(5 − x)</option>
+                <option value="bioclimatico">Perfil de radiación térmica  f(x) = 8 · sen(0.26x)</option>
                 <option value="custom">Función personalizada…</option>
               </select>
             </div>
@@ -1044,7 +1070,7 @@ footer{border-top:2px solid var(--ink);padding:30px 0 40px;margin-top:20px}
                   <polygon points="52,165 68,165 60,178" fill="#C24E36"/>
                   <text x="60" y="85" font-size="9" font-weight="700" fill="#C24E36" text-anchor="middle">¡FUERA DE DOMINIO!</text>
 
-                  <!-- Engranajes: traslación en grupo exterior, rotación en interior -->
+                  <!-- Engranajes -->
                   <g transform="translate(175, 110)">
                     <g class="gear-rot" id="gearA">
                       <circle r="18" fill="#E4F0FB" stroke="#1670C8" stroke-width="2"/>
@@ -1431,12 +1457,12 @@ const $$ = s => [...document.querySelectorAll(s)];
 function esc(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function refreshIcons(){ if(window.lucide) lucide.createIcons(); }
 
-/* Renderizado central de LaTeX: arregla el problema de expresiones
-   que no se convertían (contenido dinámico sin delimitadores / sin re-render). */
-function renderTex(el){
+/* Renderizado KaTeX centralizado: cubre \\( \\) y $$ $$ correctamente. */
+function renderMathIn(el){
+  if(!el) return;
   if(typeof renderMathInElement !== 'function') return;
   try{
-    renderMathInElement(el || document.body, {
+    renderMathInElement(el, {
       delimiters:[
         {left:'$$', right:'$$', display:true},
         {left:'\\[', right:'\\]', display:true},
@@ -1444,16 +1470,16 @@ function renderTex(el){
       ],
       throwOnError:false
     });
-  }catch(e){}
+  }catch(e){ /* noop */ }
 }
-/* Render de una cadena LaTeX suelta dentro de un elemento */
+/* Render de una cadena LaTeX suelta (para inyecciones dinámicas). */
 function renderTexString(tex, el){
   if(window.katex && el){
     try{ katex.render(tex, el, {throwOnError:false, displayMode:false}); return; }catch(e){}
   }
   if(el) el.textContent = tex;
 }
-window.addEventListener('load', () => renderTex(document.body));
+window.addEventListener('load', () => renderMathIn(document.body));
 
 function toast(msg, type='ok'){
   const box = $('#toasts'), t = document.createElement('div');
@@ -1484,6 +1510,7 @@ function showView(v){
   if(v==='inicio') requestAnimationFrame(drawHero);
   if(v==='simulador') requestAnimationFrame(()=>{ drawCartesian(); drawArchitect(); drawNumerical(); });
   if(v==='boleta') renderBoleta();
+  renderMathIn($('#v-'+v));
 }
 
  $$('[data-view]').forEach(el => el.addEventListener('click', e => {
@@ -1667,55 +1694,55 @@ function animateHero(){
 const MODELS = {
   cupula: {
     name: 'Cúpula semicircular',
-    fnStr: 'f(x) = \\sqrt{16 - x^2}',
+    fnTex: 'f(x) = \\sqrt{16 - x^2}',
     eval: x => {
       const arg = 16 - x*x;
       if(arg < 0) throw new Error(`El valor x = ${x} genera una raíz de número negativo (16 − ${x*x} = ${arg}). En geometría de vanos, este punto cae fuera de la estructura.`);
       return Math.sqrt(arg);
     },
-    domText: '[-4, 4] \\text{ metros}',
+    domTex: '[-4,\\; 4]\\ \\text{metros}',
     intervals: [{min: -4, max: 4, openL: false, openR: false}],
     desc: 'Representa una cubierta en bóveda semicilíndrica con claro total de 8 metros (de x = −4 a x = 4).'
   },
   arco: {
     name: 'Arco parabólico de claro 10m',
-    fnStr: 'f(x) = 6 - 0.24 x^2',
+    fnTex: 'f(x) = 6 - 0.24\\,x^2',
     eval: x => {
       const y = 6 - 0.24*x*x;
       if(y < 0) throw new Error(`El valor x = ${x} da una altura negativa (${y.toFixed(2)} m), es decir, por debajo del nivel de piso terminado (NPT).`);
       return y;
     },
-    domText: '[-5, 5] \\text{ metros}',
+    domTex: '[-5,\\; 5]\\ \\text{metros}',
     intervals: [{min: -5, max: 5, openL: false, openR: false}],
     desc: 'Arco de carga con altura cumbrera de 6.0 m en el centro y apoyos basales en x = −5 y x = 5.'
   },
   voladizo: {
     name: 'Pendiente de rampa / drenaje',
-    fnStr: 'f(x) = \\frac{4}{x + 2}',
+    fnTex: 'f(x) = \\dfrac{4}{x + 2}',
     eval: x => {
       if(Math.abs(x + 2) < 1e-6) throw new Error('¡División entre cero! En x = −2 la pendiente se hace vertical (asíntota singular en el muro de apoyo).');
       return 4 / (x + 2);
     },
-    domText: '(-\\infty, -2) \\cup (-2, \\infty)',
+    domTex: '(-\\infty,\\, -2)\\;\\cup\\;(-2,\\, \\infty)',
     intervals: [{min: -8, max: -2.05, openL: true, openR: true}, {min: -1.95, max: 8, openL: true, openR: true}],
     desc: 'Función racional con asíntota vertical en x = −2: modelo de transición hidráulica singular.'
   },
   cubierta_restringida: {
     name: 'Cubierta biconvexa restringida',
-    fnStr: 'f(x) = \\sqrt{x + 3} + \\sqrt{5 - x}',
+    fnTex: 'f(x) = \\sqrt{x + 3} + \\sqrt{5 - x}',
     eval: x => {
       if(x < -3 || x > 5) throw new Error(`El insumo x = ${x} viola las condiciones simultáneas de apoyo: x+3 ≥ 0 (x ≥ −3) y 5−x ≥ 0 (x ≤ 5).`);
       return Math.sqrt(x + 3) + Math.sqrt(5 - x);
     },
-    domText: '[-3, 5]',
+    domTex: '[-3,\\; 5]',
     intervals: [{min: -3, max: 5, openL: false, openR: false}],
     desc: 'Intersección de dos condiciones de apoyo simultáneas: membrana válida solo en [−3, 5].'
   },
   bioclimatico: {
     name: 'Perfil de radiación térmica',
-    fnStr: 'f(x) = 8 \\operatorname{sen}(0.26 x)',
+    fnTex: 'f(x) = 8\\,\\operatorname{sen}(0.26\\,x)',
     eval: x => 8 * Math.sin(0.26 * x),
-    domText: '(-\\infty, \\infty) \\quad (\\mathbb{R})',
+    domTex: '(-\\infty,\\, \\infty) \\quad (\\mathbb{R})',
     intervals: [{min: -8, max: 8, openL: true, openR: true}],
     desc: 'Curva periódica que reproduce el ciclo térmico día-noche sobre una envolvente de masa pesada.'
   }
@@ -1729,7 +1756,7 @@ function getModel(){
     const expr = $('#customExpr').value;
     return {
       name: 'Personalizada',
-      fnStr: `f(x) = ${expr}`,
+      fnTex: 'f(x) = ' + expr,
       eval: x => {
         try {
           const fn = new Function('x', 'with(Math){ return ' + expr.replace(/\^/g,'**') + '; }');
@@ -1738,7 +1765,7 @@ function getModel(){
           return res;
         } catch(err){ throw new Error(err.message); }
       },
-      domText: '\\text{Determinado por la expresión}',
+      domTex: '\\text{Determinado por la expresión}',
       intervals: [{min: -6, max: 6, openL: true, openR: true}],
       desc: 'Función ingresada por el usuario: analiza dónde la expresión deja de estar definida.'
     };
@@ -1748,13 +1775,14 @@ function getModel(){
 
 function updateDomainCard(){
   const m = getModel();
-  $('#domainCard').innerHTML = `
+  const card = $('#domainCard');
+  card.innerHTML = `
     <div class="b-row"><span class="b-rubname">Modelo formal</span><strong>${m.name}</strong></div>
-    <div class="b-row"><span class="b-rubname">Ecuación</span><span id="texEq">\\(${m.fnStr}\\)</span></div>
-    <div class="b-row"><span class="b-rubname">Dominio admisible (Dom)</span><span id="texDom">\\(${m.domText}\\)</span></div>
-    <p class="hint" style="margin-top:8px">${m.desc}</p>
-  `;
-  renderTex($('#domainCard'));
+    <div class="b-row"><span class="b-rubname">Ecuación</span><span class="tex-line" id="domEq"></span></div>
+    <div class="b-row"><span class="b-rubname">Dominio admisible (Dom)</span><span class="tex-line" id="domDom"></span></div>
+    <p class="hint" style="margin-top:8px">${m.desc}</p>`;
+  renderTexString(m.fnTex, $('#domEq'));
+  renderTexString(m.domTex, $('#domDom'));
 }
 
 function startDevourerJourney(targetX){
@@ -1775,7 +1803,6 @@ function startDevourerJourney(targetX){
   try { computedY = m.eval(targetX); }
   catch(err){ isOk = false; errorReason = err.message; }
 
-  /* ETAPA 1: TOLVA SUPERIOR */
   discCircle.setAttribute('fill', '#1670C8');
   discCircle.setAttribute('stroke', '#FFFFFF');
   discLabel.textContent = targetX;
@@ -1790,7 +1817,6 @@ function startDevourerJourney(targetX){
   sensorLed2.setAttribute('fill', '#0B4E8F');
 
   setTimeout(() => {
-    /* ETAPA 2: PROCESAMIENTO INTERNO */
     discGroup.style.transition = 'transform 0.65s cubic-bezier(0.34, 1.3, 0.64, 1)';
     discGroup.style.transform = 'translate(240px, 110px) scale(1.05)';
 
@@ -1805,7 +1831,6 @@ function startDevourerJourney(targetX){
   }, 400);
 
   setTimeout(() => {
-    /* ETAPA 3: RESOLUCIÓN Y SALIDA */
     gearA.classList.remove('spin-cw');
     gearB.classList.remove('spin-ccw');
     gearC.classList.remove('spin-cw');
@@ -2050,7 +2075,6 @@ function drawArchitect(){
 
 /* ============================================================
    SIMULADOR 3: EULER & RUNGE-KUTTA 4 (ECUACIONES DIFERENCIALES)
-   Problemas arquitectónicos con solución exacta de referencia.
 ============================================================ */
 const NUMPROB = {
   enfriamiento: {
@@ -2094,12 +2118,12 @@ const NUMPROB = {
 const numState = { key:'enfriamiento', h:1, n:8, idx:0, timer:null, data:null };
 
 function numProb(){ return NUMPROB[numState.key]; }
-function tx(v){ return String(parseFloat(v.toFixed(4))); }   // número limpio para LaTeX
-function d4(v){ return v.toFixed(4); }                        // número para tablas
+function tx(v){ return String(parseFloat(v.toFixed(4))); }
 
 function numProblemBox(){
   const P = numProb();
-  $('#numProblemBox').innerHTML = `
+  const box = $('#numProblemBox');
+  box.innerHTML = `
     <span class="def-tag">Problema · ${P.title}</span>
     <p style="margin-top:6px">${P.scene}</p>
     <p style="margin-top:10px"><strong>EDO con condición inicial:</strong></p>
@@ -2122,8 +2146,8 @@ function numReset(){
   let te = P.t0, ye = P.y0, tr = P.t0, yr = P.y0;
   const eu = [ye], rk = [yr];
   for(let i=0; i<n; i++){
-    ye = ye + h*f(te, ye); te += h; eu.push(ye);       // Euler
-    const k1 = f(tr, yr);                               // RK4
+    ye = ye + h*f(te, ye); te += h; eu.push(ye);
+    const k1 = f(tr, yr);
     const k2 = f(tr + h/2, yr + h*k1/2);
     const k3 = f(tr + h/2, yr + h*k2/2);
     const k4 = f(tr + h, yr + h*k3);
@@ -2260,7 +2284,6 @@ function drawNumerical(){
     ctx.fillText(v.toFixed(1), 8, Y(v)+3);
   }
 
-  /* Solución exacta */
   if($('#chkExact').checked){
     ctx.setLineDash([5,4]); ctx.strokeStyle = '#8A93A0'; ctx.lineWidth = 1.8;
     ctx.beginPath();
@@ -2272,7 +2295,6 @@ function drawNumerical(){
     ctx.stroke(); ctx.setLineDash([]);
   }
 
-  /* Poligonales numéricas hasta el paso actual */
   const idx = numState.idx;
   function poly(arr, color){
     ctx.strokeStyle = color; ctx.lineWidth = 2.4; ctx.beginPath();
@@ -2291,7 +2313,6 @@ function drawNumerical(){
   if($('#chkEuler').checked) poly(d.eu, '#C24E36');
   if($('#chkRK').checked) poly(d.rk, '#1670C8');
 
-  /* Leyenda */
   const lx = w-200, ly = T+6;
   ctx.setLineDash([]);
   ctx.font = '700 11px "Instrument Sans"';
@@ -2332,7 +2353,7 @@ function drawNumerical(){
  $('#numBtnReset').addEventListener('click', numReset);
 
 /* ============================================================
-   QUIZ (CORREGIDO: selección dinámica visible + LaTeX + 8 reactivos)
+   QUIZ (selección dinámica visible + KaTeX)
 ============================================================ */
 const QUIZ = [
   {
@@ -2402,10 +2423,9 @@ function renderQuiz(){
     </article>
   `).join('');
   $('#quizResult').innerHTML = '';
-  renderTex($('#quizList'));
+  renderMathIn($('#quizList'));
 }
 
-/* Selección dinámica visible: resalta la opción elegida */
  $('#quizList').addEventListener('change', e => {
   const inp = e.target.closest('input[type="radio"]');
   if(!inp) return;
@@ -2428,7 +2448,9 @@ function gradeQuiz(){
       if(j === q.ans) opt.classList.add('is-correct');
       else if(j === val) opt.classList.add('is-wrong');
     });
-    card.querySelector('.explain').hidden = false;
+    const ex = card.querySelector('.explain');
+    ex.hidden = false;
+    renderMathIn(ex);
     if(val === q.ans) score++;
   });
 
@@ -2463,7 +2485,7 @@ function initEditor(){
       return;
     }
     pv.innerHTML = esc(text).replace(/\n/g, '<br>');
-    renderTex(pv);
+    renderMathIn(pv);
     clearTimeout(timer);
     timer = setTimeout(()=>{
       const a = loadAvance(); a.edText = text; saveAvance(a);
@@ -2641,7 +2663,7 @@ window.addEventListener('resize', () => {
   syncEjCheckboxes();
   initEditor();
   renderBoleta();
-  renderTex(document.body);
+  renderMathIn(document.body);
 })();
 </script>
 </body>
